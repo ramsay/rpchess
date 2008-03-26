@@ -1,0 +1,2 @@
+#summary Specifies the classes' and class members' functionality.
+#labels Phase-Design,Specification
