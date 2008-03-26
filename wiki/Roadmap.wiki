@@ -11,7 +11,7 @@ RPChess is a C# XNA game developed as an elementary yet highly-customizable stra
 
 The pre-alpha will be announced when the basic data structures for the Model and Game classes are finished and the View and Controller have a text interface Rounded out.
 
-The following files match requirements in * RPChessSpecification :
+The following files match requirements in [WikiSyntax RPChessSpecification ]:
 
   * Pieces.cs
   * Board.cs
@@ -20,8 +20,8 @@ The following files match requirements in * RPChessSpecification :
 The following classes are implemented:
 
   * Screen.cs
-    * BaseScreen
-    * TextScreen
+    * !BaseScreen
+    * !TextScreen
   * Controller.cs
     * BaseController
     * TextController
