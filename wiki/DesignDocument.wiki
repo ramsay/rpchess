@@ -20,4 +20,4 @@
       * Type Click : Handles input from mouse and keyboard
       * Text : Handles basic text input.
         * Telcom : Handles multi-player through internet connection.
-        * AI : 
+        * AI : Artificial intelligence is pure text based and an extension of a Text controller.
