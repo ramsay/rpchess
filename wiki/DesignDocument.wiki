@@ -17,7 +17,7 @@
         * Name
     * Controller : Handles user input
       * Gamepad : Handles input from game pad for Xbox or PC
-      * TypeClick : Handles input from mouse and keyboard
+      * Type Click : Handles input from mouse and keyboard
       * Text : Handles basic text input.
-        * Telcom : Handles multiplayer through internet connection.
+        * Telcom : Handles multi-player through internet connection.
         * AI : 
