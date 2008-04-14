@@ -17,8 +17,17 @@ namespace RPChess
     class Model
     {
         private Board _board;
+        public Board GameBoard
+        {
+            get
+            {
+                return _board;
+            }
+        }
+
         public Model()
         {
+            _board = new Board(8,8);
             initialize();
         }
 
@@ -47,8 +56,10 @@ namespace RPChess
         public readonly int Width;
         public readonly int Length;
 
-        public Board()
+        public Board(int width, int length)
         {
+            Width = width;
+            Length = length;
             initialize();
         }
 
@@ -63,32 +74,44 @@ namespace RPChess
         public readonly Ability[] abilityList;
         public readonly String name;
         public readonly Move[] moveSet;
+        private int _HP;
         public int HP
         {
             get
             {
-                return HP;
+                return _HP;
             }
         }
 
-        public Piece ( String name, int HP, Ability[] aList,
+        public Piece ( String name, int hp, Ability[] aList,
             Move[] mSet )
         {
             this.name = name;
-            MAX_HP = HP;
+            MAX_HP = hp;
             abilityList = aList;
             moveSet = mSet;
+            initialize();
+        }
+
+        public int initialize()
+        {
+            _HP = MAX_HP;
+            foreach (Ability a in abilityList)
+            {
+                a.initialize();
+            }
+            return _HP;
         }
 
         public int takeDamage( uint damage )
         {
-            _HP = _HP - damage;
+            _HP = _HP - (int)damage;
             return _HP;
         }
 
         public int healHP(uint heal)
         {
-            _HP = _HP + heal;
+            _HP = _HP + (int)heal;
             return _HP;
         }
     }
@@ -98,11 +121,12 @@ namespace RPChess
         public readonly int[][] AreaOfEffect;
         public readonly String Name;
         public readonly int MAX_POINTS;
+        private int _points;
         public int Points
         {
             get
             {
-                return Points;
+                return _points;
             }
         }
 
@@ -133,7 +157,7 @@ namespace RPChess
         /// </summary>
         public void initialize()
         {
-            points = MAX_POINTS;
+            _points = MAX_POINTS;
         }
 
         /// <summary>
@@ -164,18 +188,16 @@ namespace RPChess
         {
             Forward = forward;
             Right = right;
-            Direction = null;
-            Length = null;
         }
 
         public Move(MoveDirection direction, int length)
         {
             Direction = direction;
-            Length = lenght;
-            int forward = new int(Math.Sin(new double(Direction / 4)));
-            int right = new int(Math.Cos(new double(Direction / 4)));
+            Length = length;
+            int forward = (int)Math.Sin((double)((int)Direction / 4));
+            int right = (int)Math.Cos((double)((int)Direction / 4));
 
-            if (length = -1)
+            if (length == -1)
             {
                 right *= Int32.MaxValue;
                 forward *= Int32.MaxValue;
@@ -183,23 +205,24 @@ namespace RPChess
             else
             {
                 right *= Length;
-                left *= Length;
+                forward *= Length;
             }
 
             Forward = forward;
             Right = right;
         }
 
-        //public Move(XmlReader xml)
-        //{
-        //    if (xml.LocalName.ToLower().Equals("move"))
-        //    {
-        //        Direction = xml.GetAttribute("Direction");
-        //        Length = xml.GetAttribute("Length");
-        //        Forward = xml.GetAttribute("Forward");
-        //        Right = xml.GetAttribute("Right");
-        //    }
-        //}
+        public Move(XmlReader xml)
+        {
+            if (xml.LocalName.ToLower().Equals("move"))
+            {
+                Direction = (MoveDirection) Enum.Parse( typeof(MoveDirection), 
+                    xml.GetAttribute("Direction"));
+                Length = Int32.Parse(xml.GetAttribute("Length"));
+                Forward = Int32.Parse(xml.GetAttribute("Forward"));
+                Right = Int32.Parse(xml.GetAttribute("Right"));
+            }
+        }
 
         public BoardLocation moveFrom(BoardLocation bLoc)
         {

@@ -14,7 +14,7 @@ namespace RPChess
        /****************************************************
         * Default Constructor
         ****************************************************/
-       public Game( string[] args )
+       public Game( int argc, string[] args )
        {
            // Initialization
            initialize();
@@ -26,9 +26,9 @@ namespace RPChess
        protected void initialize( )
        {
            _movelog = new Log();
-           _view = new View("text");
+           _view = new TextView();
            _model = new Model();
-           _controller = new Controller("text");
+           _controller = new TextController();
        }
        
        public void run()
@@ -38,5 +38,13 @@ namespace RPChess
        public void end()
        {
        }
+       
+        static void Main()
+        {
+            String[] argv = new String[1];
+            argv[0] = "Text";
+            Game chessgame = new Game(1, argv);
+            chessgame.run();
+        }
     }
 }

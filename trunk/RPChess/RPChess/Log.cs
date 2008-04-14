@@ -6,7 +6,22 @@ namespace RPChess
 {
     class Log
     {
-        private String[] _moveList;
+        private List<String> _moveList;
+        public String[] MoveList
+        {
+            get
+            {
+                return _moveList.ToArray();
+            }
+        }
+        public int Count
+        {
+            get
+            {
+                return _moveList.Count;
+            }
+        }
+
         public Log()
         {
             initialize();
@@ -14,6 +29,18 @@ namespace RPChess
         
         protected void initialize()
         {
+            _moveList = new List<String>();
+        }
+
+        public int add(String move)
+        {
+            _moveList.Add(move);
+            return _moveList.Count;
+        }
+
+        public String peek()
+        {
+            return _moveList[_moveList.Count-1];
         }
     }
 }

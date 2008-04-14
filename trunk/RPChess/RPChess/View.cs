@@ -4,9 +4,20 @@ using System.Text;
 
 namespace RPChess
 {
-    class View
+    interface View
     {
-        public View();
-        public void update();
+
+        void update( Log movelog );
+    }
+
+    class TextView : View
+    {
+        public TextView()
+        {
+        }
+
+        public void update(Log movelog)
+        {
+        }
     }
 }
