@@ -27,7 +27,7 @@ namespace RPChess
        {
            _movelog = new Log();
            _view = new View("text");
-           _model = new Model();;
+           _model = new Model();
            _controller = new Controller("text");
        }
        
