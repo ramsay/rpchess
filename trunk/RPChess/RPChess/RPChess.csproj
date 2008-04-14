@@ -36,4 +36,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Compile Include="Controller.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="View.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.XML" />
+  </ItemGroup>
 </Project>
