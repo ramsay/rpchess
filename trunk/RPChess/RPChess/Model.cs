@@ -8,7 +8,6 @@ namespace RPChess
     enum MoveDirection { Right, FowardRight, Forward, ForwardLeft, 
             Left, BackwardLeft, Backward, BackwardRight };
     enum MoveType { Capture, Movement, Attack };
-
     struct BoardVector
     {
         public MoveDirection Direction;
@@ -17,15 +16,30 @@ namespace RPChess
         public BoardLocation toOffset()
         {
             BoardLocation b;
-            b.Y = (int)Math.Sin((double)((int)Direction / 4));
-            b.X = (int)Math.Cos((double)((int)Direction / 4));
+            b.Y = (int)Math.Sin(((double)((int)Direction / 4)) * Math.PI);
+            b.X = (int)Math.Cos(((double)((int)Direction / 4)) * Math.PI);
+            return b;
+        }
+
+        public void fromOffset(BoardLocation offset)
+        {
+            Length = (int) Math.Sqrt(offset.X ^ 2 + offset.Y ^ 2);
+            Direction = (MoveDirection) (Math.Atan2((double)offset.Y, (double)offset.X) * 4/Math.PI) + 2;
         }
     }
-
     struct BoardLocation 
     {
         public int X;
         public int Y;
+
+        public static BoardLocation operator +( BoardLocation c1,
+                                                BoardLocation c2 )
+        {
+            BoardLocation b = c1;
+            b.X += c2.X;
+            b.Y += c2.Y;
+            return b;
+        }
     }
 
     class Model
@@ -128,9 +142,9 @@ namespace RPChess
         public int initialize()
         {
             _HP = MAX_HP;
-            foreach (Ability a in abilityList)
+            foreach (Move m in _moveSet)
             {
-                a.initialize();
+                m.initialize();
             }
             return _HP;
         }
@@ -154,7 +168,7 @@ namespace RPChess
                                "\"/>\r\n";
             foreach ( Move m in _moveSet )
             {
-                repr << m.ToString();
+                repr += m.ToString();
             }
             return repr;
         }
@@ -162,12 +176,16 @@ namespace RPChess
 
     interface Move
     {
-        MoveType getType();
-        XmlElement toXML();
-        void fromXML(XmlElement xml);
+        MoveType Type
+        {
+            get;
+        }
+        void initialize();
+        XmlDocument toXML();
+        void fromXML(XmlReader xml);
     }
 
-    class Attack : Move
+    abstract class Attack : Move
     {
         protected String _name;
         public String Name
@@ -193,7 +211,13 @@ namespace RPChess
                 return _points;
             }
         }
-
+        public MoveType Type
+        {
+            get
+            {
+                return MoveType.Attack;
+            }
+        }
         /// <summary>
         /// Use the ability, decreases the Ability's points by 1.
         /// </summary>
@@ -214,13 +238,9 @@ namespace RPChess
             return _points;
         }
 
-        public MoveType getType()
-        {
-            return MoveType.Attack;
-        }
-
-        //public virtual XmlElement toXML();
-        //public virtual void fromXML(XmlElement xml);
+        public abstract void initialize();
+        public abstract XmlDocument toXML();
+        public abstract void fromXML(XmlReader xml);
     }
 
     class AreaOfEffectAbility : Attack
@@ -242,13 +262,19 @@ namespace RPChess
             reset();
         }
 
-        public XmlElement toXML()
+        public override void initialize()
         {
-            XmlElement xml;
+            reset();
+        }
+
+        public override XmlDocument toXML()
+        {
+            XmlDocument xml = new XmlDocument();
+            //xml.LoadXml(toXMLString());
             return xml;
         }
 
-        public void fromXML(XmlElement xml)
+        public override void fromXML(XmlReader xml)
         {
         }
     }
@@ -271,31 +297,40 @@ namespace RPChess
                 return _damage;
             }
         }
+        //private bool _ranged;
+        //private bool _stopable;
 
-
-        public DirectionalAbility(String name, int points, BoardVector boardVector)
+        public DirectionalAbility(String name, int points, 
+            BoardVector boardVector, int damage)
         {
             _name = name;
             _MAX_POINTS = points;
             _boardVector = boardVector;
+            _damage = damage;
         }
 
-        public DirectionalAbility(XmlElement xml)
+        public override void initialize()
+        {
+            reset();
+        }
+
+        public DirectionalAbility(XmlReader xml)
         {
             fromXML(xml);
         }
 
-        public XmlElement toXML()
+        public override XmlDocument toXML()
         {
-            XmlElement xml;
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(toXMLString());
             return xml;
         }
 
-        public void fromXML(XmlElement xml)
+        public override void fromXML(XmlReader xml)
         {
         }
 
-        public String ToXMLString()
+        public String toXMLString()
         {
             String repr = "<attack name=\"" + _name +
                 "\" direction=\"" + _boardVector.Direction +
@@ -312,63 +347,67 @@ namespace RPChess
     /// through the remarks tag</remarks>
     class Movement : Move
     {
-        private readonly MoveDirection Direction;
-        private readonly int Length;
-        public readonly int Forward;
-        public readonly int Right;
-
-        public Movement(int forward, int right)
+        protected BoardLocation _offset;
+        protected BoardVector _vector;
+        protected bool _jump;
+        public MoveType Type
         {
-            Forward = forward;
-            Right = right;
+            get
+            {
+                return MoveType.Movement;
+            }
         }
 
-        public Movement(MoveDirection direction, int length)
+        public Movement(int forward, int right, bool jump)
         {
-            Direction = direction;
-            Length = length;
-            int forward = (int)Math.Sin((double)((int)Direction / 4));
-            int right = (int)Math.Cos((double)((int)Direction / 4));
+            _offset.Y = forward;
+            _offset.X = right;
+            _vector.fromOffset(_offset);
+            _jump = jump;
+        }
 
-            if (length == -1)
-            {
-                right *= Int32.MaxValue;
-                forward *= Int32.MaxValue;
-            }
-            else
-            {
-                right *= Length;
-                forward *= Length;
-            }
-
-            Forward = forward;
-            Right = right;
+        public Movement(BoardVector boardVector)
+        {
+            _vector = boardVector;
+            _jump = false;
         }
 
         public Movement(XmlReader xml)
         {
-            fromXML(xml);
+            //fromXML(xml);
+        }
+
+        public void initialize()
+        {
         }
 
         public BoardLocation moveFrom(BoardLocation bLoc)
         {
-            bLoc.X += Right;
-            bLoc.Y += Forward;
+            return bLoc + _offset;
+        }
+
+        public BoardLocation moveFrom(BoardLocation bLoc, int distance)
+        {
+            if (!_jump)
+            {
+                BoardVector v = _vector;
+                if (distance < v.Length)
+                {
+                    v.Length = distance;
+                }
+                return bLoc + v.toOffset();
+            }
             return bLoc;
         }
 
-        public MoveType getType()
+        public XmlDocument toXML()
         {
-            return MoveType.Movement;
-        }
-
-        public XmlElement toXML()
-        {
-            XmlElement xml;
+            XmlDocument xml = new XmlDocument();
+            //xml.LoadXml(toXMLString());
             return xml;
         }
 
-        public void fromXML(XmlElement xml)
+        public void fromXML(XmlReader xml)
         {
         }
     }
