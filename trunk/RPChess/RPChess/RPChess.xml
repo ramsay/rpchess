@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RPChess</name>
+    </assembly>
+    <members>
+        <member name="T:RPChess.MovementTest">
+            <summary>
+            Tests the Movement class.
+            </summary>
+        </member>
+        <member name="M:RPChess.MovementTest.#ctor">
+            <summary>
+            Tests the Movement class.
+            </summary>
+        </member>
+        <member name="M:RPChess.MovementTest.moveFrom">
+            <summary>
+            Tests the Movement class.
+            </summary>
+        </member>
+        <member name="M:RPChess.Move.initialize">
+            <summary>
+            This initializes any dynamic variables.</summary>
+        </member>
+        <member name="M:RPChess.Move.toXML">
+            <summary>
+            Exports the properites of the Move.</summary>
+            <returns>A DTD complient XML fragment.</returns>
+        </member>
+        <member name="M:RPChess.Move.fromXML(System.Xml.XmlReader)">
+            <summary>
+            Loads the properties of the Move from the XML.</summary>
+            <param name="xml" type="XmlReader">The XML with Move
+            information.</param>
+        </member>
+        <member name="P:RPChess.Move.Type">
+            <summary>
+            Type property </summary>
+            <value>
+            The type of move this object is an instance of.</value>
+        </member>
+        <member name="M:RPChess.Attack.use">
+            <summary>
+            Use the ability, decreases the Ability's points by 1.
+            </summary>
+            <returns>Returns the remaining points.</returns>
+        </member>
+        <member name="M:RPChess.Attack.reset">
+            <summary>
+            Resets the points to MAX_POINTS.
+            </summary>
+            <returns>Returns the remaining points.</returns>
+        </member>
+        <member name="T:RPChess.Movement">
+            <summary>
+            The movement class handles topological calculations.</summary>
+            <remarks>
+            A movement is a type of move that allows the Piece to
+            move from one space to another on the board.
+            </remarks>
+        </member>
+    </members>
+</doc>
