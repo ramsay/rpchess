@@ -176,12 +176,25 @@ namespace RPChess
 
     interface Move
     {
+        /// <summary>
+        /// Type property </summary>
+        /// <value>
+        /// The type of move this object is an instance of.</value>
         MoveType Type
         {
             get;
         }
+        /// <summary>
+        /// This initializes any dynamic variables.</summary>
         void initialize();
+        /// <summary>
+        /// Exports the properites of the Move.</summary>
+        /// <returns>A DTD complient XML fragment.</returns>
         XmlDocument toXML();
+        /// <summary>
+        /// Loads the properties of the Move from the XML.</summary>
+        /// <param name="xml" type="XmlReader">The XML with Move
+        /// information.</param>
         void fromXML(XmlReader xml);
     }
 
@@ -341,10 +354,11 @@ namespace RPChess
         }
     }
     /// <summary>
-    /// Class level summary documentation goes here.</summary>
+    /// The movement class handles topological calculations.</summary>
     /// <remarks>
-    /// Longer comments can be associated with a type or member 
-    /// through the remarks tag</remarks>
+    /// A movement is a type of move that allows the Piece to
+    /// move from one space to another on the board.
+    /// </remarks>
     class Movement : Move
     {
         protected BoardLocation _offset;
@@ -377,10 +391,6 @@ namespace RPChess
             //fromXML(xml);
         }
 
-        public void initialize()
-        {
-        }
-
         public BoardLocation moveFrom(BoardLocation bLoc)
         {
             return bLoc + _offset;
@@ -398,6 +408,11 @@ namespace RPChess
                 return bLoc + v.toOffset();
             }
             return bLoc;
+        }
+
+        // Move Interface methods
+        public void initialize()
+        {
         }
 
         public XmlDocument toXML()
