@@ -48,17 +48,17 @@ namespace RPChess
         static void Main(String[] args)
         {
             Game chessgame = new Game(args);
-            if (args.Length > 0)
-            {
-                if (args[0].Equals("test", StringComparison.CurrentCultureIgnoreCase))
+            //if (args.Length > 0)
+                
+                //if (args[0].Equals("test", StringComparison.CurrentCultureIgnoreCase))
                 {
                     ModelPropertiesTest m = new ModelPropertiesTest();
                     m.BoardLocationAdditionTest();
                     m.BoardVectorFromOffsetTest();
                     m.BoardVectorToOffsetTest();
                 }
-            }
-            else
+            //}
+            //else
                 chessgame.run();
         }
     }

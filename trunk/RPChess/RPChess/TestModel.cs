@@ -110,21 +110,31 @@ namespace RPChess
         [Test]
         public void BoardVectorToOffsetTest()
         {
+            testVector.Length = Int32.MaxValue;
+            StringBuilder sb = new StringBuilder();
+            for ( int d = 0; d < 8; d++)
+            {
+                testVector.Direction = (MoveDirection)d;
+                testLoc = testVector.toOffset();
+                sb.AppendLine("testVector in direction: " + 
+                    (MoveDirection)d + " => " + testLoc);
+            }
+            Console.Out.Write(sb.ToString());
             testVector.Direction = MoveDirection.Right;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(eastLoc, testVector.toOffset());
+            Assert.AreEqual(eastLoc, testVector.toOffset(), sb.ToString());
 
             testVector.Direction = MoveDirection.Forward;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(northLoc, testVector.toOffset());
+            Assert.AreEqual(northLoc, testVector.toOffset(), sb.ToString());
 
             testVector.Direction = MoveDirection.Left;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(westLoc, testVector.toOffset());
+            Assert.AreEqual(westLoc, testVector.toOffset(), sb.ToString());
 
             testVector.Direction = MoveDirection.Backward;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(southLoc, testVector.toOffset());
+            Assert.AreEqual(southLoc, testVector.toOffset(), sb.ToString());
         }
     }
     ///<summary>
@@ -157,13 +167,11 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc);
             Assert.AreEqual(1, testLoc.X);
             Assert.AreEqual(0, testLoc.Y);
-            Console.Out.WriteLine("Positive X move passed.");
 
             testMove = new Movement(-1, 0, false);
             testLoc = testMove.moveFrom(startLoc);
             Assert.AreEqual(-1, testLoc.X);
             Assert.AreEqual(0, testLoc.Y);
-            Console.Out.WriteLine("Negative X move passed.");
 
             int randomX;
             for (int i = 0; i < 10; i++)
@@ -177,14 +185,13 @@ namespace RPChess
                 Assert.AreEqual(0, testLoc.Y);
             }
 
-            Console.Out.WriteLine("Random X move passed.");
+            Console.Out.WriteLine("moveFromBoardLocationX()");
         }
         ///<summary>
         ///Tests the Movement.moveFrom() using BoardLocation and
         ///distance parameters.
         ///</summary>
         [Test]
-        [Ignore("Fix the BoardVector implementation")]
         public void moveFromDistancePositiveY()
         {
             testMove = new Movement(0, 10, false);
@@ -198,14 +205,14 @@ namespace RPChess
             testLoc = startLoc;
             testLoc = testMove.moveFrom(startLoc, 20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
-            Assert.AreEqual(20, testLoc.Y, "Y:Didn't move correct distance");
+            Assert.AreEqual(10, testLoc.Y, "Y:Didn't move correct distance");
+            Console.Out.WriteLine("moveFromDistancePositiveY() passed!");
         }
         ///<summary>
         ///Tests the Movement.moveFrom() using BoardLocation and
         ///distance parameters.
         ///</summary>
         [Test]
-        [Ignore ("Fix the BoardVector implementation")]
         public void moveFromDistancePositiveX()
         {
             testMove = new Movement(10, 0, false);
@@ -220,6 +227,7 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc, 20);
             Assert.AreEqual(10, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
         }
     }
 }

@@ -28,19 +28,23 @@ namespace RPChess
                     _Length = (uint)value;
             }
         }
-
         public BoardLocation toOffset()
         {
             BoardLocation b = new BoardLocation();
-            b.Y = (int)Math.Sin(((double)((int)Direction / 4)) * Math.PI);
-            b.X = (int)Math.Cos(((double)((int)Direction / 4)) * Math.PI);
+            double theta = (double)Direction * Math.PI / 4.0F;
+            double y = Math.Sin(theta) * (double) Length;
+            b.Y = (int)y;
+            double x = Math.Cos(theta) * (double) Length;
+            b.X = (int)x;
             return b;
         }
-
         public void fromOffset(BoardLocation offset)
         {
-            Length = (int) Math.Sqrt(offset.X ^ 2 + offset.Y ^ 2);
-            Direction = (MoveDirection) (Math.Atan2((double)offset.Y, (double)offset.X) * 4/Math.PI) + 2;
+            Length = (int)Math.Sqrt( (double)( (offset.X * offset.X)
+                + (offset.Y * offset.Y) ) );
+            Direction = (MoveDirection) 
+                ( ( ( Math.Atan2( 
+                (double)offset.Y, (double)offset.X) * 4/Math.PI) + 8 )%8);
         }
     }
     struct BoardLocation 
