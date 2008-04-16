@@ -11,11 +11,27 @@ namespace RPChess
     struct BoardVector
     {
         public MoveDirection Direction;
-        public int Length;
+        private uint _Length;
+        public int Length
+        {
+            get
+            {
+                return (int)_Length;
+            }
+            set
+            {
+                if (value > Constants.MAX_BOARD_DISTANCE)
+                    _Length = (uint)Constants.MAX_BOARD_DISTANCE;
+                else if (value < 0)
+                    _Length = 0;
+                else
+                    _Length = (uint)value;
+            }
+        }
 
         public BoardLocation toOffset()
         {
-            BoardLocation b;
+            BoardLocation b = new BoardLocation();
             b.Y = (int)Math.Sin(((double)((int)Direction / 4)) * Math.PI);
             b.X = (int)Math.Cos(((double)((int)Direction / 4)) * Math.PI);
             return b;
@@ -29,9 +45,40 @@ namespace RPChess
     }
     struct BoardLocation 
     {
-        public int X;
-        public int Y;
-
+        private int _X;
+        public int X
+        {
+            get
+            {
+                return _X;
+            }
+            set
+            {
+                if (value > Constants.MAX_BOARD_DISTANCE)
+                    _X = Constants.MAX_BOARD_DISTANCE;
+                else if (value < Constants.MIN_BOARD_DISTANCE)
+                    _X = Constants.MIN_BOARD_DISTANCE;
+                else
+                    _X = value;
+            }
+        }
+        private int _Y;
+        public int Y
+        {
+            get
+            {
+                return _Y;
+            }
+            set
+            {
+                if (value > Constants.MAX_BOARD_DISTANCE)
+                    _Y = Constants.MAX_BOARD_DISTANCE;
+                else if (value < Constants.MIN_BOARD_DISTANCE)
+                    _Y = Constants.MIN_BOARD_DISTANCE;
+                else
+                    _Y = value;
+            }
+        }
         public static BoardLocation operator +( BoardLocation c1,
                                                 BoardLocation c2 )
         {
@@ -39,6 +86,30 @@ namespace RPChess
             b.X += c2.X;
             b.Y += c2.Y;
             return b;
+        }
+        public static bool operator ==(BoardLocation b1,
+                               BoardLocation b2)
+        {
+            return false;
+        }
+
+        public static bool operator !=(BoardLocation b1,
+                                       BoardLocation b2)
+        {
+            return true;
+        }
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return "( " + X + ", " + Y + " )";
         }
     }
 
@@ -372,7 +443,7 @@ namespace RPChess
             }
         }
 
-        public Movement(int forward, int right, bool jump)
+        public Movement(int right, int forward, bool jump)
         {
             _offset.Y = forward;
             _offset.X = right;

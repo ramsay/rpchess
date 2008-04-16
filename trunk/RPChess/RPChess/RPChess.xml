@@ -4,6 +4,31 @@
         <name>RPChess</name>
     </assembly>
     <members>
+        <member name="T:RPChess.ModelPropertiesTest">
+            <summary>
+            Tests the Movement class's public properties.
+            </summary>
+        </member>
+        <member name="M:RPChess.ModelPropertiesTest.#ctor">
+            <summary>
+            Constructor: Sets up the readonly properies.
+            </summary>
+        </member>
+        <member name="M:RPChess.ModelPropertiesTest.BoardLocationAdditionTest">
+            <summary>
+            Tests the board location addition.
+            </summary>
+        </member>
+        <member name="M:RPChess.ModelPropertiesTest.BoardVectorFromOffsetTest">
+            <summary>
+            Tests the BoardVector fromOffset.
+            </summary>
+        </member>
+        <member name="M:RPChess.ModelPropertiesTest.BoardVectorToOffsetTest">
+            <summary>
+            Tests the BoardVector toOffset.
+            </summary>
+        </member>
         <member name="T:RPChess.MovementTest">
             <summary>
             Tests the Movement class.
@@ -14,9 +39,21 @@
             Tests the Movement class.
             </summary>
         </member>
-        <member name="M:RPChess.MovementTest.moveFrom">
+        <member name="M:RPChess.MovementTest.moveFromBoardLocationX">
             <summary>
-            Tests the Movement class.
+            Tests the Movement.moveFrom() using BoardLocation.
+            </summary>
+        </member>
+        <member name="M:RPChess.MovementTest.moveFromDistancePositiveY">
+            <summary>
+            Tests the Movement.moveFrom() using BoardLocation and
+            distance parameters.
+            </summary>
+        </member>
+        <member name="M:RPChess.MovementTest.moveFromDistancePositiveX">
+            <summary>
+            Tests the Movement.moveFrom() using BoardLocation and
+            distance parameters.
             </summary>
         </member>
         <member name="M:RPChess.Move.initialize">

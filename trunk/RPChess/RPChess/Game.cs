@@ -4,6 +4,12 @@ using System.Text;
 
 namespace RPChess
 {
+    struct Constants
+    {
+        public const int MAX_BOARD_DISTANCE = 46340;
+        public const int MIN_BOARD_DISTANCE = -46340;
+    }
+
     class Game
     {
        private Log _movelog;
@@ -14,7 +20,7 @@ namespace RPChess
        /****************************************************
         * Default Constructor
         ****************************************************/
-       public Game( int argc, string[] args )
+       public Game( string[] args )
        {
            // Initialization
            initialize();
@@ -39,12 +45,21 @@ namespace RPChess
        {
        }
        
-        static void Main()
+        static void Main(String[] args)
         {
-            String[] argv = new String[1];
-            argv[0] = "Text";
-            Game chessgame = new Game(1, argv);
-            chessgame.run();
+            Game chessgame = new Game(args);
+            if (args.Length > 0)
+            {
+                if (args[0].Equals("test", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    ModelPropertiesTest m = new ModelPropertiesTest();
+                    m.BoardLocationAdditionTest();
+                    m.BoardVectorFromOffsetTest();
+                    m.BoardVectorToOffsetTest();
+                }
+            }
+            else
+                chessgame.run();
         }
     }
 }
