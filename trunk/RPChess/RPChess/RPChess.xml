@@ -414,5 +414,53 @@
             The minimum allowed distance across the board.
             </summary>
         </member>
+        <member name="T:RPChess.Log">
+            <summary>
+            A lazy mans message storage / callback.
+            The Log class maintains a list of all moves made
+            throughout the game. 
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.#ctor(System.Boolean)">
+            <summary>
+            Constructor that also initializes.
+            </summary>
+            <param name="init">Initializes if true</param>
+        </member>
+        <member name="M:RPChess.Log.initialize">
+            <summary>
+            Initializes the _moveList.  Emptys it if there were entrys.
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.add(System.String)">
+            <summary>
+            Adds a move to the Log.
+            </summary>
+            <param name="move">A string containing the piece moved, and the move it made.</param>
+            <returns>The new Log.Count</returns>
+        </member>
+        <member name="M:RPChess.Log.peek">
+            <summary>
+            An easy method to get the last move on the log without
+            instantiating a new Array.
+            </summary>
+            <returns>The latest string log entry.</returns>
+        </member>
+        <member name="P:RPChess.Log.MoveList">
+            <summary>
+            An immutable array of Strings that allows
+            all other classes in the RPChess
+            </summary>
+        </member>
+        <member name="P:RPChess.Log.Count">
+            <summary>
+            The number of moves in the Log.
+            </summary>
+        </member>
     </members>
 </doc>

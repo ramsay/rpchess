@@ -7,32 +7,41 @@ namespace RPChess
 	enum ViewType { Text, TwoD, ThreeD };
     interface View
     {
-		ViewType Type;
-		long LastMove;
-		double LastTime;
-		void initialize;
+        ViewType Type
+        {
+            get;
+        }
+        long LastMove
+        {
+            get;
+        }
+        DateTime LastTime
+        {
+            get;
+        }
+		void initialize();
         void update( Log movelog, BoardSpace[] boardState);
     }
 
     class TextView : View
     {
 		long _lastMove;
-		public LastMove
+		public long LastMove
 		{
 			get
 			{
 				return _lastMove;
 			}
 		}
-		double _lastTime;
-		public LastTime
+		DateTime _lastTime;
+		public DateTime LastTime
 		{
 			get
 			{
 				return _lastTime;
 			}
 		}
-		ViewType Type
+		public ViewType Type
 		{
 			get
 			{
@@ -46,7 +55,7 @@ namespace RPChess
 		public void initialize()
 		{
 			_lastMove = 0;
-			_lastTime = 0;
+            _lastTime = DateTime.MinValue;
 			// set Buffer size (length, width)
 			// set window size (length, width)
 			// set Background color
@@ -60,8 +69,13 @@ namespace RPChess
 			Console.Clear();
 			Console.Write(board);
 			Console.Write("Next Move>");
-			_lastMove = movelog.size();
-			_lastTime = DateTime.Now();
+			_lastMove = movelog.Count;
+			_lastTime = DateTime.Now;
+        }
+
+        protected String _boardToString()
+        {
+            return "";
         }
     }
 }
