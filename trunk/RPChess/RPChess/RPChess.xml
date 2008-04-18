@@ -451,6 +451,12 @@
             </summary>
             <returns>The latest string log entry.</returns>
         </member>
+        <member name="M:RPChess.Log.Clear">
+            <summary>
+            Clears the log.
+            </summary>
+            <returns>Returns the number of entries cleared.</returns>
+        </member>
         <member name="P:RPChess.Log.MoveList">
             <summary>
             An immutable array of Strings that allows
