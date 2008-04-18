@@ -4,9 +4,18 @@ using System.Text;
 
 namespace RPChess
 {
-    struct Constants
+    /// <summary>
+    /// Constants for the game.
+    /// </summary>
+    public struct Constants
     {
+        /// <summary>
+        /// The maximum allowed distance across the board.
+        /// </summary>
         public const int MAX_BOARD_DISTANCE = 46340;
+        /// <summary>
+        /// The minimum allowed distance across the board.
+        /// </summary>
         public const int MIN_BOARD_DISTANCE = -46340;
     }
 
@@ -14,7 +23,7 @@ namespace RPChess
     {
        private Log _movelog;
        private View _view;
-       private Model _model;
+       private Board _board;
        private Controller _controller;
 
        /****************************************************
@@ -33,7 +42,7 @@ namespace RPChess
        {
            _movelog = new Log();
            _view = new TextView();
-           _model = new Model();
+           _board = new Board(8,8);
            _controller = new TextController();
        }
        
@@ -48,18 +57,7 @@ namespace RPChess
         static void Main(String[] args)
         {
             Game chessgame = new Game(args);
-            //if (args.Length > 0)
-                
-                //if (args[0].Equals("test", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    ModelPropertiesTest m = new ModelPropertiesTest();
-                    m.BoardLocationAdditionTest();
-                    m.BoardVectorFromOffsetTest();
-                    m.BoardVectorToOffsetTest();
-                }
-            //}
-            //else
-                chessgame.run();
+            chessgame.run();
         }
     }
 }

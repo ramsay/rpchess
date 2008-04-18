@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+//#if DEBUG
 namespace RPChess
 {
     using NUnit.Framework;
@@ -156,7 +156,6 @@ namespace RPChess
             startLoc.X = 0;
             startLoc.Y = 0;
         }
-
         ///<summary>
         ///Tests the Movement.moveFrom() using BoardLocation.
         ///</summary>
@@ -229,5 +228,23 @@ namespace RPChess
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
         }
+        [Test]
+        public void initializeTest()
+        {
+            Movement newMove = new Movement(startLoc);
+            testMove = new Movement(startLoc);
+            testMove.initialize();
+            Assert.AreEqual(newMove, testMove);
+            Console.Out.WriteLine("initializeTest() passed!");
+        }
+        [Test]
+        public void toXMLTest()
+        {
+        }
+        [Test]
+        public void fromXMLTest()
+        {
+        }
     }
 }
+//#endif

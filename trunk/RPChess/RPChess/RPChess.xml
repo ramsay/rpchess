@@ -4,56 +4,338 @@
         <name>RPChess</name>
     </assembly>
     <members>
-        <member name="T:RPChess.ModelPropertiesTest">
+        <member name="T:RPChess.MoveDirection">
             <summary>
-            Tests the Movement class's public properties.
+            This enum matches words to cardinal directions (Forward, ForwardRight, 
+            BackwardLeft, ...). This adheres to the standards of trigonometry:
+            Each direction is the radian angle * 4/PI
             </summary>
         </member>
-        <member name="M:RPChess.ModelPropertiesTest.#ctor">
+        <member name="F:RPChess.MoveDirection.Right">
             <summary>
-            Constructor: Sets up the readonly properies.
+            Right = 0
             </summary>
         </member>
-        <member name="M:RPChess.ModelPropertiesTest.BoardLocationAdditionTest">
+        <member name="F:RPChess.MoveDirection.FowardRight">
             <summary>
-            Tests the board location addition.
+            ForwardRight = 1
             </summary>
         </member>
-        <member name="M:RPChess.ModelPropertiesTest.BoardVectorFromOffsetTest">
+        <member name="F:RPChess.MoveDirection.Forward">
             <summary>
-            Tests the BoardVector fromOffset.
+            Forward = 2
             </summary>
         </member>
-        <member name="M:RPChess.ModelPropertiesTest.BoardVectorToOffsetTest">
+        <member name="F:RPChess.MoveDirection.ForwardLeft">
             <summary>
-            Tests the BoardVector toOffset.
+            ForwardLeft = 3
             </summary>
         </member>
-        <member name="T:RPChess.MovementTest">
+        <member name="F:RPChess.MoveDirection.Left">
             <summary>
-            Tests the Movement class.
+            Left = 4
             </summary>
         </member>
-        <member name="M:RPChess.MovementTest.#ctor">
+        <member name="F:RPChess.MoveDirection.BackwardLeft">
             <summary>
-            Tests the Movement class.
+            BackwardLeft = 5
             </summary>
         </member>
-        <member name="M:RPChess.MovementTest.moveFromBoardLocationX">
+        <member name="F:RPChess.MoveDirection.Backward">
             <summary>
-            Tests the Movement.moveFrom() using BoardLocation.
+            Backward = 6
             </summary>
         </member>
-        <member name="M:RPChess.MovementTest.moveFromDistancePositiveY">
+        <member name="F:RPChess.MoveDirection.BackwardRight">
             <summary>
-            Tests the Movement.moveFrom() using BoardLocation and
-            distance parameters.
+            BackwardRight = 7
             </summary>
         </member>
-        <member name="M:RPChess.MovementTest.moveFromDistancePositiveX">
+        <member name="T:RPChess.MoveType">
             <summary>
-            Tests the Movement.moveFrom() using BoardLocation and
-            distance parameters.
+            Enum for determining which type of move the class is implementing.
+            </summary>
+        </member>
+        <member name="F:RPChess.MoveType.Capture">
+            <summary>
+            Capture is the standard chess move.
+            </summary>
+        </member>
+        <member name="F:RPChess.MoveType.Movement">
+            <summary>
+            Movement handles a pieces movement across the board.
+            </summary>
+        </member>
+        <member name="F:RPChess.MoveType.Attack">
+            <summary>
+            Attack has no movement only deals/heals damage to pieces.
+            </summary>
+        </member>
+        <member name="T:RPChess.BoardVector">
+            <summary>
+            This is a struct that matches a distance and a direction
+            for use on board topology.
+            </summary>
+        </member>
+        <member name="F:RPChess.BoardVector.Direction">
+            <summary>
+            The direction of the vector, enum.
+            </summary>
+        </member>
+        <member name="M:RPChess.BoardVector.toOffset">
+            <summary>
+            Converts the Vector to an offset stored in BoardLocation,
+            uses Sin and Cos to form the X and Y offsets.
+            </summary>
+            <returns type="BoardLocation">
+            the offset relatively equivalent to this vector</returns>
+        </member>
+        <member name="M:RPChess.BoardVector.fromOffset(RPChess.BoardLocation)">
+            <summary>
+            Creates a vector from an X,Y offset.
+            </summary>
+            <param name="offset" type="BoardLocation">
+            The offset to convert this vector to.</param>
+        </member>
+        <member name="P:RPChess.BoardVector.Length">
+            <summary>
+            The length of the vector. It can only be positive and maxes at
+            the sqrt(Int32.MaxValue) for use of pythagorean theorem.
+            </summary>
+        </member>
+        <member name="T:RPChess.BoardLocation">
+            <summary>
+            This is a simple X,Y pair that is used for storing locations and
+            offsets.
+            </summary>
+        </member>
+        <member name="M:RPChess.BoardLocation.op_Addition(RPChess.BoardLocation,RPChess.BoardLocation)">
+            <summary>
+            Adds two BoardLocations together.
+            </summary>
+            <param name="b1" type="BoardLocation">
+            One BoardLocation</param>
+            <param name="b2" type="BoardLocation">
+            A second BoardLocation.</param>
+            <returns>The sum BoardLocation</returns>
+        </member>
+        <member name="M:RPChess.BoardLocation.op_Equality(RPChess.BoardLocation,RPChess.BoardLocation)">
+            <summary>
+            An equality comparison.
+            </summary>
+            <param name="b1" type="BoardLocation">
+            One BoardLocation</param>
+            <param name="b2" type="BoardLocation">
+            Second BoardLocation</param>
+            <returns type="bool">
+            True if the X and Y values are both equal.</returns>
+        </member>
+        <member name="M:RPChess.BoardLocation.op_Inequality(RPChess.BoardLocation,RPChess.BoardLocation)">
+            <summary>
+            An inequality comparison.
+            </summary>
+            <param name="b1" type="BoardLocation">
+            One BoardLocation</param>
+            <param name="b2" type="BoardLocation">
+            Second BoardLocation</param>
+            <returns type="bool">
+            False if the X and Y values are both equal.</returns>
+        </member>
+        <member name="M:RPChess.BoardLocation.Equals(System.Object)">
+            <summary>
+            Objet equals override
+            </summary>
+            <param name="obj">Another Object</param>
+            <returns>
+            True if these are the same object.</returns>
+        </member>
+        <member name="M:RPChess.BoardLocation.GetHashCode">
+            <summary>
+            hashcode override
+            </summary>
+            <returns>The hashcode of this object.</returns>
+        </member>
+        <member name="M:RPChess.BoardLocation.ToString">
+            <summary>
+            To String override for easier debugging and testing.
+            </summary>
+            <returns>
+            A string representation of the form: ( int, int )</returns>
+        </member>
+        <member name="P:RPChess.BoardLocation.X">
+            <summary>
+            The X axis(horizontal) offset. Positive goes right.
+            The maximum absolute Value is the sqrt(Int32.MaxValue).
+            </summary>
+        </member>
+        <member name="P:RPChess.BoardLocation.Y">
+            <summary>
+            The Y axis(vertical) offset. Positive goes up.
+            The maximum absolute Value is the sqrt(Int32.MaxValue).
+            </summary>
+        </member>
+        <member name="T:RPChess.Model">
+            <summary>
+            The interface Model enforces the Board class to adhere to the
+            Model-View-Controller design.
+            </summary>
+        </member>
+        <member name="M:RPChess.Model.initialize">
+            <summary>
+            Take care of any initialization that the class may have.
+            </summary>
+        </member>
+        <member name="M:RPChess.Model.toXML">
+            <summary>
+            Put all the data stored in this class into an XmlDocument
+            for human readable/editable file storage.
+            </summary>
+            <returns>The data in a well formatted XML document</returns>
+        </member>
+        <member name="M:RPChess.Model.fromXML(System.Xml.XmlReader)">
+            <summary>
+            Load all of the data to this board from a well formatted XML
+            document.
+            </summary>
+            <param name="xml" type="XmlReader">
+            An XmlReader that points to a xml document with the data in a
+            specific format.</param>
+        </member>
+        <member name="P:RPChess.Model.BoardState">
+            <summary>
+            An array that shows what the current state of the
+            Board is as far as piece placement.
+            </summary>
+        </member>
+        <member name="T:RPChess.Board">
+            <summary>
+            The implementation of the Model interface.
+            </summary>
+        </member>
+        <member name="F:RPChess.Board.Width">
+            <summary>
+            The width of the board.
+            </summary>
+        </member>
+        <member name="F:RPChess.Board.Length">
+            <summary>
+            The length of the board.
+            </summary>
+        </member>
+        <member name="M:RPChess.Board.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Basic constructor.
+            </summary>
+            <param name="width">Width of the board.</param>
+            <param name="length">Length of the board.</param>
+        </member>
+        <member name="M:RPChess.Board.initialize">
+            <summary>
+            Initialize constructor.
+            </summary>
+        </member>
+        <member name="P:RPChess.Board.TeamWhite">
+            <summary>
+            The pieces on the White team.
+            </summary>
+        </member>
+        <member name="P:RPChess.Board.TeamBlack">
+            <summary>
+            The pieces on the Black team.
+            </summary>
+        </member>
+        <member name="T:RPChess.BoardSpace">
+            <summary>
+            An interface to hold empty board spaces and pieces.
+            </summary>
+        </member>
+        <member name="P:RPChess.BoardSpace.isEmpty">
+            <summary>
+            Simple property to check if it is an empty space.
+            </summary>
+        </member>
+        <member name="T:RPChess.Piece">
+            <summary>
+            A class that holds the stats and other data for a
+            Game Piece that is univeral.
+            </summary>
+        </member>
+        <member name="M:RPChess.Piece.#ctor(System.String,System.Int32,RPChess.Move[])">
+            <summary>
+            Standard constructor.
+            </summary>
+            <param name="name">Name for piece</param>
+            <param name="hp">Maximum HP</param>
+            <param name="moveSet">Set of moves</param>
+        </member>
+        <member name="M:RPChess.Piece.#ctor(System.Xml.XmlReader)">
+            <summary>
+            Constructs a piece from XML.
+            </summary>
+            <param name="xml">XmlReader of piece data.</param>
+        </member>
+        <member name="M:RPChess.Piece.initialize">
+            <summary>
+            Initialize any values for the Piece.
+            Resets the HP to Maximum.
+            Initializes all Moves in MoveSet.
+            </summary>
+            <returns>
+            The max hp that the current hp is reset to.</returns>
+        </member>
+        <member name="M:RPChess.Piece.takeDamage(System.UInt32)">
+            <summary>
+            Reduce the HP by the damage amount.
+            </summary>
+            <param name="damage">
+            A positive amount to decrease this Piece's hp</param>
+            <returns>
+            Current HP after damage has been taken.</returns>
+        </member>
+        <member name="M:RPChess.Piece.healHP(System.UInt32)">
+            <summary>
+            Recover HP.
+            </summary>
+            <param name="heal">
+            A positive amount to heal the piece.</param>
+            <returns>Current HP after healing.</returns>
+        </member>
+        <member name="M:RPChess.Piece.toXmlDocument">
+            <summary>
+            Write all the piece data to a well formatted 
+            XML document for human readable storage.
+            </summary>
+            <returns>An XmlDocument</returns>
+        </member>
+        <member name="P:RPChess.Piece.MAX_HP">
+            <summary>
+            The Maximum HP of the piece.
+            </summary>
+        </member>
+        <member name="P:RPChess.Piece.Name">
+            <summary>
+            User defined name of the piece.
+            </summary>
+        </member>
+        <member name="P:RPChess.Piece.MoveSet">
+            <summary>
+            A set of the piece's available moves.
+            </summary>
+        </member>
+        <member name="P:RPChess.Piece.HP">
+            <summary>
+            The current HP of the piece.
+            </summary>
+        </member>
+        <member name="P:RPChess.Piece.isEmpty">
+            <summary>
+            BoardSpace interface property. For a piece it is
+            always false.
+            </summary>
+        </member>
+        <member name="T:RPChess.Move">
+            <summary>
+            An interface for the different actions a Piece can do.
             </summary>
         </member>
         <member name="M:RPChess.Move.initialize">
@@ -77,6 +359,12 @@
             <value>
             The type of move this object is an instance of.</value>
         </member>
+        <member name="T:RPChess.Attack">
+            <summary>
+            A base class for attacks.
+            <Implements>Move</Implements>
+            </summary>
+        </member>
         <member name="M:RPChess.Attack.use">
             <summary>
             Use the ability, decreases the Ability's points by 1.
@@ -89,6 +377,20 @@
             </summary>
             <returns>Returns the remaining points.</returns>
         </member>
+        <member name="T:RPChess.AreaOfEffectAbility">
+            <summary>
+            An area of effect attack for wide spread multispace attacks.
+            <Implements>Move</Implements>
+            <Implements>Attack</Implements>
+            </summary>
+        </member>
+        <member name="T:RPChess.DirectionalAbility">
+            <summary>
+            Directional attack for ranged attacks.
+            <Implements>Move</Implements>
+            <Implements>Attack</Implements>
+            </summary>
+        </member>
         <member name="T:RPChess.Movement">
             <summary>
             The movement class handles topological calculations.</summary>
@@ -96,6 +398,21 @@
             A movement is a type of move that allows the Piece to
             move from one space to another on the board.
             </remarks>
+        </member>
+        <member name="T:RPChess.Constants">
+            <summary>
+            Constants for the game.
+            </summary>
+        </member>
+        <member name="F:RPChess.Constants.MAX_BOARD_DISTANCE">
+            <summary>
+            The maximum allowed distance across the board.
+            </summary>
+        </member>
+        <member name="F:RPChess.Constants.MIN_BOARD_DISTANCE">
+            <summary>
+            The minimum allowed distance across the board.
+            </summary>
         </member>
     </members>
 </doc>
