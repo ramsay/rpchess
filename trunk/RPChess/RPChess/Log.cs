@@ -48,7 +48,7 @@ namespace RPChess
         /// Default destructor. Removes a reference. If 
         /// reference is less than 1 then clear _moveList.
         /// </summary>
-        public ~Log()
+        ~Log()
         {
             _references--;
             if (_references < 1)
@@ -71,8 +71,6 @@ namespace RPChess
                 _initialized = true;
             }
         }
-        /// <summary>
-        /// The 
         /// <summary>
         /// Adds a move to the Log.
         /// </summary>
@@ -104,14 +102,15 @@ namespace RPChess
                 _moveList.Clear();
                 return count;
             }
+            return 0;
         }
 		/// <summary>
 		/// Index access to all elements in the log.
 		/// </summary>
 		/// <returns>A string located at the index.</returns>
-		public String operator [](int index)
+		public String at ( int index )
 		{
-			if ( i < 0 || i >= Count || Count == 0)
+			if ( index < 0 || index >= Count || Count == 0)
 			{
 				return "";
 			}

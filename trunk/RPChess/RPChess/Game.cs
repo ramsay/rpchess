@@ -2,23 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace RPChess
 {
-    /// <summary>
-    /// Constants for the game.
-    /// </summary>
-    public struct Constants
-    {
-        /// <summary>
-        /// The maximum allowed distance across the board.
-        /// </summary>
-        public const int MAX_BOARD_DISTANCE = 46340;
-        /// <summary>
-        /// The minimum allowed distance across the board.
-        /// </summary>
-        public const int MIN_BOARD_DISTANCE = -46340;
-    }
-
     class Game
     {
        private Log _movelog;

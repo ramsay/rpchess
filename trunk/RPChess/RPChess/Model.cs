@@ -82,8 +82,8 @@ namespace RPChess
             }
             set
             {
-                if (value > Constants.MAX_BOARD_DISTANCE)
-                    _Length = (uint)Constants.MAX_BOARD_DISTANCE;
+                if (value > BoardLocation.MAX_BOARD_DISTANCE)
+                    _Length = (uint)BoardLocation.MAX_BOARD_DISTANCE;
                 else if (value < 0)
                     _Length = 0;
                 else
@@ -126,6 +126,14 @@ namespace RPChess
     /// </summary>
     public struct BoardLocation 
     {
+        /// <summary>
+        /// The maximum allowed distance across the board.
+        /// </summary>
+        public const int MAX_BOARD_DISTANCE = 46340;
+        /// <summary>
+        /// The minimum allowed distance across the board.
+        /// </summary>
+        public const int MIN_BOARD_DISTANCE = -46340;
         private int _X;
         /// <summary>
         /// The X axis(horizontal) offset. Positive goes right.
@@ -139,10 +147,10 @@ namespace RPChess
             }
             set
             {
-                if (value > Constants.MAX_BOARD_DISTANCE)
-                    _X = Constants.MAX_BOARD_DISTANCE;
-                else if (value < Constants.MIN_BOARD_DISTANCE)
-                    _X = Constants.MIN_BOARD_DISTANCE;
+                if (value > MAX_BOARD_DISTANCE)
+                    _X = MAX_BOARD_DISTANCE;
+                else if (value < MIN_BOARD_DISTANCE)
+                    _X = MIN_BOARD_DISTANCE;
                 else
                     _X = value;
             }
@@ -160,10 +168,10 @@ namespace RPChess
             }
             set
             {
-                if (value > Constants.MAX_BOARD_DISTANCE)
-                    _Y = Constants.MAX_BOARD_DISTANCE;
-                else if (value < Constants.MIN_BOARD_DISTANCE)
-                    _Y = Constants.MIN_BOARD_DISTANCE;
+                if (value > MAX_BOARD_DISTANCE)
+                    _Y = MAX_BOARD_DISTANCE;
+                else if (value < MIN_BOARD_DISTANCE)
+                    _Y = MIN_BOARD_DISTANCE;
                 else
                     _Y = value;
             }
@@ -692,7 +700,7 @@ namespace RPChess
                 return _offset;
             }
         }
-        protected BoardVector _vector;
+        //protected BoardVector _vector;
         protected bool _jump;
         // constructors
         [Obsolete ("Use the BoardLocation constructor instead.")]
@@ -700,7 +708,7 @@ namespace RPChess
         {
             _offset.Y = forward;
             _offset.X = right;
-            _vector.fromOffset(_offset);
+            //_vector.fromOffset(_offset);
             _jump = jump;
         }
         public Movement(BoardLocation offset)
@@ -718,7 +726,7 @@ namespace RPChess
         private void _setUp(BoardLocation offset, bool jump)
         {
             _offset = offset;
-            _vector.fromOffset(_offset);
+            //_vector.fromOffset(_offset);
             _jump = jump;
         }
         // public methods
@@ -730,7 +738,8 @@ namespace RPChess
         {
             if (!_jump)
             {
-                BoardVector v = _vector;
+                BoardVector v = new BoardVector();
+                v.fromOffset(_offset);
                 if (distance < v.Length)
                 {
                     v.Length = distance;
@@ -762,7 +771,8 @@ namespace RPChess
         // Overriden Object Methods
         public override string ToString()
         {
-            return base.ToString();
+
+            return base.ToString() + _offset;
         }
     }
 }

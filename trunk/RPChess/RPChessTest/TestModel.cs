@@ -24,7 +24,6 @@ namespace RPChess
         BoardVector westVector;
         BoardVector southVector;
         BoardVector testVector;
-        Constants c = new Constants();
         ///<summary>
         ///Constructor: Sets up the readonly properies.
         ///</summary>
@@ -74,11 +73,11 @@ namespace RPChess
         public void BoardLocationAdditionTest()
         {
             testLoc = eastLoc + northLoc;
-            Assert.AreEqual(c.MAX_BOARD_DISTANCE, testLoc.X);
-            Assert.AreEqual(c.MAX_BOARD_DISTANCE, testLoc.Y);
+            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testLoc.X);
+            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testLoc.Y);
             testLoc = westLoc + southLoc;
-            Assert.AreEqual(c.MIN_BOARD_DISTANCE, testLoc.X);
-            Assert.AreEqual(c.MIN_BOARD_DISTANCE, testLoc.Y);
+            Assert.AreEqual(BoardLocation.MIN_BOARD_DISTANCE, testLoc.X);
+            Assert.AreEqual(BoardLocation.MIN_BOARD_DISTANCE, testLoc.Y);
             testLoc = eastLoc + westLoc;
             Assert.AreEqual(zeroLoc, testLoc);
             testLoc = southLoc + northLoc;
@@ -91,19 +90,19 @@ namespace RPChess
         public void BoardVectorFromOffsetTest()
         {
             testVector.fromOffset(eastLoc);
-            Assert.AreEqual(Constants.MAX_BOARD_DISTANCE, testVector.Length);
+            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
             Assert.AreEqual(MoveDirection.Right, testVector.Direction);
 
             testVector.fromOffset(northLoc);
-            Assert.AreEqual(Constants.MAX_BOARD_DISTANCE, testVector.Length);
+            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
             Assert.AreEqual(MoveDirection.Forward, testVector.Direction);
 
             testVector.fromOffset(westLoc);
-            Assert.AreEqual(Constants.MAX_BOARD_DISTANCE, testVector.Length);
+            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
             Assert.AreEqual(MoveDirection.Left, testVector.Direction);
 
             testVector.fromOffset(southLoc);
-            Assert.AreEqual(Constants.MAX_BOARD_DISTANCE, testVector.Length);
+            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
             Assert.AreEqual(MoveDirection.Backward, testVector.Direction);
         }
         ///<summary>
@@ -180,8 +179,8 @@ namespace RPChess
             int randomX;
             for (int i = 0; i < 1000; i++)
             {
-                randomX = random.Next(Constants.MIN_BOARD_DISTANCE,
-                    Constants.MAX_BOARD_DISTANCE);
+                randomX = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
+                    BoardLocation.MAX_BOARD_DISTANCE);
                 testMove = new Movement(randomX, 0, false);
                 testLoc = startLoc;
                 testLoc = testMove.moveFrom(startLoc);
@@ -245,7 +244,8 @@ namespace RPChess
         [Test]
         public void toXMLTest()
         {
-            
+            Assert.Fail();
+            Console.Out.WriteLine("toXMLTest() passed!");
         }
         [Test]
         public void fromXMLTest()
