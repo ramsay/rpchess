@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPChess", "RPChess\RPChess.
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPChessTest", "ConsoleApplication1\RPChessTest.csproj", "{B4014859-50AA-4C3B-A657-7054C131ACA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPChessTest", "RPChessTest\RPChessTest.csproj", "{B4014859-50AA-4C3B-A657-7054C131ACA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
