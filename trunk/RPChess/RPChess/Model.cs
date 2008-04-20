@@ -177,6 +177,18 @@ namespace RPChess
             }
         }
         /// <summary>
+        /// An easy constructor.
+        /// </summary>
+        /// <param name="X">X value</param>
+        /// <param name="Y">Y value</param>
+        public BoardLocation(int x, int y)
+        {
+            _X = 0;
+            _Y = 0;
+            X = x;
+            Y = y;
+        }
+        /// <summary>
         /// Adds two BoardLocations together.
         /// </summary>
         /// <param name="b1" type="BoardLocation">
@@ -276,10 +288,10 @@ namespace RPChess
         /// Load all of the data to this board from a well formatted XML
         /// document.
         /// </summary>
-        /// <param name="xml" type="XmlReader">
-        /// An XmlReader that points to a xml document with the data in a
+        /// <param name="xml" type="XmlDocument">
+        /// An XmlDocument that points to a xml document with the data in a
         /// specific format.</param>
-        void fromXML(XmlReader xml);
+        void fromXML(XmlDocument xml);
     }
     /// <summary>
     /// The implementation of the Model interface.
@@ -422,8 +434,8 @@ namespace RPChess
         /// <summary>
         /// Constructs a piece from XML.
         /// </summary>
-        /// <param name="xml">XmlReader of piece data.</param>
-        public Piece(XmlReader xml)
+        /// <param name="xml">XmlDocument of piece data.</param>
+        public Piece(XmlDocument xml)
         {
             _fromXml(xml);
         }
@@ -466,7 +478,7 @@ namespace RPChess
             _HP = _HP + (int)heal;
             return _HP;
         }
-        protected void _fromXml(XmlReader xml)
+        protected void _fromXml(XmlDocument xml)
         {
         }
         /// <summary>
@@ -512,9 +524,9 @@ namespace RPChess
         XmlDocument toXML();
         /// <summary>
         /// Loads the properties of the Move from the XML.</summary>
-        /// <param name="xml" type="XmlReader">The XML with Move
+        /// <param name="xml" type="XmlDocument">The XML with Move
         /// information.</param>
-        void fromXML(XmlReader xml);
+        void fromXML(XmlDocument xml);
     }
     /// <summary>
     /// A base class for attacks.
@@ -575,7 +587,7 @@ namespace RPChess
 
         public abstract void initialize();
         public abstract XmlDocument toXML();
-        public abstract void fromXML(XmlReader xml);
+        public abstract void fromXML(XmlDocument xml);
     }
     /// <summary>
     /// An area of effect attack for wide spread multispace attacks.
@@ -613,7 +625,7 @@ namespace RPChess
             return xml;
         }
 
-        public override void fromXML(XmlReader xml)
+        public override void fromXML(XmlDocument xml)
         {
         }
     }
@@ -657,7 +669,7 @@ namespace RPChess
             reset();
         }
 
-        public DirectionalAbility(XmlReader xml)
+        public DirectionalAbility(XmlDocument xml)
         {
             fromXML(xml);
         }
@@ -669,7 +681,7 @@ namespace RPChess
             return xml;
         }
 
-        public override void fromXML(XmlReader xml)
+        public override void fromXML(XmlDocument xml)
         {
         }
 
@@ -719,7 +731,7 @@ namespace RPChess
         {
             _setUp(offset, jump);
         }
-        public Movement(XmlReader xml)
+        public Movement(XmlDocument xml)
         {
             //fromXML(xml);
         }
@@ -765,8 +777,12 @@ namespace RPChess
             //xml.LoadXml(toXMLString());
             return xml;
         }
-        public void fromXML(XmlReader xml)
+        public void fromXML(XmlDocument xml)
         {
+            if (xml.Name == "Movement")
+            {
+                XmlNode node = xml.FirstChild;
+            }
         }
         // Overriden Object Methods
         public override string ToString()

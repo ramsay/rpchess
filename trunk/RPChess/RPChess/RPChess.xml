@@ -180,6 +180,13 @@
             The minimum allowed distance across the board.
             </summary>
         </member>
+        <member name="M:RPChess.BoardLocation.#ctor(System.Int32,System.Int32)">
+            <summary>
+            An easy constructor.
+            </summary>
+            <param name="X">X value</param>
+            <param name="Y">Y value</param>
+        </member>
         <member name="M:RPChess.BoardLocation.op_Addition(RPChess.BoardLocation,RPChess.BoardLocation)">
             <summary>
             Adds two BoardLocations together.
@@ -263,13 +270,13 @@
             </summary>
             <returns>The data in a well formatted XML document</returns>
         </member>
-        <member name="M:RPChess.Model.fromXML(System.Xml.XmlReader)">
+        <member name="M:RPChess.Model.fromXML(System.Xml.XmlDocument)">
             <summary>
             Load all of the data to this board from a well formatted XML
             document.
             </summary>
-            <param name="xml" type="XmlReader">
-            An XmlReader that points to a xml document with the data in a
+            <param name="xml" type="XmlDocument">
+            An XmlDocument that points to a xml document with the data in a
             specific format.</param>
         </member>
         <member name="P:RPChess.Model.BoardState">
@@ -339,11 +346,11 @@
             <param name="hp">Maximum HP</param>
             <param name="moveSet">Set of moves</param>
         </member>
-        <member name="M:RPChess.Piece.#ctor(System.Xml.XmlReader)">
+        <member name="M:RPChess.Piece.#ctor(System.Xml.XmlDocument)">
             <summary>
             Constructs a piece from XML.
             </summary>
-            <param name="xml">XmlReader of piece data.</param>
+            <param name="xml">XmlDocument of piece data.</param>
         </member>
         <member name="M:RPChess.Piece.initialize">
             <summary>
@@ -418,10 +425,10 @@
             Exports the properites of the Move.</summary>
             <returns>A DTD complient XML fragment.</returns>
         </member>
-        <member name="M:RPChess.Move.fromXML(System.Xml.XmlReader)">
+        <member name="M:RPChess.Move.fromXML(System.Xml.XmlDocument)">
             <summary>
             Loads the properties of the Move from the XML.</summary>
-            <param name="xml" type="XmlReader">The XML with Move
+            <param name="xml" type="XmlDocument">The XML with Move
             information.</param>
         </member>
         <member name="P:RPChess.Move.Type">
