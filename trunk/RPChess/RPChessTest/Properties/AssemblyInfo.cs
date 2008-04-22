@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleApplication1")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("RPChessTest")]
+[assembly: AssemblyDescription("NUnit based test suite for automated tests, and test driven development.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("KEW")]
-[assembly: AssemblyProduct("ConsoleApplication1")]
-[assembly: AssemblyCopyright("Copyright © KEW 2008")]
+[assembly: AssemblyCompany("BENTwerx")]
+[assembly: AssemblyProduct("RPChessTest")]
+[assembly: AssemblyCopyright("Copyright © BENTwerx 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -151,7 +151,7 @@ namespace RPChess
         XmlDocument xmlDoc;
 
         ///<summary>
-        ///Tests the Movement class.
+        ///Constructor sets up common variables.
         ///</summary>
         public MovementTest()
         {
@@ -209,6 +209,48 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc, 20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(10, testLoc.Y, "Y:Didn't move correct distance");
+            testLoc = testMove.moveFrom(startLoc, -1);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -5);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -20);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
+            Console.Out.WriteLine("moveFromDistancePositiveY() passed!");
+        }///<summary>
+        ///Tests the Movement.moveFrom() using BoardLocation and
+        ///distance parameters.
+        ///</summary>
+        [Test]
+        public void moveFromDistanceNegativeY()
+        {
+            testMove = new Movement(new BoardLocation(0,-10));
+            testLoc = testMove.moveFrom(startLoc, 1);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(-1, testLoc.Y, "Y:Didn't move correct distance");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, 5);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(-5, testLoc.Y, "Y:Didn't move correct distance");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, 20);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(-10, testLoc.Y, "Y:Didn't move correct distance");
+            testLoc = testMove.moveFrom(startLoc, -1);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -5);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -20);
+            Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
+            Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
             Console.Out.WriteLine("moveFromDistancePositiveY() passed!");
         }
         ///<summary>
@@ -231,16 +273,68 @@ namespace RPChess
             Assert.AreEqual(10, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
+            testLoc = testMove.moveFrom(startLoc, -1);
+            Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -5);
+            Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -20);
+            Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
         }
+        ///<summary>
+        ///Tests the Movement.moveFrom() using BoardLocation and
+        ///distance parameters.
+        ///</summary>
+        [Test]
+        public void moveFromDistanceNegativeX()
+        {
+            testMove = new Movement(new BoardLocation(-10,0));
+            testLoc = testMove.moveFrom(startLoc, 1);
+            Assert.AreEqual(-1, testLoc.X, "X:Didn't move correct distance");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, 5);
+            Assert.AreEqual(-5, testLoc.X, "X:Didn't move correct distance");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, 20);
+            Assert.AreEqual(-10, testLoc.X, "X:Didn't move correct distance");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
+            testLoc = testMove.moveFrom(startLoc, -1);
+            Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -5);
+            Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            testLoc = startLoc;
+            testLoc = testMove.moveFrom(startLoc, -20);
+            Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
+            Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
+            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
+        }
+        ///<summary>
+        ///Tests that the initialize method changes nothing.
+        ///</summary>
         [Test]
         public void initializeTest()
         {
             Movement newMove = new Movement(startLoc);
-            testMove = new Movement(startLoc);
+            testMove = newMove;
             testMove.initialize();
             Assert.AreEqual(newMove, testMove);
             Console.Out.WriteLine("initializeTest() passed!");
         }
+        ///<summary>
+        ///Tests that the Movement class correctly exports it's data to
+        ///an XML element.
+        ///</summary>
         [Test]
         public void toXMLTest()
         {
@@ -272,6 +366,10 @@ namespace RPChess
             }
             Console.Out.WriteLine("toXMLTest() passed!");
         }
+        ///<summary>
+        ///Tests that the Movment class can load data from XML
+        ///correctly.
+        ///</summary>
         [Test]
         public void fromXMLTest()
         {
@@ -282,9 +380,15 @@ namespace RPChess
                 "<Y type=\"int\">0</Y>" + 
                 "</BoardLocation>" +
                 "</Movement>");
-            Assert.Fail();
+            testMove = new Movement(xmlDoc);
+            Movement right1 = new Movement(new BoardLocation(1,0));
+            Assert.AreEqual(right1, testMove, testMove.ToString());
             Console.Out.WriteLine("fromXMLTest() passed!");
         }
+        ///<summary>
+        ///A simple test that returns a string represtentation of the 
+        ///Movement object.
+        ///</summary>
         [Test]
         public void ToStringTest()
         {
@@ -295,4 +399,3 @@ namespace RPChess
         }
     }
 }
-//#endif

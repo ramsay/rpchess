@@ -6,28 +6,32 @@ namespace RPChess
 {
    interface Controller
     {
-       Log updateLog();
     }
 
     class TextController : Controller
     {
-        private Log _moveLog;
-        public Log Log
+        private uint _count;
+        public int Count
         {
             get
             {
-                return _moveLog;
+                return (int)_count;
             }
         }
-
+        private Log _log;
         public TextController()
         {
-            _moveLog = new Log();
         }
-
-        public Log updateLog()
+        public TextController(bool init)
         {
-            return _moveLog;
+            if ( init )
+            {
+                initialize();
+            }
+        }
+        public void initialize()
+        {
+            _log = new Log();
         }
     }
 }
