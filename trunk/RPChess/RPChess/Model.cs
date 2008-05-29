@@ -461,6 +461,15 @@ namespace RPChess
         }
         protected void _fromXml(XmlDocument xml)
         {
+        	initialize();
+        	if ( xml.FirstChild.Name = "Piece" )
+        	{
+        		//TODO
+        	}
+        	else
+        	{
+        		Console.Error.WriteLine( "xmlDocument is not a piece" );
+        	}
         }
         /// <summary>
         /// Write all the piece data to a well formatted 
