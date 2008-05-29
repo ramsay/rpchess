@@ -179,8 +179,8 @@ namespace RPChess
         /// <summary>
         /// An easy constructor.
         /// </summary>
-        /// <param name="X">X value</param>
-        /// <param name="Y">Y value</param>
+        /// <param name="x">X value</param>
+        /// <param name="y">Y value</param>
         public BoardLocation(int x, int y)
         {
             _X = 0;
@@ -704,6 +704,10 @@ namespace RPChess
     public class Movement : Move
     {
         // properties
+        /// <summary>
+        /// This is the inheritable offset (BoardLocation type) that holds an
+        /// X, Y offset pair.
+        /// </summary>
         protected BoardLocation _offset;
         public BoardLocation Offset
         {
@@ -713,7 +717,21 @@ namespace RPChess
             }
         }
         //protected BoardVector _vector;
+        /// <summary>
+        /// This determines whether other pieces may block this 
+        /// piece's movement. It is an inheritable boolean.
+        /// </summary>
         protected bool _jump;
+        /// <summary>
+        /// The accessor for the Jump (bool) attribute.
+        /// </summary>
+        public bool Jump
+        {
+            get
+            {
+                return _jump;
+            }
+        }
         // constructors
         [Obsolete ("Use the BoardLocation constructor instead.")]
         public Movement(int right, int forward, bool jump)

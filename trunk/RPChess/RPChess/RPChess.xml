@@ -4,67 +4,6 @@
         <name>RPChess</name>
     </assembly>
     <members>
-        <member name="T:RPChess.Log">
-            <summary>
-            A lazy man's message storage / callback.
-            The Log class maintains a list of all moves made
-            throughout the game. The list is static making 
-            this a monostate.
-            </summary>
-        </member>
-        <member name="M:RPChess.Log.#ctor">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:RPChess.Log.#ctor(System.Boolean)">
-            <summary>
-            Constructor that also initializes.
-            </summary>
-            <param name="init">Initializes if true</param>
-        </member>
-        <member name="M:RPChess.Log.Finalize">
-            <summary>
-            Default destructor. Removes a reference. If 
-            reference is less than 1 then clear _moveList.
-            </summary>
-        </member>
-        <member name="M:RPChess.Log.initialize">
-            <summary>
-            Initializes the _moveList.  Emptys it if there were entrys.
-            </summary>
-        </member>
-        <member name="M:RPChess.Log.add(System.String)">
-            <summary>
-            Adds a move to the Log.
-            </summary>
-            <param name="move">A string containing the piece moved, and the move it made.</param>
-            <returns>The new Log.Count</returns>
-        </member>
-        <member name="M:RPChess.Log.peek">
-            <summary>
-            An easy method to get the last move on the log without
-            instantiating a new Array.
-            </summary>
-            <returns>The latest string log entry.</returns>
-        </member>
-        <member name="M:RPChess.Log.Clear">
-            <summary>
-            Clears the log.
-            </summary>
-            <returns>Returns the number of entries cleared.</returns>
-        </member>
-        <member name="M:RPChess.Log.at(System.Int32)">
-            <summary>
-            Index access to all elements in the log.
-            </summary>
-            <returns>A string located at the index.</returns>
-        </member>
-        <member name="P:RPChess.Log.Count">
-            <summary>
-            The number of moves in the Log.
-            </summary>
-        </member>
         <member name="T:RPChess.MoveDirection">
             <summary>
             This enum matches words to cardinal directions (Forward, ForwardRight, 
@@ -184,8 +123,8 @@
             <summary>
             An easy constructor.
             </summary>
-            <param name="X">X value</param>
-            <param name="Y">Y value</param>
+            <param name="x">X value</param>
+            <param name="y">Y value</param>
         </member>
         <member name="M:RPChess.BoardLocation.op_Addition(RPChess.BoardLocation,RPChess.BoardLocation)">
             <summary>
@@ -476,6 +415,84 @@
             A movement is a type of move that allows the Piece to
             move from one space to another on the board.
             </remarks>
+        </member>
+        <member name="F:RPChess.Movement._offset">
+            <summary>
+            This is the inheritable offset (BoardLocation type) that holds an
+            X, Y offset pair.
+            </summary>
+        </member>
+        <member name="F:RPChess.Movement._jump">
+            <summary>
+            This determines whether other pieces may block this 
+            piece's movement. It is an inheritable boolean.
+            </summary>
+        </member>
+        <member name="P:RPChess.Movement.Jump">
+            <summary>
+            The accessor for the Jump (bool) attribute.
+            </summary>
+        </member>
+        <member name="T:RPChess.Log">
+            <summary>
+            A lazy man's message storage / callback.
+            The Log class maintains a list of all moves made
+            throughout the game. The list is static making 
+            this a monostate.
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.#ctor(System.Boolean)">
+            <summary>
+            Constructor that also initializes.
+            </summary>
+            <param name="init">Initializes if true</param>
+        </member>
+        <member name="M:RPChess.Log.Finalize">
+            <summary>
+            Default destructor. Removes a reference. If 
+            reference is less than 1 then clear _moveList.
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.initialize">
+            <summary>
+            Initializes the _moveList.  Emptys it if there were entrys.
+            </summary>
+        </member>
+        <member name="M:RPChess.Log.add(System.String)">
+            <summary>
+            Adds a move to the Log.
+            </summary>
+            <param name="move">A string containing the piece moved, and the move it made.</param>
+            <returns>The new Log.Count</returns>
+        </member>
+        <member name="M:RPChess.Log.peek">
+            <summary>
+            An easy method to get the last move on the log without
+            instantiating a new Array.
+            </summary>
+            <returns>The latest string log entry.</returns>
+        </member>
+        <member name="M:RPChess.Log.Clear">
+            <summary>
+            Clears the log.
+            </summary>
+            <returns>Returns the number of entries cleared.</returns>
+        </member>
+        <member name="M:RPChess.Log.at(System.Int32)">
+            <summary>
+            Index access to all elements in the log.
+            </summary>
+            <returns>A string located at the index.</returns>
+        </member>
+        <member name="P:RPChess.Log.Count">
+            <summary>
+            The number of moves in the Log.
+            </summary>
         </member>
     </members>
 </doc>

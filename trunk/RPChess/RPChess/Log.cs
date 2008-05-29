@@ -51,9 +51,12 @@ namespace RPChess
         ~Log()
         {
             _references--;
-            if (_references < 1)
+            if (_moveList != null)
             {
-                _moveList.Clear();
+                if (_references < 1)
+                {
+                    _moveList.Clear();
+                }
             }
         }
         /// <summary>
