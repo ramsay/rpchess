@@ -32,6 +32,7 @@ namespace RPChess
         public void initialize()
         {
             _log = new Log();
+			_count = 0;
         }
     }
 }

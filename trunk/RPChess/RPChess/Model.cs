@@ -774,15 +774,82 @@ namespace RPChess
         public XmlDocument toXML()
         {
             XmlDocument xml = new XmlDocument();
-            //xml.LoadXml(toXMLString());
+            xml.LoadXml("<Movement><Offset type=\"RPChess.BoardLocation\">" +
+			            "<X type=\"int\">" + this.Offset.X + "</X>" +
+			            "<Y type=\"int\">" + this.Offset.Y + "</Y>" +
+			            "</Offset>" +
+			            "<Jump type=\"bool\">" + this._jump + "</Jump>" +
+			            "</Movement>");
             return xml;
         }
-        public void fromXML(XmlDocument xml)
+		public void fromXML(XmlDocument xml)
         {
-            if (xml.Name == "Movement")
+			_offset = new BoardLocation(0, 0);
+			_jump = false;
+            if (xml.FirstChild.Name == "Movement")
             {
-                XmlNode node = xml.FirstChild;
+				
+				foreach (XmlNode kid in xml.FirstChild.ChildNodes)
+				{
+					switch ( kid.Name.ToLower() )
+					{
+					case "forward":
+					case "y":
+					case "row":
+						this._offset.Y = Int32.Parse(kid.Value);						
+						Console.Error.WriteLine("Xml element: " + xml.ToString() +
+						                        " is malformed. But will be " +
+						                        "fixed after saving.");
+						break;
+					case "right":
+					case "x":
+					case "column":
+						this._offset.X = Int32.Parse(kid.Value);						
+						Console.Error.WriteLine("Xml element: " + 
+						                        xml.ToString() +
+						                        " is malformed. But will be " +
+						                        "fixed after saving.");
+						break;
+					case "offset":
+						foreach (XmlNode grankid in kid.ChildNodes)
+						{
+							switch ( grankid.Name.ToLower() )
+							{
+							case "forward":
+							case "y":
+							case "row":
+								this._offset.Y = Int32.Parse(grankid.Value);
+								break;
+							case "right":
+							case "x":
+							case "column":
+								this._offset.X = Int32.Parse(grankid.Value);
+								break;
+							default:
+								Console.Error.WriteLine("Xml element: " + 
+								                        kid.ToString() +
+								                        " is malformed.");
+								break;
+							}
+						}
+						break;
+					case "jump":
+						this._jump = Boolean.Parse(kid.Value);
+						break;
+					default:
+						Console.Error.WriteLine("Xml element: " +
+						                        xml.ToString() +
+						                        " is malformed.");
+						break;
+					}
+				}
             }
+			else
+			{
+				Console.Error.WriteLine("Xml element: " + xml.FirstChild.OuterXml +
+					" is not a Movement xml element.");
+			}
+			return;
         }
         // Overriden Object Methods
         public override string ToString()

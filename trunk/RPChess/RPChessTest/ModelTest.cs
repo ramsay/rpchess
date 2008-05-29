@@ -251,7 +251,7 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc, -20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
-            Console.Out.WriteLine("moveFromDistancePositiveY() passed!");
+            Console.Out.WriteLine("moveFromDistanceNegitiveY() passed!");
         }
         ///<summary>
         ///Tests the Movement.moveFrom() using BoardLocation and
@@ -272,7 +272,6 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc, 20);
             Assert.AreEqual(10, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
             testLoc = testMove.moveFrom(startLoc, -1);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
@@ -305,7 +304,6 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc, 20);
             Assert.AreEqual(-10, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
             testLoc = testMove.moveFrom(startLoc, -1);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
@@ -317,7 +315,7 @@ namespace RPChess
             testLoc = testMove.moveFrom(startLoc, -20);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
+            Console.Out.WriteLine("moveFromDistanceNegitiveX() passed!");
         }
         ///<summary>
         ///Tests that the initialize method changes nothing.
@@ -339,30 +337,33 @@ namespace RPChess
         public void toXMLTest()
         {
             testMove = new Movement(startLoc);
-            xmlDoc.LoadXml(
-                "<Movement>" +
-                "<BoardLocation>" +
-                "<X type=\"int\">0</X>" +
-                "<Y type=\"int\">0</Y>" +
-                "</BoardLocation>" +
-                "</Movement>");
-            Assert.AreEqual(xmlDoc, testMove.toXML());
+			string expectedXML =
+				    "<Movement>" +
+					"<Offset type=\"RPChess.BoardLocation\">" +
+					"<X type=\"int\">0</X>" +
+					"<Y type=\"int\">0</Y>" +
+					"</Offset>" +
+					"<Jump type=\"bool\">False</Jump>" +
+					"</Movement>";
+            Assert.AreEqual(expectedXML, testMove.toXML().OuterXml );
             testLoc = new BoardLocation();
+			bool jump = false; 
             for (int i = 0; i < 100; i++)
             {
                 testLoc.X = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
                     BoardLocation.MAX_BOARD_DISTANCE);
                 testLoc.Y = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
                     BoardLocation.MAX_BOARD_DISTANCE);
-                testMove = new Movement(testLoc);
-                xmlDoc.LoadXml(
-                    "<Movement>" +
-                    "<BoardLocation>" +
-                    "<X type=\"int\">"+ testLoc.X + "</X>" +
-                    "<Y type=\"int\">"+ testLoc.Y + "</Y>" +
-                    "</BoardLocation>" +
-                    "</Movement>");
-                Assert.AreEqual(xmlDoc, testMove.toXML());
+				jump =  (i % 2) == 0;
+                testMove = new Movement(testLoc, jump);
+                expectedXML = "<Movement>" +
+				              "<Offset type=\"RPChess.BoardLocation\">" +
+				              "<X type=\"int\">" + testLoc.X + "</X>" +
+				              "<Y type=\"int\">" + testLoc.Y + "</Y>" +
+				              "</Offset>" +
+				              "<Jump type=\"bool\">" + jump + "</Jump>" +
+				              "</Movement>";
+                Assert.AreEqual(expectedXML, testMove.toXML().OuterXml);
             }
             Console.Out.WriteLine("toXMLTest() passed!");
         }
@@ -373,14 +374,14 @@ namespace RPChess
         [Test]
         public void fromXMLTest()
         {
-            xmlDoc.LoadXml( 
-                "<Movement>" +
-                "<BoardLocation>" +
-                "<X type=\"int\">1</X>" +
-                "<Y type=\"int\">0</Y>" + 
-                "</BoardLocation>" +
-                "</Movement>");
-            testMove = new Movement(xmlDoc);
+            xmlDoc.LoadXml("<Movement>" +
+			               "<Offset type=\"RPChess.BoardLocation\">" +
+			               "<X type=\"int\">1</X>" +
+			               "<Y type=\"int\">0</Y>" +
+			               "</Offset>" +
+			               "<Jump type=\"bool\">False</Jump>" +
+			               "</Movement>");
+            testMove = new Movement( xmlDoc );
             Movement right1 = new Movement(new BoardLocation(1,0));
             Assert.AreEqual(right1, testMove, testMove.ToString());
             Console.Out.WriteLine("fromXMLTest() passed!");
