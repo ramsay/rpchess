@@ -197,35 +197,13 @@
             A second BoardLocation.</param>
             <returns>The sum BoardLocation</returns>
         </member>
-        <member name="M:RPChess.BoardLocation.op_Equality(RPChess.BoardLocation,RPChess.BoardLocation)">
-            <summary>
-            An equality comparison.
-            </summary>
-            <param name="b1" type="BoardLocation">
-            One BoardLocation</param>
-            <param name="b2" type="BoardLocation">
-            Second BoardLocation</param>
-            <returns type="bool">
-            True if the X and Y values are both equal.</returns>
-        </member>
-        <member name="M:RPChess.BoardLocation.op_Inequality(RPChess.BoardLocation,RPChess.BoardLocation)">
-            <summary>
-            An inequality comparison.
-            </summary>
-            <param name="b1" type="BoardLocation">
-            One BoardLocation</param>
-            <param name="b2" type="BoardLocation">
-            Second BoardLocation</param>
-            <returns type="bool">
-            False if the X and Y values are both equal.</returns>
-        </member>
         <member name="M:RPChess.BoardLocation.Equals(System.Object)">
             <summary>
-            Objet equals override
+            Object value equals override
             </summary>
             <param name="obj">Another Object</param>
             <returns>
-            True if these are the same object.</returns>
+            True if the X and Y values are the same.</returns>
         </member>
         <member name="M:RPChess.BoardLocation.GetHashCode">
             <summary>

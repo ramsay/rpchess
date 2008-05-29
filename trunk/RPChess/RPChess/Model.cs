@@ -205,42 +205,23 @@ namespace RPChess
             return sum;
         }
         /// <summary>
-        /// An equality comparison.
-        /// </summary>
-        /// <param name="b1" type="BoardLocation">
-        /// One BoardLocation</param>
-        /// <param name="b2" type="BoardLocation">
-        /// Second BoardLocation</param>
-        /// <returns type="bool">
-        /// True if the X and Y values are both equal.</returns>
-        public static bool operator ==(BoardLocation b1,
-                               BoardLocation b2)
-        {
-            return false;
-        }
-        /// <summary>
-        /// An inequality comparison.
-        /// </summary>
-        /// <param name="b1" type="BoardLocation">
-        /// One BoardLocation</param>
-        /// <param name="b2" type="BoardLocation">
-        /// Second BoardLocation</param>
-        /// <returns type="bool">
-        /// False if the X and Y values are both equal.</returns>
-        public static bool operator !=(BoardLocation b1,
-                                       BoardLocation b2)
-        {
-            return true;
-        }
-        /// <summary>
-        /// Objet equals override
+        /// Object value equals override
         /// </summary>
         /// <param name="obj">Another Object</param>
         /// <returns>
-        /// True if these are the same object.</returns>
+        /// True if the X and Y values are the same.</returns>
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+			// the gimmes
+			if (obj == null)
+				return false;			
+			if (base.Equals(obj))
+			    return true;			
+			//if (this.GetType() != obj.GetType()) 
+			//	return false;
+			
+			BoardLocation b = (BoardLocation) obj;
+			return this.X == b.X && this.Y == b.Y;
         }
         /// <summary>
         /// hashcode override
@@ -882,16 +863,19 @@ namespace RPChess
         /// <returns>True if objects have same members.</returns>
 		public override bool Equals(object obj)
 		{
+			// the gimmes
+			if (obj == null)
+				return false;			
 			if (base.Equals(obj))
-			{
 			    return true;
-			}
+			if (this.GetType() != obj.GetType()) 
+				return false;
+			
+			// the detials
 			Movement other = (Movement)obj;
-			if (this._offset.X != other.Offset.X)
+			if ( !( this._offset.Equals(other.Offset) ) )
 				return false;
-			if (this._offset.Y != other.Offset.Y)
-				return false;
-			if (this._jump != other.Jump)
+			if ( !(this._jump.Equals(other.Jump) ) )
 				return false;
 			return true;
 		}

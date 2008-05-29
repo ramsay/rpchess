@@ -404,10 +404,40 @@ namespace RPChess
         [Test]
         public void equalsTest()
         {
+        	Movement newMove = new Movement(startLoc, false);
         	testMove = new Movement(startLoc, false);
-        	Movement newMove  = new Movement(startLoc, false);
-        	Assert.IsTrue(testMove.Equals(newMove), ".Equals()");
-        	Assert.AreEqual(testMove, newMove, "AreEqual");
+        	Assert.IsTrue(testMove.Equals(testMove), 
+        	              "x.Equals(x) returned False.");
+        	Assert.IsFalse(testMove.Equals(null),
+        	              "x.Equals(null) did not return false.");
+        	Assert.AreEqual(testMove.Equals(newMove), 
+        	                newMove.Equals(testMove),
+        	               "x.Equals(y) didn't the same value as y.Equals(x).");
+        	Assert.AreEqual(testMove.Equals(newMove), 
+        	                newMove.Equals(testMove),
+        	               "Successive invocations of x.Equals(y) differed.");
+        	int randX, randY;
+        	for (int i = 0; i < 50; i++)
+        	{
+        		randX = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
+                    BoardLocation.MAX_BOARD_DISTANCE);
+        		randY = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
+                    BoardLocation.MAX_BOARD_DISTANCE);
+        		testMove = new Movement( new BoardLocation( randX, randY ), (i%2==0) );
+        		newMove  = new Movement( new BoardLocation( randX, randY ), (i%2==0) );
+        		Assert.IsTrue(testMove.Equals(testMove), 
+        	              "x.Equals(x) returned False.");
+        		Assert.IsFalse(testMove.Equals(null),
+        		               "x.Equals(null) did not return false.");
+        		Assert.AreEqual(testMove.Equals(newMove),
+        		                newMove.Equals(testMove),
+        		                "x.Equals(y) didn't the same value as y.Equals(x).");
+        		Assert.AreEqual(testMove.Equals(newMove),
+        		                newMove.Equals(testMove),
+        		                "Successive invocations of x.Equals(y) differed.");
+        	}
+        	Assert.AreEqual(testMove, newMove,
+        	                "Assert.AreEqual() returned false.");
         	Console.Out.WriteLine("equalsTest passed.");
         }
     }
