@@ -814,7 +814,7 @@ namespace RPChess
 					case "forward":
 					case "y":
 					case "row":
-						this._offset.Y = Int32.Parse(kid.Value);						
+						this._offset.Y = Int32.Parse(kid.InnerText);						
 						Console.Error.WriteLine("Xml element: " + xml.ToString() +
 						                        " is malformed. But will be " +
 						                        "fixed after saving.");
@@ -822,7 +822,7 @@ namespace RPChess
 					case "right":
 					case "x":
 					case "column":
-						this._offset.X = Int32.Parse(kid.Value);						
+						this._offset.X = Int32.Parse(kid.InnerText);						
 						Console.Error.WriteLine("Xml element: " + 
 						                        xml.ToString() +
 						                        " is malformed. But will be " +
@@ -836,12 +836,12 @@ namespace RPChess
 							case "forward":
 							case "y":
 							case "row":
-								this._offset.Y = Int32.Parse(grankid.Value);
+								this._offset.Y = Int32.Parse(grankid.InnerText);
 								break;
 							case "right":
 							case "x":
 							case "column":
-								this._offset.X = Int32.Parse(grankid.Value);
+								this._offset.X = Int32.Parse(grankid.InnerText);
 								break;
 							default:
 								Console.Error.WriteLine("Xml element: " + 
@@ -852,7 +852,7 @@ namespace RPChess
 						}
 						break;
 					case "jump":
-						this._jump = Boolean.Parse(kid.Value);
+						this._jump = Boolean.Parse(kid.InnerText);
 						break;
 					default:
 						Console.Error.WriteLine("Xml element: " +
@@ -872,8 +872,28 @@ namespace RPChess
         // Overriden Object Methods
         public override string ToString()
         {
-
             return base.ToString() + _offset;
         }
+        
+        /// <summary>
+        /// Compares the object's members.
+        /// </summary>
+        /// <param name="obj">Another object.</param>
+        /// <returns>True if objects have same members.</returns>
+		public override bool Equals(object obj)
+		{
+			if (base.Equals(obj))
+			{
+			    return true;
+			}
+			Movement other = (Movement)obj;
+			if (this._offset.X != other.Offset.X)
+				return false;
+			if (this._offset.Y != other.Offset.Y)
+				return false;
+			if (this._jump != other.Jump)
+				return false;
+			return true;
+		}
     }
 }

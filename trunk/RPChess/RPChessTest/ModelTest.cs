@@ -383,7 +383,7 @@ namespace RPChess
 			               "</Movement>");
             testMove = new Movement( xmlDoc );
             Movement right1 = new Movement(new BoardLocation(1,0));
-            Assert.AreEqual(right1, testMove, testMove.ToString());
+            Assert.AreEqual(right1, testMove);
             Console.Out.WriteLine("fromXMLTest() passed!");
         }
         ///<summary>
@@ -397,6 +397,18 @@ namespace RPChess
             Assert.AreEqual("RPChess.Movement( 0, 0 )", testMove.ToString());
             testLoc = new BoardLocation(5, 0);
             Console.Out.WriteLine("ToStringTest() passed!");
+        }
+        ///<summary>
+        ///Test for equivalency operations.
+        ///</summary>
+        [Test]
+        public void equalsTest()
+        {
+        	testMove = new Movement(startLoc, false);
+        	Movement newMove  = new Movement(startLoc, false);
+        	Assert.IsTrue(testMove.Equals(newMove), ".Equals()");
+        	Assert.AreEqual(testMove, newMove, "AreEqual");
+        	Console.Out.WriteLine("equalsTest passed.");
         }
     }
 }
