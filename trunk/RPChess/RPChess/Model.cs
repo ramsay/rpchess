@@ -751,7 +751,7 @@ namespace RPChess
         }
         public Movement(XmlDocument xml)
         {
-            //fromXML(xml);
+            fromXML(xml);
         }
         private void _setUp(BoardLocation offset, bool jump)
         {
