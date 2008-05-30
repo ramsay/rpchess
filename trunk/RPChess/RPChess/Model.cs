@@ -355,6 +355,10 @@ namespace RPChess
                 return _MAX_HP;
             }
         }
+        /// <summary>
+        /// The customizable piece name, this is protected
+        /// and inheritable string.
+        /// </summary>
         protected String _name;
         /// <summary>
         /// User defined name of the piece.
@@ -462,7 +466,7 @@ namespace RPChess
         protected void _fromXml(XmlDocument xml)
         {
         	initialize();
-        	if ( xml.FirstChild.Name = "Piece" )
+        	if ( xml.FirstChild.Name == "Piece" )
         	{
         		//TODO
         	}
