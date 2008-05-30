@@ -543,4 +543,189 @@ namespace RPChess
         	
         }
     }
+    
+    ///<summary>
+    /// Tests the DirectionalAbility class.
+    /// Tests the String and XML methods, as well as the constructors.
+    /// Leaves the equality, and actual implementation of the ablility
+    /// ingame to a higher class test.
+    ///</summary>
+    [TestFixture]
+    public class DirectionalAbilityTest
+    {
+    	DirectionalAbility blankDA;
+    	DirectionalAbility testDA;
+    	/// <summary>
+    	/// Empty default constructor.
+    	/// </summary>
+    	public DirectionalAbilityTest()
+    	{
+    	}
+    	/// <summary>
+    	/// Sets up a blank DirectionalAbility and sets basic
+    	/// testable DirectionalAbility
+    	/// </summary>
+    	[TestFixtureSetUp]
+    	public void CreateDirectionalAbilities()
+    	{
+    		blankDA = new DirectionalAbility();
+    		testDA  = new DirectionalAbility("test", 0, new BoardLocation(0,10), 1);
+    	}
+    	/// <summary>
+    	/// Tests the default and standard constructors.
+    	/// </summary>
+    	[Test]
+    	public void ConstructorsTest()
+    	{
+    		Assert.AreEqual("", blankDA.Name);
+    		Assert.AreEqual(new BoardVector(0,0), blankDA.Vector);
+    		Assert.AreEqual(0, blankDA.Damage);
+    		
+    		Assert.AreEqual("test", testDA.Name);
+    		Assert.AreEqual(new BoardLocation(0,10), testDA.Vector);
+    		Assert.AreEqual(1, testDA.Damage);    	
+    	}    	
+    	/// <summary>
+    	/// Test the initialize Method.
+    	/// </summary>
+    	[Test]
+    	public void initializeTest()
+    	{
+    		blankDA.initialize();
+    		Assert.AreEqual("", blankDA.Name);
+    		Assert.AreEqual(new BoardVector(0,0), blankDA.Vector);
+    		Assert.AreEqual(0, blankDA.Damage);
+    		
+    		testDA.initialize();
+    		Assert.AreEqual("", testDA.Name);
+    		Assert.AreEqual(new BoardVector(0,0), testDA.Vector);
+    		Assert.AreEqual(0, testDA.Damage);
+    	}
+    	/// <summary>
+    	/// Test the ToString Method.
+    	/// </summary>
+    	[Test]
+    	public void ToStringTest()
+    	{
+    		//TODO
+    		Assert.Fail();
+    	}
+    	/// <summary>
+    	/// Test the ToXML Method.
+    	/// </summary>
+    	[Test]
+    	public void ToXMLTest()
+    	{
+    		//TODO
+    		Assert.Fail();
+    	}    	
+    	/// <summary>
+    	/// Test the FromXML Method.
+    	/// </summary>
+    	[Test]
+    	public void FromXMLTest()
+    	{
+    		//TODO
+    		Assert.Fail();
+    	}
+    }
+    
+    ///<summary>
+    /// Tests the DirectionalAbility class.
+    /// Tests the String and XML methods, as well as the constructors.
+    /// Leaves the equality, and actual implementation of the ablility
+    /// ingame to a higher class test.
+    ///</summary>
+    [TestFixture]
+    public class AreaOfEffectAbilityTest
+    {
+    	AreaOfEffectAbility blankAoEA;
+    	AreaOfEffectAbility testAoEA;
+    	int[][] cross;
+    	int[][] empty;
+    	/// <summary>
+    	/// Empty default constructor.
+    	/// </summary>
+    	public AreaOfEffectAbilityTest()
+    	{
+    		cross = new int[3][3];
+    		for (int i = 0; i < 3; i++)
+    		{
+    			for (int j = 0; i < 3; i++)
+    			{
+    				if ( i == j )
+    					cross[i][j] = 1;
+    				else if ( 3-i == j )
+    					cross[i][j] = 1;
+    				else
+    					cross[i][j] = 0;
+    			}
+    		}
+    		empty = new int[3][3];
+    		empty[1][1]=0;
+    	}
+    	/// <summary>
+    	/// Sets up a blank DirectionalAbility and sets basic
+    	/// testable DirectionalAbility
+    	/// </summary>
+    	[TestFixtureSetUp]
+    	public void CreateAreaOfEffectAbilities()
+    	{
+    		blankAoEA = new AreaOfEffectAbility();
+    		testAoEA  = new AreaOfEffectAbility("AreaOfEffect", 0, cross);
+    	}
+    	/// <summary>
+    	/// Tests the default and standard constructors.
+    	/// </summary>
+    	[Test]
+    	public void ConstructorsTest()
+    	{
+    		Assert.AreEqual("", blankAoEA.Name);
+    		Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
+    		
+    		Assert.AreEqual("AreaOfEffect", testAoEA.Name);
+    		Assert.AreEqual(cross, testAoEA.AreaOfEffect);
+    	}    	
+    	/// <summary>
+    	/// Test the initialize Method.
+    	/// </summary>
+    	[Test]
+    	public void initializeTest()
+    	{
+    		blankAoEA.initialize();
+    		Assert.AreEqual("", blankAoEA.Name);
+    		Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
+    		
+    		testAoEA.initialize();
+    		Assert.AreEqual("AreaOfEffect", testAoEA.Name);
+    		Assert.AreEqual(cross, testAoEA.AreaOfEffect);
+    	}
+    	/// <summary>
+    	/// Test the ToString Method.
+    	/// </summary>
+    	[Test]
+    	public void ToStringTest()
+    	{
+    		//TODO
+    		Assert.Fail();
+    	}
+    	/// <summary>
+    	/// Test the ToXML Method.
+    	/// </summary>
+    	[Test]
+    	public void ToXMLTest()
+    	{
+    		//TODO
+    		Assert.Fail();
+    	}    	
+    	/// <summary>
+    	/// Test the FromXML Method.
+    	/// </summary>
+    	[Test]
+    	public void FromXMLTest()
+    	{
+    		//TODO
+    		Assert.Fail();
+    	}
+    }
 }
