@@ -542,7 +542,7 @@ namespace RPChess
     /// A base class for attacks.
     /// <Implements>Move</Implements>
     /// </summary>
-    public abstract class Attack : Move
+    public class Attack : Move
     {
     	/// <summary>
     	/// The name of the attack, user customizable.
@@ -602,12 +602,45 @@ namespace RPChess
             }
         }
         /// <summary>
+        /// Default constructor, initializes members to zero.
+        /// </summary>
+        public Attack()
+        {
+        	initialize();
+        }
+        /// <summary>
+        /// Constructor for Attack, probably not very useful besides
+        /// testing the members in a unit outside all the derived classes.
+        /// Will also help 
+        /// </summary>
+        /// <param name="name">Aesthetic Identifier</param>
+        /// <param name="points">Number of times Attack may be "used"</param>
+        public Attack( String name, int points )
+        {
+        	_name = name;
+        	_MAX_POINTS = points;
+        	reset();
+        }
+        /// <summary>
         /// Use the ability, decreases the Ability's points by 1.
         /// </summary>
         /// <returns>Returns the remaining points.</returns>
         public int use()
         {
             _points = _points - 1;
+            if (_points < 0)
+            	_points = 0;
+            return _points;
+        }
+        /// <summary>
+        /// Use the ability, decreases the Ability's points by 1.
+        /// </summary>
+        /// <returns>Returns the remaining points.</returns>
+        public int use(int uses)
+        {
+            _points = _points - uses;
+            if (_points < 0)
+            	_points = 0;
             return _points;
         }
         /// <summary>
@@ -623,7 +656,11 @@ namespace RPChess
         /// Resets member data to zero state, usually 
         /// brings Point back to MAX_POINTS, etc.
         /// </summary>
-        public abstract void initialize();
+        public virtual void initialize()
+        {
+        	_name = "";
+        	_MAX_POINTS = 0;
+        }
         /// <summary>
         /// Formats member data into an XML document.
         /// Required by all inheriting Classes. Allows for a simple
@@ -633,7 +670,11 @@ namespace RPChess
         /// <returns>
         /// An xml document containing all of the member data of an attack.
         /// </returns>
-        public abstract XmlDocument toXML();
+        public virtual XmlDocument toXML()
+        {
+        	XmlDocument xml = new XmlDocument();
+        	return xml;
+        }
         /// <summary>
         /// Loads member data from an xml document.
         /// Required by all inheriting Classes. Allows for a simple
@@ -643,7 +684,10 @@ namespace RPChess
         /// <param name="xml">
         /// An xml document containing all of the member data of an attack.
         /// </param>
-        public abstract void fromXML(XmlDocument xml);
+        public virtual void fromXML(XmlDocument xml)
+        {
+        	initialize();
+        }
     }
     /// <summary>
     /// An area of effect attack for wide spread multispace attacks.
@@ -673,12 +717,9 @@ namespace RPChess
         /// <param name="areaOfEffect">
         /// An array of integers expressing the size and shape of the ability.
         /// </param>
-        public AreaOfEffectAbility(String name, int points, int[][] areaOfEffect)
+        public AreaOfEffectAbility(String name, int points, int[][] areaOfEffect) : base( name, points )
         {
-            _name = name;
-            _MAX_POINTS = points;
             _areaOfEffect = areaOfEffect;
-            reset();
         }
         /// <summary>
         /// Resets memeber data to un-used state, affects points.
@@ -750,10 +791,8 @@ namespace RPChess
         /// <param name="boardVector"></param>
         /// <param name="damage"></param>
         public DirectionalAbility(String name, int points, 
-            BoardVector boardVector, int damage)
+                                  BoardVector boardVector, int damage) : base( name, points )
         {
-            _name = name;
-            _MAX_POINTS = points;
             _boardVector = boardVector;
             _damage = damage;
         }

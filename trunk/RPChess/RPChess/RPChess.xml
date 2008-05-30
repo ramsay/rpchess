@@ -467,7 +467,27 @@
             Inheritable, protected, int.
             </summary>
         </member>
+        <member name="M:RPChess.Attack.#ctor">
+            <summary>
+            Default constructor, initializes members to zero.
+            </summary>
+        </member>
+        <member name="M:RPChess.Attack.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor for Attack, probably not very useful besides
+            testing the members in a unit outside all the derived classes.
+            Will also help 
+            </summary>
+            <param name="name">Aesthetic Identifier</param>
+            <param name="points">Number of times Attack may be "used"</param>
+        </member>
         <member name="M:RPChess.Attack.use">
+            <summary>
+            Use the ability, decreases the Ability's points by 1.
+            </summary>
+            <returns>Returns the remaining points.</returns>
+        </member>
+        <member name="M:RPChess.Attack.use(System.Int32)">
             <summary>
             Use the ability, decreases the Ability's points by 1.
             </summary>

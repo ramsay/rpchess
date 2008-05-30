@@ -441,4 +441,106 @@ namespace RPChess
         	Console.Out.WriteLine("equalsTest passed.");
         }
     }
+
+    ///<summary>
+    /// Tests the Attack class.
+    /// The Attack class is a base class, with only a few real (non-virtual)
+    /// members and methods.
+    ///</summary>
+    [TestFixture]
+    public class AttackTest
+    {
+    	Attack blank = new Attack("",0);
+    	Attack a;
+        Random random = new Random();
+        ///<summary>
+        ///Constructor sets up common variables.
+        ///</summary>
+        public AttackTest()
+        {
+        }        
+        /// <summary>
+        /// Tests all the constructor.
+        /// </summary>
+        [Test]
+        public void ConstructorTest()
+        {
+        	Assert.AreEqual("", blank.Name);
+        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.Points);
+        	String name = "name";
+        	int points = 10;
+        	a = new Attack(name, points);
+        	Assert.AreEqual(name, a.Name);
+        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.Points);
+        }
+        /// <summary>
+        /// Test the method use, make sure it respects bounds.
+        /// And only acts on the right members.
+        /// </summary>
+        [Test]
+        public void useTest()
+        {
+        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.Points);
+        	blank.use();
+        	Assert.AreEqual(0, blank.MAX_POINTS,
+        	                "MAX_POINTS should not change.");
+        	Assert.AreEqual(0, blank.Points, 
+        	                "Points shouldn't be less than zero.");
+        	
+        	String name = "name";
+        	int points = 10;
+        	a = new Attack(name, points);
+        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.Points);
+        	a.use();
+        	Assert.AreEqual(points, a.MAX_POINTS,        	               
+        	                "MAX_POINTS should not change.");
+        	Assert.AreEqual(points-1, a.Points,
+        	                "Points should decrement one after Attack.use()");
+        	a.use(10);
+        	Assert.AreEqual(0, a.Points, 
+        	                "Points shouldn't be less than zero.");
+        	a.use();
+        	Assert.AreEqual(0, a.Points, 
+        	                "Points shouldn't be less than zero.");
+        }
+        /// <summary>
+        /// Ensure that reset only sets Points to MAX_POINTS and nothing else.
+        /// </summary>
+        [Test]
+        public void resetTest()
+        {
+        	Assert.AreEqual("", blank.Name);
+        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.Points);
+        	blank.reset();
+        	Assert.AreEqual("", blank.Name);
+        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.Points);
+        	
+        	String name = "name";
+        	int points = 10;
+        	a = new Attack(name, points);
+        	Assert.AreEqual(name, a.Name);
+        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.Points);
+        	a.use();
+        	// Assume these are true.
+        	/*
+        	Assert.AreEqual(name, a.Name);
+        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.IsFalse(points == a.Points);
+        	*/
+        	a.reset();
+        	Assert.AreEqual(points, a.Points,
+        	               "Attack.reset() didn't work.");
+        	a.reset();
+        	Assert.AreEqual(points, a.Points,
+        	               "Successive use of Attack.reset() were different.");
+        	
+        }
+    }
 }
