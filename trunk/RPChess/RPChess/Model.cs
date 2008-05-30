@@ -344,6 +344,11 @@ namespace RPChess
     /// </summary>
     public class Piece
     {
+    	/// <summary>
+    	/// The maximum amount for the piece
+    	/// Hit Points. Pseudo constant.
+    	/// Inheritable, protected int.
+    	/// </summary>
         protected int _MAX_HP;
         /// <summary>
         /// The Maximum HP of the piece.
@@ -370,6 +375,11 @@ namespace RPChess
                 return _name;
             }
         }
+        /// <summary>
+        /// The internal Move set field.
+        /// Holds a list of all the moves
+        /// the piece can make.
+        /// </summary>
         protected Move[] _moveSet;
         /// <summary>
         /// A set of the piece's available moves.
@@ -463,6 +473,12 @@ namespace RPChess
             _HP = _HP + (int)heal;
             return _HP;
         }
+        /// <summary>
+        /// Initializes all of the Piece memembers
+        /// according to data placed in a well formed
+        /// Xml element.
+        /// </summary>
+        /// <param name="xml">An xml node containing all the member data.</param>
         protected void _fromXml(XmlDocument xml)
         {
         	initialize();
@@ -528,7 +544,14 @@ namespace RPChess
     /// </summary>
     public abstract class Attack : Move
     {
+    	/// <summary>
+    	/// The name of the attack, user customizable.
+    	/// Inheritable, protected, String.
+    	/// </summary>
         protected String _name;
+        /// <summary>
+        /// The Name of the attack for aesthetic purposes.
+        /// </summary>
         public String Name
         {
             get
@@ -536,15 +559,31 @@ namespace RPChess
                 return _name;
             }
         }
+        /// <summary>
+        /// The internal storage of MAX_POINTS.
+        /// Inheritable, protected, int.
+        /// </summary>
         protected int _MAX_POINTS;
+        /// <summary>
+        /// The Maximum amount of points/uses this attack
+        /// will be initialized to.
+        /// </summary>
         public int MAX_POINTS
         {
             get
             {
                 return _MAX_POINTS;
             }
-        }   
+        }
+        /// <summary>
+        /// Internal representation for Points.
+        /// Inheritable, protected, int.
+        /// </summary>
         protected int _points;
+        /// <summary>
+        /// The current amount of points/uses that
+        /// the Attack has left.
+        /// </summary>
         public int Points
         {
             get
@@ -552,6 +591,9 @@ namespace RPChess
                 return _points;
             }
         }
+        /// <summary>
+        /// Identifies this as a Move of type Attack.
+        /// </summary>
         public MoveType Type
         {
             get
@@ -568,7 +610,6 @@ namespace RPChess
             _points = _points - 1;
             return _points;
         }
-
         /// <summary>
         /// Resets the points to MAX_POINTS.
         /// </summary>
@@ -578,9 +619,30 @@ namespace RPChess
             _points = _MAX_POINTS;
             return _points;
         }
-
+        /// <summary>
+        /// Resets member data to zero state, usually 
+        /// brings Point back to MAX_POINTS, etc.
+        /// </summary>
         public abstract void initialize();
+        /// <summary>
+        /// Formats member data into an XML document.
+        /// Required by all inheriting Classes. Allows for a simple
+        /// and loopable Constructor method.  Also eases loading/saving
+        /// from file.
+        /// </summary>
+        /// <returns>
+        /// An xml document containing all of the member data of an attack.
+        /// </returns>
         public abstract XmlDocument toXML();
+        /// <summary>
+        /// Loads member data from an xml document.
+        /// Required by all inheriting Classes. Allows for a simple
+        /// and loopable Constructor method.  Also eases loading/saving
+        /// from file.
+        /// </summary>
+        /// <param name="xml">
+        /// An xml document containing all of the member data of an attack.
+        /// </param>
         public abstract void fromXML(XmlDocument xml);
     }
     /// <summary>
@@ -591,6 +653,9 @@ namespace RPChess
     public class AreaOfEffectAbility : Attack
     {
         private int[][] _areaOfEffect;
+        /// <summary>
+        /// An array of integers expressing the size and shape of the ability.
+        /// </summary>
         public int[][] AreaOfEffect
         {
             get
@@ -598,7 +663,16 @@ namespace RPChess
                 return _areaOfEffect;
             }
         }
-
+        /// <summary>
+        /// Constructs an AreaOfEffectAbility given all the necessary memember data.
+        /// </summary>
+        /// <param name="name">Aesthetic identifier.</param>
+        /// <param name="points">
+        /// How many times the ability may be used.
+        /// </param>
+        /// <param name="areaOfEffect">
+        /// An array of integers expressing the size and shape of the ability.
+        /// </param>
         public AreaOfEffectAbility(String name, int points, int[][] areaOfEffect)
         {
             _name = name;
@@ -606,21 +680,34 @@ namespace RPChess
             _areaOfEffect = areaOfEffect;
             reset();
         }
-
+        /// <summary>
+        /// Resets memeber data to un-used state, affects points.
+        /// </summary>
         public override void initialize()
         {
             reset();
         }
-
+        /// <summary>
+        /// Useful for saving data to file.
+        /// </summary>
+        /// <returns>
+        /// An xml document containing AreaOfEffectAbility memeber data.
+        /// </returns>
         public override XmlDocument toXML()
         {
             XmlDocument xml = new XmlDocument();
-            //xml.LoadXml(toXMLString());
+            xml.LoadXml(""); //TODO
             return xml;
         }
-
+        /// <summary>
+        /// Loads the AreaOfEffectAbility from an XML document
+        /// </summary>
+        /// <param name="xml">
+        /// An XML document containing AreaOfEffectAbility member data.
+        /// </param>
         public override void fromXML(XmlDocument xml)
         {
+        	//TODO
         }
     }
     /// <summary>
@@ -631,6 +718,9 @@ namespace RPChess
     public class DirectionalAbility : Attack
     {
         private BoardVector _boardVector;
+        /// <summary>
+        /// The Direction in which the Ability acts.
+        /// </summary>
         public BoardVector BoardVector
         {
             get
@@ -639,6 +729,9 @@ namespace RPChess
             }
         }
         private int _damage;
+        /// <summary>
+        /// The amount of damage this Ability gives to the target.
+        /// </summary>
         public int Damage
         {
             get
@@ -648,7 +741,14 @@ namespace RPChess
         }
         //private bool _ranged;
         //private bool _stopable;
-
+        /// <summary>
+        /// Constructs a DirectionalAbility given all of the 
+        /// necessary memeber data.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="points"></param>
+        /// <param name="boardVector"></param>
+        /// <param name="damage"></param>
         public DirectionalAbility(String name, int points, 
             BoardVector boardVector, int damage)
         {
@@ -657,28 +757,50 @@ namespace RPChess
             _boardVector = boardVector;
             _damage = damage;
         }
-
+        /// <summary>
+        /// Re-initializes the DirectionalAbility to a fresh
+        /// un-used state.
+        /// </summary>
         public override void initialize()
         {
             reset();
         }
-
+        /// <summary>
+        /// Constructs a DirectionalAbility from an xml document.
+        /// </summary>
+        /// <param name="xml">
+        /// An XmlDocument containing DirectionAbility member data.
+        /// </param>
         public DirectionalAbility(XmlDocument xml)
         {
             fromXML(xml);
         }
-
+        /// <summary>
+        /// Calls toXMLString() inorder to form a more perfect Union.
+        /// </summary>
+        /// <returns>
+        /// An XmlDocument containing DirectionAbility member data.
+        /// </returns>
         public override XmlDocument toXML()
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(toXMLString());
             return xml;
         }
-
+        /// <summary>
+        /// Loads the member data from an xml document.
+        /// </summary>
+        /// <param name="xml">
+        /// Xml document containing correctly formatted Directional Ability
+        ///  member data.
+        /// </param>
         public override void fromXML(XmlDocument xml)
         {
         }
-
+        /// <summary>
+        /// Forms an Xml Snippet representing this attack.
+        /// </summary>
+        /// <returns>String that uses xml syntax.</returns>
         public String toXMLString()
         {
             String repr = "<attack name=\"" + _name +
@@ -703,6 +825,10 @@ namespace RPChess
         /// X, Y offset pair.
         /// </summary>
         protected BoardLocation _offset;
+        /// <summary>
+        /// The Offset of the Movement. It holds how far a piece may travel
+        /// using this Move.
+        /// </summary>
         public BoardLocation Offset
         {
             get
@@ -727,6 +853,14 @@ namespace RPChess
             }
         }
         // constructors
+        /// <summary>
+        /// Deprecated Constructor.
+        /// </summary>
+        /// <param name="right">The right offset.</param>
+        /// <param name="forward">The forward offset.</param>
+        /// <param name="jump">
+        /// False if this piece may be blocked by other pieces.
+        /// </param>
         [Obsolete ("Use the BoardLocation constructor instead.")]
         public Movement(int right, int forward, bool jump)
         {
@@ -735,14 +869,31 @@ namespace RPChess
             //_vector.fromOffset(_offset);
             _jump = jump;
         }
+        /// <summary>
+        /// Standard Movement Constructor from a BoardLocation format offset.
+        /// Defaults to Jump = False.
+        /// </summary>
+        /// <param name="offset">The X, Y offsets of the move.</param>
         public Movement(BoardLocation offset)
         {
             _setUp(offset, false);
         }
+        /// <summary>
+        /// Construct a Movement using a BoardLocation offset
+        /// and a jump.
+        /// </summary>
+        /// <param name="offset">The X,Y offsets of the move.</param>
+        /// <param name="jump">
+        /// Whether this peice can be blocked by other peices.
+        /// </param>
         public Movement(BoardLocation offset, bool jump)
         {
             _setUp(offset, jump);
         }
+        /// <summary>
+        /// Construct a Movement from xml data.
+        /// </summary>
+        /// <param name="xml">Well formed xml document.</param>
         public Movement(XmlDocument xml)
         {
             fromXML(xml);
@@ -754,10 +905,26 @@ namespace RPChess
             _jump = jump;
         }
         // public methods
+        /// <summary>
+        /// A simple move operation, given a start point.
+        /// </summary>
+        /// <param name="bLoc">The starting point of the travel.</param>
+        /// <returns>
+        /// A new BoardLocation that is offset from bLoc
+        /// </returns>
         public BoardLocation moveFrom(BoardLocation bLoc)
         {
             return bLoc + _offset;
         }
+        /// <summary>
+        /// A basic move operation, given a start point and
+        /// distance to travel.
+        /// </summary>
+        /// <param name="bLoc">The starting point of the travel.</param>
+        /// <param name="distance">The number of blocks to move.</param>
+        /// <returns>
+        /// A new BoardLocation that is offset a distance from bLoc
+        /// </returns>
         public BoardLocation moveFrom(BoardLocation bLoc, int distance)
         {
             if (!_jump)
@@ -773,6 +940,9 @@ namespace RPChess
             return bLoc;
         }
         // Move Interface methods and properties
+        /// <summary>
+        /// Returns what type of Move, in this case Movement.
+        /// </summary>
         public MoveType Type
         {
             get
@@ -780,9 +950,17 @@ namespace RPChess
                 return MoveType.Movement;
             }
         }
+        /// <summary>
+        /// Does absolutely nothing.
+        /// </summary>
         public void initialize()
         {
         }
+        /// <summary>
+        /// Forms an XmlNode of a well formed xml representation
+        /// of the Movement memeber data.
+        /// </summary>
+        /// <returns>Well formed Xml Document.</returns>
         public XmlDocument toXML()
         {
             XmlDocument xml = new XmlDocument();
@@ -794,6 +972,12 @@ namespace RPChess
 			            "</Movement>");
             return xml;
         }
+        /// <summary>
+        /// Initializes movement from Xml Element.
+        /// </summary>
+        /// <param name="xml">
+        /// Xml element containing Movement data.
+        /// </param>
 		public void fromXML(XmlDocument xml)
         {
 			_offset = new BoardLocation(0, 0);
@@ -864,6 +1048,11 @@ namespace RPChess
 			return;
         }
         // Overriden Object Methods
+        /// <summary>
+        /// Overrides ToString, returns a String of the form:
+        /// "RPChess.Movement( X, Y )"
+        /// </summary>
+        /// <returns>String representation of memember data</returns>
         public override string ToString()
         {
             return base.ToString() + _offset;
@@ -891,6 +1080,15 @@ namespace RPChess
 			if ( !(this._jump.Equals(other.Jump) ) )
 				return false;
 			return true;
+		}
+		/// <summary>
+		/// Gets rid of a warning, returns the base object
+		/// GetHashCode()
+		/// </summary>
+		/// <returns>base.GetHashCode()</returns>
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
 		}
     }
 }
