@@ -696,11 +696,11 @@ namespace RPChess
     /// </summary>
     public class AreaOfEffectAbility : Attack
     {
-        private int[][] _areaOfEffect;
+        private int[,] _areaOfEffect;
         /// <summary>
         /// An array of integers expressing the size and shape of the ability.
         /// </summary>
-        public int[][] AreaOfEffect
+        public int[,] AreaOfEffect
         {
             get
             {
@@ -717,7 +717,7 @@ namespace RPChess
         /// <param name="areaOfEffect">
         /// An array of integers expressing the size and shape of the ability.
         /// </param>
-        public AreaOfEffectAbility(String name, int points, int[][] areaOfEffect) : base( name, points )
+        public AreaOfEffectAbility(String name, int points, int[,] areaOfEffect) : base( name, points )
         {
             _areaOfEffect = areaOfEffect;
         }
@@ -758,15 +758,15 @@ namespace RPChess
     /// </summary>
     public class DirectionalAbility : Attack
     {
-        private BoardVector _boardVector;
+        private BoardVector _vector;
         /// <summary>
         /// The Direction in which the Ability acts.
         /// </summary>
-        public BoardVector BoardVector
+        public BoardVector Vector
         {
             get
             {
-                return _boardVector;
+                return _vector;
             }
         }
         private int _damage;
@@ -788,12 +788,12 @@ namespace RPChess
         /// </summary>
         /// <param name="name"></param>
         /// <param name="points"></param>
-        /// <param name="boardVector"></param>
+        /// <param name="vector"></param>
         /// <param name="damage"></param>
         public DirectionalAbility(String name, int points, 
-                                  BoardVector boardVector, int damage) : base( name, points )
+                                  BoardVector vector, int damage) : base( name, points )
         {
-            _boardVector = boardVector;
+            _vector = vector;
             _damage = damage;
         }
         /// <summary>
@@ -843,8 +843,8 @@ namespace RPChess
         public String toXMLString()
         {
             String repr = "<attack name=\"" + _name +
-                "\" direction=\"" + _boardVector.Direction +
-                "\" length=" + _boardVector.Length +
+                "\" direction=\"" + _vector.Direction +
+                "\" length=" + _vector.Length +
                 "\" damage=" + _damage +
                 "\"/>";
             return repr;

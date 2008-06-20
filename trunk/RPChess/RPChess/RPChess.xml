@@ -556,7 +556,7 @@
             <Implements>Attack</Implements>
             </summary>
         </member>
-        <member name="M:RPChess.AreaOfEffectAbility.#ctor(System.String,System.Int32,System.Int32[][])">
+        <member name="M:RPChess.AreaOfEffectAbility.#ctor(System.String,System.Int32,System.Int32[0:,0:])">
             <summary>
             Constructs an AreaOfEffectAbility given all the necessary memember data.
             </summary>
@@ -608,7 +608,7 @@
             </summary>
             <param name="name"></param>
             <param name="points"></param>
-            <param name="boardVector"></param>
+            <param name="vector"></param>
             <param name="damage"></param>
         </member>
         <member name="M:RPChess.DirectionalAbility.initialize">
@@ -648,7 +648,7 @@
             </summary>
             <returns>String that uses xml syntax.</returns>
         </member>
-        <member name="P:RPChess.DirectionalAbility.BoardVector">
+        <member name="P:RPChess.DirectionalAbility.Vector">
             <summary>
             The Direction in which the Ability acts.
             </summary>
