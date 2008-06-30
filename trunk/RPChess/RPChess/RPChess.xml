@@ -241,7 +241,7 @@
             Take care of any initialization that the class may have.
             </summary>
         </member>
-        <member name="M:RPChess.Model.toXML">
+        <member name="M:RPChess.Model.ToXML">
             <summary>
             Put all the data stored in this class into an XmlDocument
             for human readable/editable file storage.
@@ -384,7 +384,7 @@
             </summary>
             <param name="xml">An xml node containing all the member data.</param>
         </member>
-        <member name="M:RPChess.Piece.toXmlDocument">
+        <member name="M:RPChess.Piece.ToXMLDocument">
             <summary>
             Write all the piece data to a well formatted 
             XML document for human readable storage.
@@ -426,7 +426,7 @@
             <summary>
             This initializes any dynamic variables.</summary>
         </member>
-        <member name="M:RPChess.Move.toXML">
+        <member name="M:RPChess.Move.ToXML">
             <summary>
             Exports the properites of the Move.</summary>
             <returns>A DTD complient XML fragment.</returns>
@@ -505,7 +505,7 @@
             brings Point back to MAX_POINTS, etc.
             </summary>
         </member>
-        <member name="M:RPChess.Attack.toXML">
+        <member name="M:RPChess.Attack.ToXML">
             <summary>
             Formats member data into an XML document.
             Required by all inheriting Classes. Allows for a simple
@@ -573,7 +573,7 @@
             Resets memeber data to un-used state, affects points.
             </summary>
         </member>
-        <member name="M:RPChess.AreaOfEffectAbility.toXML">
+        <member name="M:RPChess.AreaOfEffectAbility.ToXML">
             <summary>
             Useful for saving data to file.
             </summary>
@@ -625,9 +625,9 @@
             An XmlDocument containing DirectionAbility member data.
             </param>
         </member>
-        <member name="M:RPChess.DirectionalAbility.toXML">
+        <member name="M:RPChess.DirectionalAbility.ToXML">
             <summary>
-            Calls toXMLString() inorder to form a more perfect Union.
+            Calls ToXMLString() inorder to form a more perfect Union.
             </summary>
             <returns>
             An XmlDocument containing DirectionAbility member data.
@@ -642,7 +642,7 @@
              member data.
             </param>
         </member>
-        <member name="M:RPChess.DirectionalAbility.toXMLString">
+        <member name="M:RPChess.DirectionalAbility.ToXMLString">
             <summary>
             Forms an Xml Snippet representing this attack.
             </summary>
@@ -736,7 +736,7 @@
             Does absolutely nothing.
             </summary>
         </member>
-        <member name="M:RPChess.Movement.toXML">
+        <member name="M:RPChess.Movement.ToXML">
             <summary>
             Forms an XmlNode of a well formed xml representation
             of the Movement memeber data.

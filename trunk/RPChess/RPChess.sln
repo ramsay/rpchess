@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
+# Visual Studio 2005
+# SharpDevelop 3.0.0.2970
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPChess", "RPChess\RPChess.csproj", "{37B7D44B-DC3E-494B-9954-B6172ADF77A2}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"

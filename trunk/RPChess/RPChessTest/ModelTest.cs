@@ -334,7 +334,7 @@ namespace RPChess
         ///an XML element.
         ///</summary>
         [Test]
-        public void toXMLTest()
+        public void ToXMLTest()
         {
             testMove = new Movement(startLoc);
 			string expectedXML =
@@ -345,7 +345,7 @@ namespace RPChess
 					"</Offset>" +
 					"<Jump type=\"bool\">False</Jump>" +
 					"</Movement>";
-            Assert.AreEqual(expectedXML, testMove.toXML().OuterXml );
+            Assert.AreEqual(expectedXML, testMove.ToXML().OuterXml );
             testLoc = new BoardLocation();
 			bool jump = false; 
             for (int i = 0; i < 100; i++)
@@ -363,9 +363,9 @@ namespace RPChess
 				              "</Offset>" +
 				              "<Jump type=\"bool\">" + jump + "</Jump>" +
 				              "</Movement>";
-                Assert.AreEqual(expectedXML, testMove.toXML().OuterXml);
+                Assert.AreEqual(expectedXML, testMove.ToXML().OuterXml);
             }
-            Console.Out.WriteLine("toXMLTest() passed!");
+            Console.Out.WriteLine("ToXMLTest() passed!");
         }
         ///<summary>
         ///Tests that the Movment class can load data from XML
@@ -557,6 +557,11 @@ namespace RPChess
     	DirectionalAbility testDA;
     	readonly BoardVector zeroBV;
     	BoardVector testBV;
+    	Random random = new Random();
+    	string name;
+    	int points;
+    	int damage;
+    	
     	/// <summary>
     	/// Empty default constructor.
     	/// </summary>
@@ -569,6 +574,8 @@ namespace RPChess
     		testBV = new BoardVector();
     		
     		zeroDA = new DirectionalAbility("", 0, zeroBV, 0);
+    		
+    		random = new Random();
     	}
     	/// <summary>
     	/// Sets up a blank DirectionalAbility and sets basic
@@ -581,6 +588,9 @@ namespace RPChess
     		bv.Direction = MoveDirection.Forward;
     		bv.Length = 10;
     		testDA  = new DirectionalAbility("test", 5, bv, 1);
+    		name = "";
+    		points = 0;
+    		damage = 0;
     	}
     	/// <summary>
     	/// Tests the default and standard constructors.
@@ -627,37 +637,36 @@ namespace RPChess
     	[Test]
     	public void ToXMLTest()
     	{
-    		//TODO; modify to properly test DirectionalAbility.ToXML()
-            testMove = new Movement(startLoc);
+    		//TODO; modify to properly test DirectionalAbility.ToXML()            
 			string expectedXML =
-				    "<Movement>" +
-					"<Offset type=\"RPChess.BoardLocation\">" +
-					"<X type=\"int\">0</X>" +
-					"<Y type=\"int\">0</Y>" +
-					"</Offset>" +
-					"<Jump type=\"bool\">False</Jump>" +
-					"</Movement>";
-            Assert.AreEqual(expectedXML, testMove.toXML().OuterXml );
-            testLoc = new BoardLocation();
-			bool jump = false; 
+				    "<DirectionalAbility name=\"\">" +
+					"<Vector type=\"RPChess.BoardVector\">" +
+					"<Length type=\"int\">0</X>" +
+					"<Direction type=\"RPChess.MoveDirection\">Right</Y>" +
+					"</Vector>" +
+					"<Damage type=\"int\">0</Damage>" +
+					"</DirectionalAbility>";
+            Assert.AreEqual(expectedXML, zeroDA.ToXML().OuterXml );
+            
+            testBV = new BoardVector();
             for (int i = 0; i < 100; i++)
             {
-                testLoc.X = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
+                testBV.Length = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
                     BoardLocation.MAX_BOARD_DISTANCE);
-                testLoc.Y = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
-				jump =  (i % 2) == 0;
-                testMove = new Movement(testLoc, jump);
-                expectedXML = "<Movement>" +
-				              "<Offset type=\"RPChess.BoardLocation\">" +
-				              "<X type=\"int\">" + testLoc.X + "</X>" +
-				              "<Y type=\"int\">" + testLoc.Y + "</Y>" +
-				              "</Offset>" +
-				              "<Jump type=\"bool\">" + jump + "</Jump>" +
-				              "</Movement>";
-                Assert.AreEqual(expectedXML, testMove.toXML().OuterXml);
+            	testBV.Direction = (MoveDirection)random.Next( (int)MoveDirection.Right,
+            	    (int)MoveDirection.BackwardRight);
+                testDA = new DirectionalAbility(name, points, testBV, damage);
+                expectedXML =
+				    "<DirectionalAbility name=\"" +testDA.Name + "\">" +
+					"<Vector type=\"RPChess.BoardVector\">" +
+					"<Length type=\"int\">" + testDA.Vector.Length + "</X>" +
+                	"<Direction type=\"RPChess.MoveDirection\">" + testDA.Vector.Direction.ToString() + "</Y>" +
+					"</Vector>" +
+					"<Damage type=\"int\">" + testDA.Damage + "</Damage>" +
+					"</DirectionalAbility>";
+                Assert.AreEqual(expectedXML, testDA.ToXML().OuterXml);
             }
-            Console.Out.WriteLine("toXMLTest() passed!");
+            Console.Out.WriteLine(this.ToString() + ".ToXMLTest() passed!");
     	}    	
     	/// <summary>
     	/// Test the FromXML Method.
@@ -761,7 +770,7 @@ namespace RPChess
 				    "<Attack type=\"RPChess.Model.AreaOfEffectAbility\">" +
 				    "<Name type=\"String\"></Name>" +
 				    "<Points type=\"Integer\">0</Points>" +
-    			    "<AreaOfEffect type=\"Integer[][]\" rows="1" columns="1">" +
+    			    "<AreaOfEffect type=\"Integer[][]\" rows=" + 1 + " columns=" + 1 + ">" +
     			    "<row index=\"0\">" +
     			    "<column index=\"0\">0</column>" +
     			    "</row>" +
@@ -796,7 +805,7 @@ namespace RPChess
 				              "</Offset>" +
 				              "<Jump type=\"bool\">" + jump + "</Jump>" +
 				              "</Movement>";
-                Assert.AreEqual(expectedXML, testMove.toXML().OuterXml);
+                Assert.AreEqual(expectedXML, testMove.ToXML().OuterXml);
             }*/
             Console.Out.WriteLine("AreaOfEffectAbility.ToXML() Test passed!");
     	}    	

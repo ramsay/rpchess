@@ -264,7 +264,7 @@ namespace RPChess
         /// for human readable/editable file storage.
         /// </summary>
         /// <returns>The data in a well formatted XML document</returns>
-        XmlDocument toXML();
+        XmlDocument ToXML();
         /// <summary>
         /// Load all of the data to this board from a well formatted XML
         /// document.
@@ -496,7 +496,7 @@ namespace RPChess
         /// XML document for human readable storage.
         /// </summary>
         /// <returns>An XmlDocument</returns>
-        public XmlDocument toXmlDocument()
+        public XmlDocument ToXMLDocument()
         {
             StringBuilder repr = new StringBuilder();
             repr.AppendLine( "<piece name=\"" + _name +
@@ -531,7 +531,7 @@ namespace RPChess
         /// <summary>
         /// Exports the properites of the Move.</summary>
         /// <returns>A DTD complient XML fragment.</returns>
-        XmlDocument toXML();
+        XmlDocument ToXML();
         /// <summary>
         /// Loads the properties of the Move from the XML.</summary>
         /// <param name="xml" type="XmlDocument">The XML with Move
@@ -670,7 +670,7 @@ namespace RPChess
         /// <returns>
         /// An xml document containing all of the member data of an attack.
         /// </returns>
-        public virtual XmlDocument toXML()
+        public virtual XmlDocument ToXML()
         {
         	XmlDocument xml = new XmlDocument();
         	return xml;
@@ -734,7 +734,7 @@ namespace RPChess
         /// <returns>
         /// An xml document containing AreaOfEffectAbility memeber data.
         /// </returns>
-        public override XmlDocument toXML()
+        public override XmlDocument ToXML()
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(""); //TODO
@@ -748,7 +748,8 @@ namespace RPChess
         /// </param>
         public override void fromXML(XmlDocument xml)
         {
-        	//TODO
+        	//TODO: Implement fromXML or force internal so as to use the
+        	//constructor polymorphism
         }
     }
     /// <summary>
@@ -815,15 +816,15 @@ namespace RPChess
             fromXML(xml);
         }
         /// <summary>
-        /// Calls toXMLString() inorder to form a more perfect Union.
+        /// Calls ToXMLString() inorder to form a more perfect Union.
         /// </summary>
         /// <returns>
         /// An XmlDocument containing DirectionAbility member data.
         /// </returns>
-        public override XmlDocument toXML()
+        public override XmlDocument ToXML()
         {
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(toXMLString());
+            xml.LoadXml(ToXMLString());
             return xml;
         }
         /// <summary>
@@ -840,7 +841,7 @@ namespace RPChess
         /// Forms an Xml Snippet representing this attack.
         /// </summary>
         /// <returns>String that uses xml syntax.</returns>
-        public String toXMLString()
+        public String ToXMLString()
         {
             String repr = "<attack name=\"" + _name +
                 "\" direction=\"" + _vector.Direction +
@@ -1000,7 +1001,7 @@ namespace RPChess
         /// of the Movement memeber data.
         /// </summary>
         /// <returns>Well formed Xml Document.</returns>
-        public XmlDocument toXML()
+        public XmlDocument ToXML()
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml("<Movement><Offset type=\"RPChess.BoardLocation\">" +
