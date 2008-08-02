@@ -845,8 +845,8 @@ namespace RPChess
         {
             String repr = "<attack name=\"" + _name +
                 "\" direction=\"" + _vector.Direction +
-                "\" length=" + _vector.Length +
-                "\" damage=" + _damage +
+                "\" length=\"" + _vector.Length +
+                "\" damage=\"" + _damage +
                 "\"/>";
             return repr;
         }

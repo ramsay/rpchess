@@ -557,6 +557,8 @@ namespace RPChess
     	DirectionalAbility testDA;
     	readonly BoardVector zeroBV;
     	BoardVector testBV;
+		readonly BoardLocation zeroBL;
+		BoardLocation testBL;
     	Random random = new Random();
     	string name;
     	int points;
@@ -572,6 +574,10 @@ namespace RPChess
     		zeroBV.Length = 0;
     		
     		testBV = new BoardVector();
+			
+			zeroBL = new BoardLocation(0,0);
+			
+			testBL = new BoardLocation(0,0);
     		
     		zeroDA = new DirectionalAbility("", 0, zeroBV, 0);
     		
@@ -602,9 +608,13 @@ namespace RPChess
     		Assert.AreEqual(zeroBV, zeroDA.Vector);
     		Assert.AreEqual(0, zeroDA.Damage);
     		
+			testBV.Direction = MoveDirection.Forward;
+			testBV.Length = 10;
     		Assert.AreEqual("test", testDA.Name);
-    		Assert.AreEqual(new BoardLocation(0,10), testDA.Vector);
-    		Assert.AreEqual(1, testDA.Damage);    	
+    		Assert.AreEqual(testBV, testDA.Vector);
+    		Assert.AreEqual(1, testDA.Damage);
+			//TODO: Beef up constructor test.
+			System.Console.Write( "DirectionalAbility ConstructorTest passed." );
     	}    	
     	/// <summary>
     	/// Test the initialize Method.
@@ -617,10 +627,12 @@ namespace RPChess
     		Assert.AreEqual(zeroBV, zeroDA.Vector);
     		Assert.AreEqual(0, zeroDA.Damage);
     		
+			testBV.Direction = MoveDirection.Forward;
+			testBV.Length = 10;
     		testDA.initialize();
-    		Assert.AreEqual("", testDA.Name);
-    		Assert.AreEqual(zeroBV, testDA.Vector);
-    		Assert.AreEqual(0, testDA.Damage);
+			Assert.AreEqual("test", testDA.Name);
+    		Assert.AreEqual(testBV, testDA.Vector);
+    		Assert.AreEqual(1, testDA.Damage);
     	}
     	/// <summary>
     	/// Test the ToString Method.
@@ -628,8 +640,14 @@ namespace RPChess
     	[Test]
     	public void ToStringTest()
     	{
-    		//TODO;
-    		Assert.Fail();
+    		//TODO: Decide correct usage here, and beef up.
+			String zeroDAString = "RPChess.Model.DirectionalAbility( \"\", ( 0, BoardDirection.Right ), 0, 0, 0)";
+			Assert.AreEqual( zeroDAString, zeroDA.ToString() );
+			
+			String testDAString = "RPChess.Model.DirectionalAbility( \"test\", ( 10, BoardDirection.Forward ), 10, 0, 1)";
+			Assert.AreEqual( testDAString, testDA.ToString() );
+			
+			Console.WriteLine( "DirectionalAbility.ToString Test passed." );
     	}
     	/// <summary>
     	/// Test the ToXML Method.
@@ -641,8 +659,8 @@ namespace RPChess
 			string expectedXML =
 				    "<DirectionalAbility name=\"\">" +
 					"<Vector type=\"RPChess.BoardVector\">" +
-					"<Length type=\"int\">0</X>" +
-					"<Direction type=\"RPChess.MoveDirection\">Right</Y>" +
+					"<Length type=\"int\">0</Length>" +
+					"<Direction type=\"RPChess.MoveDirection\">Right</Direction>" +
 					"</Vector>" +
 					"<Damage type=\"int\">0</Damage>" +
 					"</DirectionalAbility>";
@@ -659,8 +677,8 @@ namespace RPChess
                 expectedXML =
 				    "<DirectionalAbility name=\"" +testDA.Name + "\">" +
 					"<Vector type=\"RPChess.BoardVector\">" +
-					"<Length type=\"int\">" + testDA.Vector.Length + "</X>" +
-                	"<Direction type=\"RPChess.MoveDirection\">" + testDA.Vector.Direction.ToString() + "</Y>" +
+					"<Length type=\"int\">" + testDA.Vector.Length + "</Length>" +
+                	"<Direction type=\"RPChess.MoveDirection\">" + testDA.Vector.Direction.ToString() + "</Direction>" +
 					"</Vector>" +
 					"<Damage type=\"int\">" + testDA.Damage + "</Damage>" +
 					"</DirectionalAbility>";
@@ -674,8 +692,31 @@ namespace RPChess
     	[Test]
     	public void FromXMLTest()
     	{
-    		//TODO;
-    		Assert.Fail();
+    		//TODO: Beef up DirectionalAbility FromXML Test.
+			XmlDocument xmlDoc = new XmlDocument();
+			String zeroXML =
+				    "<DirectionalAbility name=\"\">" +
+					"<Vector type=\"RPChess.BoardVector\">" +
+					"<Length type=\"int\">0</Length>" +
+                	"<Direction type=\"RPChess.MoveDirection\">Right</Direction>" +
+					"</Vector>" +
+					"<Damage type=\"int\">0</Damage>" +
+					"</DirectionalAbility>";
+			xmlDoc.LoadXml( zeroXML );
+			DirectionalAbility zeroDAfromXml = new DirectionalAbility( xmlDoc );
+			Assert.AreEqual( zeroDAfromXml, zeroDA );
+			String testXML =
+				    "<DirectionalAbility name=\"test\">" +
+					"<Vector type=\"RPChess.BoardVector\">" +
+					"<Length type=\"int\">10</Length>" +
+                	"<Direction type=\"RPChess.MoveDirection\">Forward</Direction>" +
+					"</Vector>" +
+					"<Damage type=\"int\">1</Damage>" +
+					"</DirectionalAbility>";
+			xmlDoc.LoadXml( testXML );
+			DirectionalAbility testDAfromXml = new DirectionalAbility( xmlDoc );
+			Assert.AreEqual( testDAfromXml, testDA );
+			
     	}
     }
     
@@ -730,11 +771,12 @@ namespace RPChess
     	[Test]
     	public void ConstructorsTest()
     	{
+			//TODO: Separate Multidemensional arrays into single dimension arrays or create function for doing it.
     		Assert.AreEqual("", blankAoEA.Name);
     		Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
-    		
+			
     		Assert.AreEqual("AreaOfEffect", testAoEA.Name);
-    		Assert.AreEqual(cross, testAoEA.AreaOfEffect);
+			Assert.AreEqual(cross.ToString(), testAoEA.AreaOfEffect.ToString());
     	}    	
     	/// <summary>
     	/// Test the initialize Method.
@@ -756,8 +798,11 @@ namespace RPChess
     	[Test]
     	public void ToStringTest()
     	{
-    		//TODO;
-    		Assert.Fail();
+			Assert.AreEqual( "AreaOfEffectAbility{ \"\", {0}, 0, 0}", 
+			                blankAoEA.ToString() );
+			
+			Assert.AreEqual( "AreaOfEffectAbility{ \"test\", {{0,1,0},{1,1,1},{0,1,0}}, 1, 1}", 
+			                testAoEA.ToString() );
     	}
     	/// <summary>
     	/// Test the ToXML Method.
