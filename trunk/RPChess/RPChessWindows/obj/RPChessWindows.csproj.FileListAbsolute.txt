@@ -1,0 +1,7 @@
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\obj\x86\Debug\RPChessWindows.obj.x86.Debug.Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\bin\x86\Debug\RPChessWindows.exe
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\bin\x86\Debug\RPChessWindows.pdb
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\obj\x86\Debug\RPChessWindows.exe
+C:\Documents and Settings\Robert\My Documents\Visual Studio 2005\Projects\RPChess\RPChessWindows\obj\x86\Debug\RPChessWindows.pdb

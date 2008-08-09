@@ -1,45 +1,50 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{731880B8-6BD3-4C84-AAA4-321937C788D2}</ProjectGuid>
-    <ProjectTypeGuids>{2DF5C3F4-5A5F-47a9-8E94-23B4456F55E2};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{84FB13C3-6422-4AAF-BB7D-03726720A4B0}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
-    <OutputType>Exe</OutputType>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RPChess</RootNamespace>
-    <AssemblyName>RPChess</AssemblyName>
+    <RootNamespace>RPChessWindows</RootNamespace>
+    <AssemblyName>RPChessWindows</AssemblyName>
     <XnaFrameworkVersion>v2.0</XnaFrameworkVersion>
-    <XnaPlatform>Xbox 360</XnaPlatform>
-    <XnaCrossPlatformGroupID>80854e24-7050-4195-9cf0-0d3ff83dbd5c</XnaCrossPlatformGroupID>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaCrossPlatformGroupID>5347d735-909d-44c1-8ed9-cb6971b77e96</XnaCrossPlatformGroupID>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Xbox 360' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Xbox 360\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Xbox 360\Release</OutputPath>
-    <DefineConstants>TRACE;XBOX;XBOX360</DefineConstants>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoStdLib>true</NoStdLib>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework">
+    <Reference Include="Microsoft.Xna.Framework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
       <Private>False</Private>
+      <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game">
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
+      <SpecificVersion>True</SpecificVersion>
     </Reference>
     <Reference Include="mscorlib">
       <Private>False</Private>
@@ -47,7 +52,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
-    <Reference Include="system.xml, Version=3.5.0.0, Culture=neutral, PublicKeyToken=1c9e259686f921e0, processorArchitecture=MSIL" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
@@ -59,11 +64,12 @@
     <Compile Include="View.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
-      <Project>766be80e-fc62-41dd-9be2-066a6b597344</Project>
+      <Project>ef18f944-a923-47a0-8c59-32fe0132b209</Project>
       <Visible>False</Visible>
     </NestedContentProject>
   </ItemGroup>

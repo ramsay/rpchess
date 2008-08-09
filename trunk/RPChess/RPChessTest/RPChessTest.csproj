@@ -65,9 +65,9 @@
     <Compile Include="ViewTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RPChess\RPChess.csproj">
-      <Project>{37B7D44B-DC3E-494B-9954-B6172ADF77A2}</Project>
-      <Name>RPChess</Name>
+    <ProjectReference Include="..\RPChessWindows\RPChessWindows.csproj">
+      <Project>{84FB13C3-6422-4AAF-BB7D-03726720A4B0}</Project>
+      <Name>RPChessWindows</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

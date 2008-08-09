@@ -66,6 +66,7 @@ namespace RPChess
         public void update(Log movelog, BoardSpace[] boardState)
         {
 			String board = _boardToString();
+			Console.Clear();
 			Console.Write(board);
 			Console.Write("Next Move>");
 			_lastMove = movelog.Count;
