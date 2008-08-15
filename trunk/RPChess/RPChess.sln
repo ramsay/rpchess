@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
+# SharpDevelop 3.0.0.2970
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPChess", "RPChess\RPChess.csproj", "{731880B8-6BD3-4C84-AAA4-321937C788D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPChessTest", "RpChessTest\RPChessTest.csproj", "{B4014859-50AA-4C3B-A657-7054C131ACA8}"
@@ -78,6 +79,18 @@ Global
 		{EF18F944-A923-47A0-8C59-32FE0132B209}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{EF18F944-A923-47A0-8C59-32FE0132B209}.Release|x86.ActiveCfg = Release|x86
 		{EF18F944-A923-47A0-8C59-32FE0132B209}.Release|Xbox 360.ActiveCfg = Release|x86
+		{84FB13C3-6422-4AAF-BB7D-03726720A4B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84FB13C3-6422-4AAF-BB7D-03726720A4B0}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{84FB13C3-6422-4AAF-BB7D-03726720A4B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84FB13C3-6422-4AAF-BB7D-03726720A4B0}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{B4014859-50AA-4C3B-A657-7054C131ACA8}.Debug|x86.Build.0 = Debug|x86
+		{B4014859-50AA-4C3B-A657-7054C131ACA8}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{B4014859-50AA-4C3B-A657-7054C131ACA8}.Release|x86.Build.0 = Release|x86
+		{B4014859-50AA-4C3B-A657-7054C131ACA8}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{731880B8-6BD3-4C84-AAA4-321937C788D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731880B8-6BD3-4C84-AAA4-321937C788D2}.Debug|x86.Build.0 = Debug|x86
+		{731880B8-6BD3-4C84-AAA4-321937C788D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{731880B8-6BD3-4C84-AAA4-321937C788D2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
