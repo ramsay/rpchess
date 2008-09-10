@@ -16,6 +16,32 @@ namespace RPChess
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        // Main Game members
+        public enum MenuState
+        {
+            /// <summary>
+            /// MainMenu = 0, This value means the game is at the main menu.
+            /// </summary>
+            MainMenu,
+            /// <summary>
+            /// Campaign = 1, This is the first choice of the main menu, it
+            /// states the player is in the campaign mode.
+            /// </summary>
+            Campaign,
+            /// <summary>
+            /// Versus = 2, This is the local multiplayer mode.
+            /// </summary>
+            Versus,
+            /// <summary>
+            /// PartyEditor = 3, A customize mode that lets players create a team for campaign or versus.
+            /// </summary>
+            PartyEditor,
+            /// <summary>
+            /// Settings = 4, General game settings.
+            /// </summary>
+            Settings
+        }
+        private MenuState _menuState;
         // Chess members
         private Log _movelog;
         private View _view;
@@ -29,6 +55,7 @@ namespace RPChess
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            _menuState = MenuState.MainMenu;
         }
 
         /// <summary>
@@ -90,10 +117,12 @@ namespace RPChess
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            switch (_menuState)
+            {
+                case MenuState.MainMenu:
+                    graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    break;
+            }
             base.Draw(gameTime);
         }
     }
