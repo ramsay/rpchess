@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace RPChessWindows
+namespace RPChess
 {
     /// <summary>
     /// This is the main type for your game
@@ -45,7 +45,8 @@ namespace RPChessWindows
         // Chess members
         private Log _movelog;
         private View _view;
-        private Board _board;
+
+        private Model _model;
         private Controller _controller;
 
         GraphicsDeviceManager graphics;
@@ -68,7 +69,6 @@ namespace RPChessWindows
         {
             _movelog = new Log();
             _view = new TextView();
-            _board = new Board(8, 8);
             _controller = new TextController();
 
             base.Initialize();
@@ -102,11 +102,30 @@ namespace RPChessWindows
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            // TODO: Add your update logic here
+            switch (_menuState)
+            {
+                case MenuState.MainMenu:
+                    // Allows the game to exit
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                        this.Exit();
+                    break;
+                case MenuState.Campaign:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                        _menuState = MenuState.MainMenu;
+                    break;
+                case MenuState.PartyEditor:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                        _menuState = MenuState.MainMenu;
+                    break;
+                case MenuState.Settings:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                        _menuState = MenuState.MainMenu;
+                    break;
+                case MenuState.Versus:
+                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                        _menuState = MenuState.MainMenu;
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -121,6 +140,7 @@ namespace RPChessWindows
             {
                 case MenuState.MainMenu:
                     graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    // 
                     break;
                 case MenuState.Settings:
                     graphics.GraphicsDevice.Clear(Color.CornflowerBlue);

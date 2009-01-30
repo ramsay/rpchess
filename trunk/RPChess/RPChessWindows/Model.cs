@@ -242,29 +242,94 @@ namespace RPChess
         }
     }
     /// <summary>
-    /// The interface Model enforces the Board class to adhere to the
-    /// Model-View-Controller design.
+    /// An interface to hold empty board spaces and pieces.
     /// </summary>
-    public interface Model
+    public interface BoardSpace
     {
         /// <summary>
-        /// An array that shows what the current state of the
-        /// Board is as far as piece placement.
+        /// Simple property to check if it is an empty space.
         /// </summary>
-        BoardSpace[] BoardState
+        bool isEmpty
         {
             get;
+        }
+    }
+    ///<summary>
+    /// An EmptySpace placeholder. Returns true to isEmpty... always.
+    ///</summary>
+    public sealed class EmptySpace : BoardSpace
+    {
+        static readonly EmptySpace instance = new EmptySpace();
+        static EmptySpace()
+        {
+        }
+        public static EmptySpace Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+        public bool isEmpty
+        {
+            get
+            {
+                return true;
+            }
+        }
+    }
+    /// <summary>
+    /// I don't know anymore.
+    /// Model-View-Controller design.
+    /// </summary>
+    public class Model
+    {
+        private Board _ChessBoard;
+        private Piece[] _WhiteTeam;
+        private Piece[] _BlackTeam;
+        /// <summary>
+        /// Default Constructor. Default Chessboard, Default White Team, 
+        /// Default Black Team.
+        /// The default Chessboard is flat 10 by 10 square.
+        /// The default Teams are 4 Pawns, 1 Rook, 1 Bishop, 1 Queen and 1 King
+        /// [ , , ,R,Q,K,B, , , ] Black
+        /// [ , , ,P,P,P,p, , , ]
+        /// [ , , , , , , , , , ]
+        /// [ , , , , , , , , , ]
+        /// [ , , , , , , , , , ]
+        /// [ , , , , , , , , , ]
+        /// [ , , , , , , , , , ]
+        /// [ , , , , , , , , , ]
+        /// [ , , ,P,P,P,P, , , ]
+        /// [ , , ,B,Q,K,R, , , ] White
+        /// </summary>
+        public Model( )
+        {
+            _ChessBoard = new Board(10, 10);
+            _WhiteTeam = new Piece[8];
+            _BlackTeam = new Piece[8];
+            _WhiteTeam[0] = new Piece( new XmlDocument() );
+            _BlackTeam[0] = new Piece( new XmlDocument() );
+            // TODO: Add all pieces (built-ins) to each team.
         }
         /// <summary>
         /// Take care of any initialization that the class may have.
         /// </summary>
-        void initialize();
+        void Initialize()
+        {
+            _ChessBoard.Initialize();
+            _WhiteTeam.Initialize();
+            _BlackTeam.Initialize();
+        }
         /// <summary>
         /// Put all the data stored in this class into an XmlDocument
         /// for human readable/editable file storage.
         /// </summary>
         /// <returns>The data in a well formatted XML document</returns>
-        XmlDocument ToXML();
+        public XmlDocument ToXML()
+        {
+            return new XmlDocument();
+        }
         /// <summary>
         /// Load all of the data to this board from a well formatted XML
         /// document.
@@ -272,7 +337,18 @@ namespace RPChess
         /// <param name="xml" type="XmlDocument">
         /// An XmlDocument that points to a xml document with the data in a
         /// specific format.</param>
-        void fromXML(XmlDocument xml);
+        public void fromXML(XmlDocument xml)
+        {
+            Initialize();
+            if (xml.FirstChild.Name == "Model")
+            {
+                //TODO
+            }
+            else
+            {
+                Console.Error.WriteLine("xmlDocument is not a RPChess.Model");
+            }
+        }
     }
     /// <summary>
     /// The implementation of the Model interface.
@@ -299,6 +375,13 @@ namespace RPChess
                 return TeamBlack;
             }
         }
+        public BoardSpace[][] BoardState
+        {
+            get
+            {
+                return _state;
+            }
+        }
         /// <summary>
         /// The width of the board.
         /// </summary>
@@ -307,6 +390,7 @@ namespace RPChess
         /// The length of the board.
         /// </summary>
         public readonly int Length;
+        private BoardSpace[][] _state;
         /// <summary>
         /// Basic constructor.
         /// </summary>
@@ -314,35 +398,55 @@ namespace RPChess
         /// <param name="length">Length of the board.</param>
         public Board(int width, int length)
         {
-            Width = width;
-            Length = length;
-            initialize();
+            // static 10 For now dynamic later:
+            Width = 10; // width;
+            Length = 10; // length;
+            Initialize();
         }
         /// <summary>
         /// Initialize constructor.
         /// </summary>
-        protected void initialize()
+        public void Initialize()
         {
+            _state = new BoardSpace[Length][];
+            for (int row = 0; row < Length; row++ )
+            {
+                BoardSpace[] b = new BoardSpace[Width];
+                for (int col = 0; col < Width; col++)
+                {
+                    BoardSpace s = (BoardSpace)EmptySpace.Instance;
+                }
+            }
+            TeamWhite.Initialize();
+            TeamBlack.Initialize();
         }
-    }
-    /// <summary>
-    /// An interface to hold empty board spaces and pieces.
-    /// </summary>
-    public interface BoardSpace
-    {
-        /// <summary>
-        /// Simple property to check if it is an empty space.
-        /// </summary>
-        bool isEmpty
+        public void fromXML(XmlDocument xml)
         {
-            get;
+            Initialize();
+            if (xml.FirstChild.Name == "Board")
+            {
+                //TODO
+            }
+            else
+            {
+                Console.Error.WriteLine("xmlDocument is not a RPChess.Board");
+            }
+        }
+        public XmlDocument ToXML( )
+        {
+            StringBuilder repr = new StringBuilder();
+            repr.AppendLine("<Board ");
+            repr.AppendLine("</Board>");
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(repr.ToString());
+            return xml;
         }
     }
     /// <summary>
     /// A class that holds the stats and other data for a
     /// Game Piece that is univeral.
     /// </summary>
-    public class Piece
+    public class Piece : BoardSpace
     {
     	/// <summary>
     	/// The maximum amount for the piece
@@ -424,7 +528,7 @@ namespace RPChess
             _name = name;
             _MAX_HP = hp;
             _moveSet = moveSet;
-            initialize();
+            Initialize();
         }
         /// <summary>
         /// Constructs a piece from XML.
@@ -441,12 +545,12 @@ namespace RPChess
         /// </summary>
         /// <returns>
         /// The max hp that the current hp is reset to.</returns>
-        public int initialize()
+        public int Initialize()
         {
             _HP = MAX_HP;
             foreach (Move m in _moveSet)
             {
-                m.initialize();
+                m.Initialize();
             }
             return _HP;
         }
@@ -481,7 +585,7 @@ namespace RPChess
         /// <param name="xml">An xml node containing all the member data.</param>
         protected void _fromXml(XmlDocument xml)
         {
-        	initialize();
+        	Initialize();
         	if ( xml.FirstChild.Name == "Piece" )
         	{
         		//TODO
@@ -526,8 +630,8 @@ namespace RPChess
             get;
         }
         /// <summary>
-        /// This initializes any dynamic variables.</summary>
-        void initialize();
+        /// This Initializes any dynamic variables.</summary>
+        void Initialize();
         /// <summary>
         /// Exports the properites of the Move.</summary>
         /// <returns>A DTD complient XML fragment.</returns>
@@ -566,7 +670,7 @@ namespace RPChess
         protected int _MAX_POINTS;
         /// <summary>
         /// The Maximum amount of points/uses this attack
-        /// will be initialized to.
+        /// will be Initialized to.
         /// </summary>
         public int MAX_POINTS
         {
@@ -602,11 +706,11 @@ namespace RPChess
             }
         }
         /// <summary>
-        /// Default constructor, initializes members to zero.
+        /// Default constructor, Initializes members to zero.
         /// </summary>
         public Attack()
         {
-        	initialize();
+        	Initialize();
         }
         /// <summary>
         /// Constructor for Attack, probably not very useful besides
@@ -656,7 +760,7 @@ namespace RPChess
         /// Resets member data to zero state, usually 
         /// brings Point back to MAX_POINTS, etc.
         /// </summary>
-        public virtual void initialize()
+        public virtual void Initialize()
         {
         	_name = "";
         	_MAX_POINTS = 0;
@@ -686,7 +790,7 @@ namespace RPChess
         /// </param>
         public virtual void fromXML(XmlDocument xml)
         {
-        	initialize();
+        	Initialize();
         }
     }
     /// <summary>
@@ -724,7 +828,7 @@ namespace RPChess
         /// <summary>
         /// Resets memeber data to un-used state, affects points.
         /// </summary>
-        public override void initialize()
+        public override void Initialize()
         {
             reset();
         }
@@ -798,10 +902,10 @@ namespace RPChess
             _damage = damage;
         }
         /// <summary>
-        /// Re-initializes the DirectionalAbility to a fresh
+        /// Re-Initializes the DirectionalAbility to a fresh
         /// un-used state.
         /// </summary>
-        public override void initialize()
+        public override void Initialize()
         {
             reset();
         }
@@ -993,7 +1097,7 @@ namespace RPChess
         /// <summary>
         /// Does absolutely nothing.
         /// </summary>
-        public void initialize()
+        public void Initialize()
         {
         }
         /// <summary>

@@ -1,6 +1,6 @@
 using System;
 
-namespace RPChessWindows
+namespace RPChess
 {
     static class Program
     {
