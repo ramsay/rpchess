@@ -1,12 +1,17 @@
+///<summary>
+/// Handles the controller interfaces.
+///</summary>
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RPChess
 {
-   interface Controller
+    /// <summary>
+    /// Interface to keep all future controllers interchangeable.
+    /// </summary>
+    interface Controller : IObject
     {
-       void Initialize();
     }
 
     class TextController : Controller

@@ -1,3 +1,6 @@
+///<summary>
+///The Main Game loop for RPChess
+///</summary>
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;

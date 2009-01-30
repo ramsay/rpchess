@@ -20,11 +20,12 @@ namespace RPChess
             get;
         }
 		void Initialize();
-        void update( Log movelog, BoardSpace[] boardState);
+        void update( Log movelog, IBoardSpace[] boardState);
     }
 
     class TextView : View
     {
+        private IBoardSpace[][] _BoardState;
 		long _lastMove;
 		public long LastMove
 		{
@@ -62,20 +63,16 @@ namespace RPChess
 			// set foreground color
 			// set Window Title
 		}
-		
-        public void update(Log movelog, BoardSpace[] boardState)
+		/// <summary>
+		/// Updates the view. Consider merging with Game1.cs or bringing other
+        /// game elements in (Menu, Settings, etc.).
+		/// </summary>
+        public void Update()
         {
-			String board = _boardToString();
-			Console.Clear();
-			Console.Write(board);
+            Console.Clear();
+			Console.Write(Board.Instance);
 			Console.Write("Next Move>");
-			_lastMove = movelog.Count;
-			_lastTime = DateTime.Now;
-        }
-
-        protected String _boardToString()
-        {
-            return "";
+			this._lastTime = DateTime.Now;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace RPChess
     /// </summary>
     public class Log
     {
-        private static List<String> _moveList;
+        private static List<string> _moveList;
         private static uint _references;
         private static bool _initialized;
         /// <summary>
@@ -20,6 +20,9 @@ namespace RPChess
         /// </summary>
         public int Count
         {
+            ///<summary>
+            ///Gets the number of moves.
+            ///</summary>
             get
             {
                 return _moveList.Count;
@@ -70,7 +73,7 @@ namespace RPChess
                 {
                     _moveList.Clear();
                 }
-                _moveList = new List<String>();
+                _moveList = new List<string>();
                 _initialized = true;
             }
         }
@@ -79,7 +82,7 @@ namespace RPChess
         /// </summary>
         /// <param name="move">A string containing the piece moved, and the move it made.</param>
         /// <returns>The new Log.Count</returns>
-        public int add(String move)
+        public int add(string move)
         {
             _moveList.Add(move);
             return _moveList.Count;
@@ -89,7 +92,7 @@ namespace RPChess
         /// instantiating a new Array.
         /// </summary>
         /// <returns>The latest string log entry.</returns>
-        public String peek()
+        public string peek()
         {
             return _moveList[_moveList.Count-1];
         }
@@ -111,7 +114,7 @@ namespace RPChess
 		/// Index access to all elements in the log.
 		/// </summary>
 		/// <returns>A string located at the index.</returns>
-		public String at ( int index )
+		public string at ( int index )
 		{
 			if ( index < 0 || index >= Count || Count == 0)
 			{

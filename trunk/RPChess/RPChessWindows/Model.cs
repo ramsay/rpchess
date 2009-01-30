@@ -1,226 +1,297 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-
+/// <summary>
+/// This is the Model code all of the game mechanics are in here.
+/// </sumary>
 namespace RPChess
 {
-    /// <summary>
-    /// The root of all [evil!] RPChess objects all classes must implement
-    /// this interface.  All other interfaces implement this interface.  
-    /// Guarantees a uniform XML Serialization behavior.
-    /// </summary>
-    public interface Object
-    {
-        /// <summary>
-        /// Returns the Object to the state it would be as if the game had not
-        /// started.
-        /// </summary>
-        void Initialize();
-        /// <summary>
-        /// Makes all objects comply to RPChess proprietary XML Serialization.
-        /// </summary>
-        /// <param name="xml"></param>
-        Object FromXmlDocument(XmlDocument xml);
-        /// <summary>
-        /// Makes all objects comply to RPChess proprietary XML Serialization.
-        /// </summary>
-        XmlDocument ToXmlDocument();
-    }
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Xml;
+
     /// <summary>
     /// This enum matches words to cardinal directions (Forward, ForwardRight, 
     /// BackwardLeft, ...). This adheres to the standards of trigonometry:
     /// Each direction is the radian angle * 4/PI
     /// </summary>
-    public enum MoveDirection { 
-        /// <summary>
-        /// Right = 0
-        /// </summary>
-        Right, 
-        /// <summary>
-        /// ForwardRight = 1
-        /// </summary>
+    public enum MoveDirection
+    {
+        Right,
         FowardRight,
-        /// <summary>
-        /// Forward = 2
-        /// </summary>
-        Forward, 
-        /// <summary>
-        /// ForwardLeft = 3
-        /// </summary>
-        ForwardLeft, 
-        /// <summary>
-        /// Left = 4
-        /// </summary>
-        Left, 
-        /// <summary>
-        /// BackwardLeft = 5
-        /// </summary>
-        BackwardLeft, 
-        /// <summary>
-        /// Backward = 6
-        /// </summary>
-        Backward, 
-        /// <summary>
-        /// BackwardRight = 7
-        /// </summary>
-        BackwardRight };
+        Forward,
+        ForwardLeft,
+        Left,
+        BackwardLeft,
+        Backward,
+        BackwardRight
+    }
+
     /// <summary>
     /// Enum for determining which type of move the class is implementing.
     /// </summary>
-    public enum MoveType { 
+    public enum MoveType
+    {
         /// <summary>
         /// Capture is the standard chess move.
         /// </summary>
-        Capture, 
+        Capture,
+
         /// <summary>
         /// Movement handles a pieces movement across the board.
         /// </summary>
-        Movement, 
+        Movement,
+
         /// <summary>
         /// Attack has no movement only deals/heals damage to pieces.
         /// </summary>
-        Attack };
+        Attack
+    }
+
+    /// <summary>
+    /// The root of all [evil!] RPChess IObjects all classes must implement
+    /// this interface.  All other interfaces implement this interface.  
+    /// Guarantees a uniform XML Serialization behavior.
+    /// </summary>
+    public interface IObject
+    {
+        /// <summary>
+        /// Returns the IObject to the state it would be as if the game had not
+        /// started.
+        /// </summary>
+        void Initialize();
+
+        /// <summary>
+        /// Makes all IObjects comply to RPChess proprietary XML Serialization.
+        /// </summary>
+        /// <param name="xml">XmlDocument containing a Serialized IObject</param>
+        /// <returns>The Constructed IObject Type-Casted</returns>
+        IObject FromXmlDocument(XmlDocument xml);
+
+        /// <summary>
+        /// Makes all IObjects comply to RPChess proprietary XML Serialization.
+        /// </summary>
+        /// <returns>
+        /// An xml snippet containing all the properties and fields 
+        /// of the IObject
+        /// </returns>
+        XmlDocument ToXmlDocument();
+    }
+
+    /// <summary>
+    /// An interface to hold empty board spaces and pieces.
+    /// </summary>
+    public interface IBoardSpace : IObject
+    {
+        /// <summary>
+        /// Gets a value indicating whether this IBoardSpace is empty.
+        /// </summary>
+        bool IsEmpty
+        {
+            get;
+        }
+    }
+
     /// <summary>
     /// This is a struct that matches a distance and a direction
     /// for use on board topology.
     /// </summary>
-    public struct BoardVector : Object
+    public struct BoardVector : IObject
     {
         /// <summary>
         /// The direction of the vector, enum.
         /// </summary>
         public MoveDirection Direction;
-        private uint _Length;
+
         /// <summary>
-        /// The length of the vector. It can only be positive and maxes at
-        /// the sqrt(Int32.MaxValue) for use of pythagorean theorem.
+        /// The length of the Vector.
+        /// </summary>
+        private uint length;
+
+        /// <summary>
+        /// Gets or sets the length of the vector.
+        /// It can only be positive and maxes at the sqrt(Int32.MaxValue) for 
+        /// use of pythagorean theorem.
         /// </summary>
         public int Length
         {
             get
             {
-                return (int)_Length;
+                return (int)this.length;
             }
+
             set
             {
-                if (value > BoardLocation.MAX_BOARD_DISTANCE)
-                    _Length = (uint)BoardLocation.MAX_BOARD_DISTANCE;
+                if (value > BoardLocation.BoardLimit)
+                {
+                    this.length = BoardLocation.BoardLimit;
+                }
                 else if (value < 0)
-                    _Length = 0;
+                {
+                    this.length = 0;
+                }
                 else
-                    _Length = (uint)value;
+                {
+                    this.length = (uint)value;
+                }
             }
         }
+
         /// <summary>
         /// Converts the Vector to an offset stored in BoardLocation,
         /// uses Sin and Cos to form the X and Y offsets.
         /// </summary>
         /// <returns type="BoardLocation">
         /// the offset relatively equivalent to this vector</returns>
-        public BoardLocation toOffset()
+        public BoardLocation ToOffset()
         {
             BoardLocation b = new BoardLocation();
-            double theta = (double)Direction * Math.PI / 4.0F;
-            double y = Math.Sin(theta) * (double) Length;
+            double theta = (double)this.Direction * Math.PI / 4.0F;
+            double y = Math.Sin(theta) * (double)this.Length;
             b.Y = (int)y;
-            double x = Math.Cos(theta) * (double) Length;
+            double x = Math.Cos(theta) * (double)this.Length;
             b.X = (int)x;
             return b;
         }
+
         /// <summary>
         /// Creates a vector from an X,Y offset.
         /// </summary>
         /// <param name="offset" type="BoardLocation">
         /// The offset to convert this vector to.</param>
-        public void fromOffset(BoardLocation offset)
+        public void FromOffset(BoardLocation offset)
         {
-            Length = (int)Math.Sqrt( (double)( (offset.X * offset.X)
-                + (offset.Y * offset.Y) ) );
-            Direction = (MoveDirection) 
-                ( ( ( Math.Atan2( 
-                (double)offset.Y, (double)offset.X) * 4/Math.PI) + 8 )%8);
+            this.Length = (int)Math.Sqrt((double)((offset.X * offset.X)
+                + (offset.Y * offset.Y)));
+            this.Direction = (MoveDirection)(((Math.Atan2(
+                (double)offset.Y, (double)offset.X) * 4 / Math.PI) + 8) % 8);
         }
+
+        /// <summary>
+        /// Initializes Direction to 0 radians or 
+        /// MoveDirection.Right and Length to 0.
+        /// </summary>
         public void Initialize()
         {
+            this.Length = 0;
+            this.Direction = MoveDirection.Right;
         }
-        public Object FromXmlDocument(XmlDocument xml)
+
+        /// <summary>
+        /// Initializes a new instance of the BoardVector struct 
+        /// from an XmlDocument.
+        /// </summary>
+        /// <param name="xml">
+        /// An XmlDocument possibly containing a BoardVector.
+        /// </param>
+        /// <returns>An EmptySpace reference.</returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-            return (Object)new BoardVector();
+            return (IObject)new BoardLocation();
         }
+
+        /// <summary>
+        /// Serializes the BoardVector to Xml.
+        /// </summary>
+        /// <returns>
+        /// XmlDocument containing the serialized instance of this 
+        /// BoardVector.
+        /// </returns>
         public XmlDocument ToXmlDocument()
         {
             return new XmlDocument();
         }
     }
+
     /// <summary>
     /// This is a simple X,Y pair that is used for storing locations and
     /// offsets.
     /// </summary>
-    public struct BoardLocation : Object
+    public struct BoardLocation : IObject
     {
         /// <summary>
         /// The maximum allowed distance across the board.
         /// </summary>
-        public const int MAX_BOARD_DISTANCE = 46340;
+        public const uint BoardLimit = 46340;
+
         /// <summary>
-        /// The minimum allowed distance across the board.
+        /// The X value of the BoardLocation.
         /// </summary>
-        public const int MIN_BOARD_DISTANCE = -46340;
-        private int _X;
+        private int x;
+
         /// <summary>
-        /// The X axis(horizontal) offset. Positive goes right.
-        /// The maximum absolute Value is the sqrt(Int32.MaxValue).
+        /// The Y value of the BoardLocation
+        /// </summary>
+        private int y;
+
+        /// <summary>
+        /// Initializes a new instance of the BoardLocation struct.
+        /// </summary>
+        /// <param name="x">Horizontal axis value</param>
+        /// <param name="y">Vertical axis value</param>
+        public BoardLocation(int x, int y)
+        {
+            this.Initialize();
+            this.X = x;
+            this.Y = y;
+        }
+
+        /// <summary>
+        /// Gets or sets the X axis(horizontal) offset. 
+        /// Positive goes right. The maximum absolute Value is the 
+        /// sqrt(Int32.MaxValue).
         /// </summary>
         public int X
         {
             get
             {
-                return _X;
+                return this.x;
             }
+
             set
             {
-                if (value > MAX_BOARD_DISTANCE)
-                    _X = MAX_BOARD_DISTANCE;
-                else if (value < MIN_BOARD_DISTANCE)
-                    _X = MIN_BOARD_DISTANCE;
+                if (value > this.BoardLimit)
+                {
+                    this.x = this.BoardLimit;
+                }
+                else if (value < -this.BoardLimit)
+                {
+                    this.x = -this.BoardLimit;
+                }
                 else
-                    _X = value;
+                {
+                    this.x = value;
+                }
             }
         }
-        private int _Y;
+
         /// <summary>
-        /// The Y axis(vertical) offset. Positive goes up.
-        /// The maximum absolute Value is the sqrt(Int32.MaxValue).
+        /// Gets or sets the Y axis(vertical) offset. 
+        /// Positive goes up. The maximum absolute Value is the 
+        /// sqrt(Int32.MaxValue).
         /// </summary>
         public int Y
         {
             get
             {
-                return _Y;
+                return this.y;
             }
+
             set
             {
-                if (value > MAX_BOARD_DISTANCE)
-                    _Y = MAX_BOARD_DISTANCE;
-                else if (value < MIN_BOARD_DISTANCE)
-                    _Y = MIN_BOARD_DISTANCE;
+                if (value > this.BoardLimit)
+                {
+                    this.y = this.BoardLimit;
+                }
+                else if (value < -this.BoardLimit)
+                {
+                    this.y = -this.BoardLimit;
+                }
                 else
-                    _Y = value;
+                {
+                    this.y = value;
+                }
             }
         }
-        /// <summary>
-        /// An easy constructor.
-        /// </summary>
-        /// <param name="x">X value</param>
-        /// <param name="y">Y value</param>
-        public BoardLocation(int x, int y)
-        {
-            _X = 0;
-            _Y = 0;
-            X = x;
-            Y = y;
-        }
+
         /// <summary>
         /// Adds two BoardLocations together.
         /// </summary>
@@ -229,84 +300,117 @@ namespace RPChess
         /// <param name="b2" type="BoardLocation">
         /// A second BoardLocation.</param>
         /// <returns>The sum BoardLocation</returns>
-        public static BoardLocation operator +( BoardLocation b1,
-                                                BoardLocation b2 )
+        public static BoardLocation operator +(
+            BoardLocation b1,
+            BoardLocation b2)
         {
             BoardLocation sum = b1;
             sum.X += b2.X;
             sum.Y += b2.Y;
             return sum;
         }
+
         /// <summary>
-        /// Object value equals override
+        /// IObject value equals override
         /// </summary>
-        /// <param name="obj">Another Object</param>
+        /// <param name="obj">Another IObject</param>
         /// <returns>
         /// True if the X and Y values are the same.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(IObject obj)
         {
-			// the gimmes
-			if (obj == null)
-				return false;			
-			if (base.Equals(obj))
-			    return true;			
-			//if (this.GetType() != obj.GetType()) 
-			//	return false;
-			
-			BoardLocation b = (BoardLocation) obj;
-			return this.X == b.X && this.Y == b.Y;
+            // the gimmes
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (base.Equals(obj))
+            {
+                return true;
+            }
+
+            ////if (this.GetType() != obj.GetType()) 
+            ////    return false;
+
+            BoardLocation b = (BoardLocation)obj;
+            return this.X == b.X && this.Y == b.Y;
         }
+
         /// <summary>
         /// hashcode override
         /// </summary>
-        /// <returns>The hashcode of this object.</returns>
+        /// <returns>The hashcode of this IObject.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
         /// <summary>
-        /// To String override for easier debugging and testing.
+        /// To string override for easier debugging and testing.
         /// </summary>
         /// <returns>
         /// A string representation of the form: ( int, int )</returns>
-        public override string ToString()
+        public override string Tostring()
         {
-            return "( " + X + ", " + Y + " )";
+            return "( " + this.X + ", " + this.Y + " )";
         }
+
+        /// <summary>
+        /// Initializes BoardLocation to [0,0].
+        /// </summary>
         public void Initialize()
         {
+            this.x = 0;
+            this.y = 0;
         }
-        public Object FromXmlDocument(XmlDocument xml)
+
+        /// <summary>
+        /// Initializes a new instance of the BoardLocation struct 
+        /// from an XmlDocument.
+        /// </summary>
+        /// <param name="xml">
+        /// An XmlDocument possibly containing a BoardLocation.
+        /// </param>
+        /// <returns>An EmptySpace reference.</returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-            return (Object)new BoardLocation();
+            return (IObject)new BoardLocation();
         }
+
+        /// <summary>
+        /// Serializes the BoardLocation to Xml.
+        /// </summary>
+        /// <returns>
+        /// XmlDocument containing the serialized instance of this 
+        /// BoardLocation.
+        /// </returns>
         public XmlDocument ToXmlDocument()
         {
             return new XmlDocument();
         }
     }
+
     /// <summary>
-    /// An interface to hold empty board spaces and pieces.
+    /// An EmptySpace placeholder. Returns true to IsEmpty... always.
     /// </summary>
-    public interface BoardSpace : Object
+    public sealed class EmptySpace : IBoardSpace
     {
         /// <summary>
-        /// Simple property to check if it is an empty space.
+        /// The Real EmptySpace, ta da!
         /// </summary>
-        bool isEmpty
-        {
-            get;
-        }
-    }
-    ///<summary>
-    /// An EmptySpace placeholder. Returns true to isEmpty... always.
-    ///</summary>
-    public sealed class EmptySpace : BoardSpace
-    {
-        static readonly EmptySpace instance = new EmptySpace();
-        static EmptySpace()
-        {
-        }
+        private static EmptySpace instance = new EmptySpace();
+
+        /// <summary>
+        /// Initializes static members of EmptySpace, nothing to
+        /// do here.
+        /// </summary>
+        ////static EmptySpace()
+        ////{
+        ////}
+
+        /// <summary>
+        /// Gets the EmptySpace Instance.
+        /// </summary>
         public static EmptySpace Instance
         {
             get
@@ -314,36 +418,69 @@ namespace RPChess
                 return instance;
             }
         }
-        public bool isEmpty
+
+        /// <summary>
+        /// Gets a value indicating whether this is an EmptySpace
+        /// Why, yes... yes, it is! Always true.
+        /// </summary>
+        public bool IsEmpty
         {
             get
             {
                 return true;
             }
         }
+
+        /// <summary>
+        /// Does nothing, here for completeness.
+        /// </summary>
         public void Initialize()
         {
         }
-        public Object FromXmlDocument(XmlDocument xml)
+
+        /// <summary>
+        /// Checks to see if XmlDocument is blank.
+        /// </summary>
+        /// <param name="xml">
+        /// An XmlDocument possibly containing an EmptySpace
+        /// </param>
+        /// <returns>An EmptySpace reference.</returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-            return (Object)new EmptySpace();
+            return (IObject)new EmptySpace();
         }
+
+        /// <summary>
+        /// Serializes an EmptySpace, wtf?
+        /// </summary>
+        /// <returns>Blank XmlDocument</returns>
         public XmlDocument ToXmlDocument()
         {
             return new XmlDocument();
         }
     }
+
     /// <summary>
     /// I don't know anymore.
     /// Model-View-Controller design.
     /// </summary>
-    public class Model : Object
+    public class Model : IObject
     {
-        private Board _ChessBoard;
-        private Piece[] _WhiteTeam;
-        private Piece[] _BlackTeam;
         /// <summary>
-        /// Default Constructor. Default Chessboard, Default White Team, 
+        /// It's the WhiteTeam.
+        /// TODO: Make a RPChess.Team instead of Piece[].
+        /// </summary>
+        private Piece[] whiteTeam;
+
+        /// <summary>
+        /// It's the BlackTeam.
+        /// TODO: Make a RPChess.Team instead of Piece[].
+        /// </summary>
+        private Piece[] blackTeam;
+
+        /// <summary>
+        /// Initializes a new instance of the Model class.
+        /// Default Chessboard, Default White Team, 
         /// Default Black Team.
         /// The default Chessboard is flat 10 by 10 square.
         /// The default Teams are 4 Pawns, 1 Rook, 1 Bishop, 1 Queen and 1 King
@@ -358,24 +495,26 @@ namespace RPChess
         /// [ , , ,P,P,P,P, , , ]
         /// [ , , ,B,Q,K,R, , , ] White
         /// </summary>
-        public Model( )
+        public Model()
         {
-            _ChessBoard = new Board();
-            _WhiteTeam = new Piece[8];
-            _BlackTeam = new Piece[8];
-            _WhiteTeam[0] = new Piece( new XmlDocument() );
-            _BlackTeam[0] = new Piece( new XmlDocument() );
+            this.whiteTeam = new Piece[8];
+            this.blackTeam = new Piece[8];
+            this.whiteTeam[0] = new Piece(new XmlDocument());
+            this.blackTeam[0] = new Piece(new XmlDocument());
+
             // TODO: Add all pieces (built-ins) to each team.
         }
+
         /// <summary>
         /// Take care of any initialization that the class may have.
         /// </summary>
         public void Initialize()
         {
-            _ChessBoard.Initialize();
-            _WhiteTeam.Initialize();
-            _BlackTeam.Initialize();
+            Board.Instance.Initialize();
+            this.whiteTeam.Initialize();
+            this.blackTeam.Initialize();
         }
+
         /// <summary>
         /// Put all the data stored in this class into an XmlDocument
         /// for human readable/editable file storage.
@@ -385,6 +524,7 @@ namespace RPChess
         {
             return new XmlDocument();
         }
+
         /// <summary>
         /// Load all of the data to this board from a well formatted XML
         /// document.
@@ -392,309 +532,386 @@ namespace RPChess
         /// <param name="xml" type="XmlDocument">
         /// An XmlDocument that points to a xml document with the data in a
         /// specific format.</param>
-        public Object FromXmlDocument(XmlDocument xml)
+        /// <returns>A Model type-casted as an IObject.</returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-            Initialize();
+            this.Initialize();
             if (xml.FirstChild.Name == "Model")
             {
-                return (Object)new Model();
+                return (IObject)new Model();
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a RPChess.Model");
-                return (Object)new Model();
+                return (IObject)new Model();
             }
         }
     }
+
     /// <summary>
     /// The implementation of the Model interface.
     /// </summary>
-    public class Board : Object
+    public sealed class Board : IObject
     {
-        /// <summary>
-        /// The pieces on the White team.
-        /// </summary>
-        public Piece[] TeamWhite
-        {
-            get
-            {
-                return TeamWhite;
-            }
-        }
-        /// <summary>
-        /// The pieces on the Black team.
-        /// </summary>
-        public Piece[] TeamBlack
-        {
-            get
-            {
-                return TeamBlack;
-            }
-        }
-        public BoardSpace[][] BoardState
-        {
-            get
-            {
-                return _state;
-            }
-        }
         /// <summary>
         /// The width of the board.
         /// </summary>
-        public readonly int Width;
+        public readonly int Width = 10;
+
         /// <summary>
         /// The length of the board.
         /// </summary>
-        public readonly int Length;
-        private BoardSpace[][] _state;
+        public readonly int Length = 10;
+
         /// <summary>
-        /// Basic constructor.
+        /// Static instance of the Board.
         /// </summary>
-        /// <param name="width">Width of the board.</param>
-        /// <param name="length">Length of the board.</param>
-        public Board()
+        private static Board instance = new Board(); // readonly
+
+        /// <summary>
+        /// State of the board.
+        /// </summary>
+        private IBoardSpace[][] boardState;
+
+        /// <summary>
+        /// Initializes static members of the Board class.
+        /// Only called once.
+        /// </summary>
+        static Board()
         {
-            // static 10 For now dynamic later:
-            Width = 10; // width;
-            Length = 10; // length;
-            Initialize();
+            this.Initialize();
         }
+
+        /// <summary>
+        /// Gets the Instance of the Board.
+        /// </summary>
+        public static Board Instance
+        {
+            get
+            {
+                return this.instance;
+            }
+        }
+
+        /// <summary>
+        /// Gets access to the BoardState as a 2d array of 
+        /// IBoardSpaces.
+        /// </summary>
+        public IBoardSpace[][] BoardState
+        {
+            get
+            {
+                return this.boardState;
+            }
+        }
+
         /// <summary>
         /// Initialize constructor.
         /// </summary>
         public void Initialize()
         {
-            _state = new BoardSpace[Length][];
-            for (int row = 0; row < Length; row++ )
+            this.boardState = new IBoardSpace[this.Length][];
+            for (int row = 0; row < this.Length; row++)
             {
-                BoardSpace[] b = new BoardSpace[Width];
-                for (int col = 0; col < Width; col++)
+                IBoardSpace[] b = new IBoardSpace[this.Width];
+                for (int col = 0; col < this.Width; col++)
                 {
-                    BoardSpace s = (BoardSpace)EmptySpace.Instance;
+                    IBoardSpace s = (IBoardSpace)EmptySpace.Instance;
                 }
             }
-            TeamWhite.Initialize();
-            TeamBlack.Initialize();
         }
-        public Object FromXmlDocument(XmlDocument xml)
+
+        /// <summary>
+        /// Creates a Board type-casted as an IObject.
+        /// TODO: Convert to constructor.
+        /// </summary>
+        /// <param name="xml">
+        /// The xml snipet containing a serialized board.
+        /// </param>
+        /// <returns>
+        /// A Board type-casted as an IObject.
+        /// </returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-            Initialize();
+            this.Initialize();
             if (xml.FirstChild.Name == "Board")
             {
-                //TODO                
+                // TODO                
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a RPChess.Board");
             }
-            return (Object)new Board();
+
+            return (IObject)new Board();
         }
-        public XmlDocument ToXmlDocument( )
+
+        /// <summary>
+        /// Serializes the Board
+        /// </summary>
+        /// <returns>
+        /// An XmlDocument containing the board state
+        /// </returns>
+        public XmlDocument ToXmlDocument()
         {
-            StringBuilder repr = new StringBuilder();
+            stringBuilder repr = new stringBuilder();
             repr.AppendLine("<Board ");
             repr.AppendLine("</Board>");
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(repr.ToString());
+            xml.LoadXml(repr.Tostring());
             return xml;
         }
     }
-    public class Team : Object
+
+    /// <summary>
+    /// This will be essentially an ArraList of Pieces.
+    /// </summary>
+    public class Team : IObject
     {
-        private Piece _King;
-        // private ArrayList _Pieces;
+        /// <summary>
+        /// The required King Piece of the Team.
+        /// </summary>
+        private Piece king;
+
+        ////private ArrayList _Pieces;
+
+        /// <summary>
+        /// Initializes a new instance of the Team class.
+        /// </summary>
+        public Team()
+        {
+            this.king = new Piece();
+        }
+
+        /// <summary>
+        /// Gets the King of the Team.
+        /// </summary>
         public Piece King
         {
             get
             {
-                return _King;
+                return this.king;
             }
         }
-        public Team()
-        {
-            _King = new Piece();
-        }
+
+        /// <summary>
+        /// Initializes each Piece on the team.
+        /// </summary>
         public void Initialize()
         {
         }
-        public Object FromXmlDocument(XmlDocument xml)
+
+        /// <summary>
+        /// Creates a Team type-casted as an IObject.
+        /// TODO: Convert to constructor.
+        /// </summary>
+        /// <param name="xml">
+        /// The xml snipet containing a serialized team.
+        /// </param>
+        /// <returns>
+        /// A Team type-casted as an IObject.
+        /// </returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-            Initialize();
+            this.Initialize();
             if (xml.FirstChild.Name == "Team")
             {
-                //TODO
+                // TODO
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a piece");
             }
-            return (Object)new Team();
+
+            return (IObject)new Team();
         }
+
+        /// <summary>
+        /// Serializes the Team instance.
+        /// </summary>
+        /// <returns>A serialized Team instance as an XmlDocument</returns>
         public XmlDocument ToXmlDocument()
         {
             return new XmlDocument();
         }
     }
+
     /// <summary>
     /// A class that holds the stats and other data for a
     /// Game Piece that is univeral.
     /// </summary>
-    public class Piece : BoardSpace
+    public class Piece : IBoardSpace
     {
-    	/// <summary>
-    	/// The maximum amount for the piece
-    	/// Hit Points. Pseudo constant.
-    	/// Inheritable, protected int.
-    	/// </summary>
-        protected int _MAX_HP;
         /// <summary>
-        /// The Maximum HP of the piece.
+        /// The maximum amount for the piece
+        /// Hit Points. Pseudo constant.
+        /// Inheritable, protected int.
         /// </summary>
-        public int MAX_HP
-        {
-            get
-            {
-                return _MAX_HP;
-            }
-        }
+        private int maxHP;
+
         /// <summary>
         /// The customizable piece name, this is protected
         /// and inheritable string.
         /// </summary>
-        protected String _name;
-        /// <summary>
-        /// User defined name of the piece.
-        /// </summary>
-        public String Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
+        private string name;
+
         /// <summary>
         /// The internal Move set field.
         /// Holds a list of all the moves
         /// the piece can make.
         /// </summary>
-        protected Move[] _moveSet;
+        private Move[] moveSet;
+
         /// <summary>
-        /// A set of the piece's available moves.
+        /// The current Hit Points of the Piece.
         /// </summary>
-        public Move[] MoveSet
+        private int hp;
+
+        /// <summary>
+        /// Initializes a new instance of the Piece class.
+        /// </summary>
+        public Piece()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Piece class.
+        /// </summary>
+        /// <param name="name">Name for piece</param>
+        /// <param name="maxHP">Maximum HitPoints</param>
+        /// <param name="moveSet">Set of moves</param>
+        public Piece(string name, int maxHP, Move[] moveSet)
+        {
+            this.name = name;
+            this.maxHP = maxHP;
+            this.moveSet = moveSet;
+            this.Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Piece class from an XmlDocument.
+        /// </summary>
+        /// <param name="xml">XmlDocument of piece data.</param>
+        public Piece(XmlDocument xml)
+        {
+            this._Copy((Piece)this.FromXmlDocument(xml));
+        }
+        
+        /// <summary>
+        /// Gets the current HitPoints of the piece.
+        /// </summary>
+        public int HitPoints
         {
             get
             {
-                return _moveSet;
+                return this.hp;
             }
         }
-        private int _HP;
+
         /// <summary>
-        /// The current HP of the piece.
+        /// Gets a value indicating whether the Piece is empty, always false.
         /// </summary>
-        public int HP
-        {
-            get
-            {
-                return _HP;
-            }
-        }
-        /// <summary>
-        /// BoardSpace interface property. For a piece it is
-        /// always false.
-        /// </summary>
-        public bool isEmpty
+        /// <returns>Always returns false.</returns>
+        public bool IsEmpty
         {
             get
             {
                 return false;
             }
         }
-        public Piece()
-        { 
-        }
+
         /// <summary>
-        /// Standard constructor.
+        /// Gets the Maximum HitPoints of the piece.
         /// </summary>
-        /// <param name="name">Name for piece</param>
-        /// <param name="hp">Maximum HP</param>
-        /// <param name="moveSet">Set of moves</param>
-        public Piece ( String name, int hp, Move[] moveSet )
+        public int MAX_HP
         {
-            _name = name;
-            _MAX_HP = hp;
-            _moveSet = moveSet;
-            Initialize();
+            get
+            {
+                return this.maxHP;
+            }
         }
+
         /// <summary>
-        /// Constructs a piece from XML.
+        /// Gets name of the piece.
         /// </summary>
-        /// <param name="xml">XmlDocument of piece data.</param>
-        public Piece(XmlDocument xml)
+        public string Name
         {
-            _Copy((Piece)FromXmlDocument(xml));
+            get
+            {
+                return this.name;
+            }
         }
-        protected void _Copy(Piece other)
+
+        /// <summary>
+        /// Gets a set of the piece's available moves.
+        /// </summary>
+        public Move[] MoveSet
         {
-            // copy attributes.
+            get
+            {
+                return this.moveSet;
+            }
         }
+
         /// <summary>
         /// Initialize any values for the Piece.
-        /// Resets the HP to Maximum.
+        /// Resets the HitPoints to Maximum.
         /// Initializes all Moves in MoveSet.
         /// </summary>
-        /// <returns>
-        /// The max hp that the current hp is reset to.</returns>
         public void Initialize()
         {
-            _HP = MAX_HP;
-            foreach (Move m in _moveSet)
+            this.hp = this.MAX_HP;
+            foreach (Move m in this.moveSet)
             {
                 m.Initialize();
             }
         }
+
         /// <summary>
-        /// Reduce the HP by the damage amount.
+        /// Reduce the HitPoints by the damage amount.
         /// </summary>
         /// <param name="damage">
-        /// A positive amount to decrease this Piece's hp</param>
+        /// A positive amount to decrease this Piece's HitPoints</param>
         /// <returns>
-        /// Current HP after damage has been taken.</returns>
-        public int takeDamage( uint damage )
+        /// Current HitPoints after damage has been taken.</returns>
+        public int TakeDamage(uint damage)
         {
-            _HP = _HP - (int)damage;
-            return _HP;
+            return this.hp -= (int)damage;
         }
+
         /// <summary>
-        /// Recover HP.
+        /// Recover HitPoints.
         /// </summary>
         /// <param name="heal">
         /// A positive amount to heal the piece.</param>
-        /// <returns>Current HP after healing.</returns>
-        public int healHP(uint heal)
+        /// <returns>Current HitPoints after healing.</returns>
+        public int HealHitPoints(uint heal)
         {
-            _HP = _HP + (int)heal;
-            return _HP;
+            return this.hp += (int)heal;
         }
+
         /// <summary>
         /// Initializes all of the Piece memembers
         /// according to data placed in a well formed
         /// Xml element.
         /// </summary>
         /// <param name="xml">An xml node containing all the member data.</param>
-        public Object FromXmlDocument(XmlDocument xml)
+        /// <returns>A Piece type-casted as an IObject.</returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-        	Initialize();
-        	if ( xml.FirstChild.Name == "Piece" )
-        	{
-        		//TODO
-        	}
-        	else
-        	{
-        		Console.Error.WriteLine( "xmlDocument is not a piece" );
-        	}
-            return (Object)new Piece();
+            this.Initialize();
+            if (xml.FirstChild.Name == "Piece")
+            {
+                // TODO
+            }
+            else
+            {
+                Console.Error.WriteLine("xmlDocument is not a piece");
+            }
+
+            return (IObject)new Piece();
         }
+
         /// <summary>
         /// Write all the piece data to a well formatted 
         /// XML document for human readable storage.
@@ -702,88 +919,130 @@ namespace RPChess
         /// <returns>An XmlDocument</returns>
         public XmlDocument ToXmlDocument()
         {
-            StringBuilder repr = new StringBuilder();
-            repr.AppendLine( "<piece name=\"" + _name +
-                             "\"HP=\"" + _MAX_HP +
-                             "\"/>\r\n" );
-            foreach ( Move m in _moveSet )
+            stringBuilder repr = new stringBuilder();
+            repr.AppendLine("<piece name=\"" + this.name +
+            "\"HitPoints=\"" + this.maxHP +
+            "\"/>\r\n");
+            foreach (Move m in this.moveSet)
             {
-                repr.Append( m.ToString() );
+                repr.Append(m.Tostring());
             }
+
             repr.AppendLine("</Piece>");
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(repr.ToString());
+            xml.LoadXml(repr.Tostring());
             return xml;
         }
+
+        /// <summary>
+        /// Copy Constructor.
+        /// Might not be a good idea.
+        /// </summary>
+        /// <param name="other">A piece to copy here</param>
+        protected void _Copy(Piece other)
+        {
+            // copy attributes.
+        }
     }
+
     /// <summary>
     /// An interface for the different actions a Piece can do.
     /// </summary>
-    public interface Move : Object
+    public interface IMove : IObject
     {
         /// <summary>
-        /// Type property </summary>
-        /// <value>
-        /// The type of move this object is an instance of.</value>
+        /// Gets the Type property of a Move
+        /// </summary>
+        /// <value>The type of move this IObject is an instance of.</value>
         MoveType Type
         {
             get;
         }
     }
+
     /// <summary>
     /// A base class for attacks.
     /// <Implements>Move</Implements>
     /// </summary>
     public class Attack : Move
     {
-    	/// <summary>
-    	/// The name of the attack, user customizable.
-    	/// Inheritable, protected, String.
-    	/// </summary>
-        protected String _name;
         /// <summary>
-        /// The Name of the attack for aesthetic purposes.
+        /// The name of the attack, user customizable.
+        /// Inheritable, protected, string.
         /// </summary>
-        public String Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
+        private string name;
+
         /// <summary>
-        /// The internal storage of MAX_POINTS.
+        /// The internal storage of MAXpoints.
         /// Inheritable, protected, int.
         /// </summary>
-        protected int _MAX_POINTS;
-        /// <summary>
-        /// The Maximum amount of points/uses this attack
-        /// will be Initialized to.
-        /// </summary>
-        public int MAX_POINTS
-        {
-            get
-            {
-                return _MAX_POINTS;
-            }
-        }
+        private int pointsMax;
+        
         /// <summary>
         /// Internal representation for Points.
         /// Inheritable, protected, int.
         /// </summary>
-        protected int _points;
+        private int points;
+
         /// <summary>
-        /// The current amount of points/uses that
-        /// the Attack has left.
+        /// Initializes a new instance of the Attack class.
+        /// Default constructor, Initializes members to zero.
+        /// </summary>
+        public Attack()
+        {
+            this.Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Attack class.
+        /// This is probably not very useful besides testing the members in a 
+        /// unit outside all the derived classes.
+        /// </summary>
+        /// <param name="name">Aesthetic Identifier</param>
+        /// <param name="points">Number of times Attack may be "used"</param>
+        public Attack(string name, int points)
+        {
+            this.name = name;
+            this.pointsMax = points;
+            this.reset();
+        }
+
+        /// <summary>
+        /// Gets the Name of the attack for aesthetic purposes.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Maximum amount of ability points this attack will be 
+        /// Initialized to.
+        /// </summary>
+        public int MAXpoints
+        {
+            get
+            {
+                return this.pointsMax;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current amount of ability points that the Attack has left.
         /// </summary>
         public int Points
         {
             get
             {
-                return _points;
+                return this.points;
             }
         }
+
         /// <summary>
+        /// Gets the MoveType,
         /// Identifies this as a Move of type Attack.
         /// </summary>
         public MoveType Type
@@ -793,66 +1052,58 @@ namespace RPChess
                 return MoveType.Attack;
             }
         }
-        /// <summary>
-        /// Default constructor, Initializes members to zero.
-        /// </summary>
-        public Attack()
-        {
-        	Initialize();
-        }
-        /// <summary>
-        /// Constructor for Attack, probably not very useful besides
-        /// testing the members in a unit outside all the derived classes.
-        /// Will also help 
-        /// </summary>
-        /// <param name="name">Aesthetic Identifier</param>
-        /// <param name="points">Number of times Attack may be "used"</param>
-        public Attack( String name, int points )
-        {
-        	_name = name;
-        	_MAX_POINTS = points;
-        	reset();
-        }
+
         /// <summary>
         /// Use the ability, decreases the Ability's points by 1.
         /// </summary>
         /// <returns>Returns the remaining points.</returns>
-        public int use()
+        public int Use()
         {
-            _points = _points - 1;
-            if (_points < 0)
-            	_points = 0;
-            return _points;
+            this.points--;
+            if (this.points < 0)
+            {
+                this.points = 0;
+            }
+
+            return this.points;
         }
+
         /// <summary>
         /// Use the ability, decreases the Ability's points by 1.
         /// </summary>
+        /// <param name="uses">The number of simultaneous uses.</param>
         /// <returns>Returns the remaining points.</returns>
-        public int use(int uses)
+        public int Use(int uses)
         {
-            _points = _points - uses;
-            if (_points < 0)
-            	_points = 0;
-            return _points;
+            this.points -= uses;
+            if (this.points < 0)
+            {
+                this.points = 0;
+            }
+
+            return this.points;
         }
+
         /// <summary>
-        /// Resets the points to MAX_POINTS.
+        /// Resets the points to MAXpoints.
         /// </summary>
         /// <returns>Returns the remaining points.</returns>
-        public int reset()
+        public int Reset()
         {
-            _points = _MAX_POINTS;
-            return _points;
+            this.points = this.pointsMax;
+            return this.points;
         }
+
         /// <summary>
         /// Resets member data to zero state, usually 
-        /// brings Point back to MAX_POINTS, etc.
+        /// brings Point back to MAXpoints, etc.
         /// </summary>
         public virtual void Initialize()
         {
-        	_name = "";
-        	_MAX_POINTS = 0;
+            this.name = string.Empty();
+            this.pointsMax = 0;
         }
+
         /// <summary>
         /// Formats member data into an XML document.
         /// Required by all inheriting Classes. Allows for a simple
@@ -864,9 +1115,10 @@ namespace RPChess
         /// </returns>
         public virtual XmlDocument ToXmlDocument()
         {
-        	XmlDocument xml = new XmlDocument();
-        	return xml;
+            XmlDocument xml = new XmlDocument();
+            return xml;
         }
+
         /// <summary>
         /// Loads member data from an xml document.
         /// Required by all inheriting Classes. Allows for a simple
@@ -876,20 +1128,23 @@ namespace RPChess
         /// <param name="xml">
         /// An xml document containing all of the member data of an attack.
         /// </param>
-        public virtual Object FromXmlDocument(XmlDocument xml)
+        /// <returns>An Attack Type-Casted as an IObject.</returns>
+        public virtual IObject FromXmlDocument(XmlDocument xml)
         {
-            Initialize();
+            this.Initialize();
             if (xml.FirstChild.Name == "Attack")
             {
-                //TODO
+                // TODO
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not an Attack");
             }
-            return (Object)new Attack();        	
+
+            return (IObject)new Attack();
         }
     }
+
     /// <summary>
     /// An area of effect attack for wide spread multispace attacks.
     /// <Implements>Move</Implements>
@@ -897,19 +1152,13 @@ namespace RPChess
     /// </summary>
     public class AreaOfEffectAbility : Attack
     {
-        private int[,] _areaOfEffect;
         /// <summary>
-        /// An array of integers expressing the size and shape of the ability.
+        /// The 2d integer array that represents the AreaOfEffect Shape.
         /// </summary>
-        public int[,] AreaOfEffect
-        {
-            get
-            {
-                return _areaOfEffect;
-            }
-        }
+        private int[,] areaOfEffect;
+        
         /// <summary>
-        /// Constructs an AreaOfEffectAbility given all the necessary memember data.
+        /// Initializes a new instance of the AreaOfEffectAbility class.
         /// </summary>
         /// <param name="name">Aesthetic identifier.</param>
         /// <param name="points">
@@ -918,10 +1167,24 @@ namespace RPChess
         /// <param name="areaOfEffect">
         /// An array of integers expressing the size and shape of the ability.
         /// </param>
-        public AreaOfEffectAbility(String name, int points, int[,] areaOfEffect) : base( name, points )
+        public AreaOfEffectAbility(string name, int points, int[,] areaOfEffect)
+            : base(name, points)
         {
-            _areaOfEffect = areaOfEffect;
+            this.areaOfEffect = areaOfEffect;
         }
+
+        /// <summary>
+        /// Gets an array of integers expressing the size and shape of the
+        /// ability.
+        /// </summary>
+        public int[,] AreaOfEffect
+        {
+            get
+            {
+                return this.areaOfEffect;
+            }
+        }
+
         /// <summary>
         /// Resets memeber data to un-used state, affects points.
         /// </summary>
@@ -929,6 +1192,7 @@ namespace RPChess
         {
             reset();
         }
+
         /// <summary>
         /// Useful for saving data to file.
         /// </summary>
@@ -938,29 +1202,33 @@ namespace RPChess
         public override XmlDocument ToXmlDocument()
         {
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(""); //TODO
+            xml.LoadXml(string.Empty()); // TODO
             return xml;
         }
+
         /// <summary>
         /// Loads the AreaOfEffectAbility from an XML document
         /// </summary>
         /// <param name="xml">
         /// An XML document containing AreaOfEffectAbility member data.
         /// </param>
-        public override Object FromXmlDocument(XmlDocument xml)
+        /// <returns>An AreaOfEffectAbility Type-Casted as an IObject</returns>
+        public override IObject FromXmlDocument(XmlDocument xml)
         {
-            Initialize();
+            this.Initialize();
             if (xml.FirstChild.Name == "AreaOfEffectAbility")
             {
-                //TODO
+                // TODO
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not an AreaOfEffectAbility");
             }
-            return (Object)new Attack();
+
+            return (IObject)new Attack();
         }
     }
+
     /// <summary>
     /// Directional attack for ranged attacks.
     /// <Implements>Move</Implements>
@@ -968,44 +1236,72 @@ namespace RPChess
     /// </summary>
     public class DirectionalAbility : Attack
     {
-        private BoardVector _vector;
         /// <summary>
-        /// The Direction in which the Ability acts.
+        /// The direction of the attack.
+        /// </summary>
+        private BoardVector vector;
+
+        /// <summary>
+        /// The Damage factor of the ability.
+        /// </summary>
+        private int damage;
+
+        ////private bool _ranged;
+
+        ////private bool _stopable;
+
+        /// <summary>
+        /// Initializes a new instance of the DirectionalAbility class.
+        /// </summary>
+        /// <param name="name">Fancy name of the DirectionalAbility.</param>
+        /// <param name="points">The Ability Poins the ability costs.</param>
+        /// <param name="vector">The direction of the DirectionalAbility</param>
+        /// <param name="damage">The damage factor of the attack.</param>
+        public DirectionalAbility(
+            string name,
+            int points,
+            BoardVector vector,
+            int damage)
+            : base(name, points)
+        {
+            this.vector = vector;
+            this.damage = damage;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the DirectionalAbility class from an
+        /// xml document.
+        /// </summary>
+        /// <param name="xml">
+        /// An XmlDocument containing DirectionAbility member data.
+        /// </param>
+        public DirectionalAbility(XmlDocument xml)
+        {
+            this.FromXmlDocument(xml);
+        }
+
+        /// <summary>
+        /// Gets the Direction in which the Ability acts.
         /// </summary>
         public BoardVector Vector
         {
             get
             {
-                return _vector;
+                return this.vector;
             }
         }
-        private int _damage;
+
         /// <summary>
-        /// The amount of damage this Ability gives to the target.
+        /// Gets the amount of damage this Ability gives to the target.
         /// </summary>
         public int Damage
         {
             get
             {
-                return _damage;
+                return this.damage;
             }
         }
-        //private bool _ranged;
-        //private bool _stopable;
-        /// <summary>
-        /// Constructs a DirectionalAbility given all of the 
-        /// necessary memeber data.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="points"></param>
-        /// <param name="vector"></param>
-        /// <param name="damage"></param>
-        public DirectionalAbility(String name, int points, 
-                                  BoardVector vector, int damage) : base( name, points )
-        {
-            _vector = vector;
-            _damage = damage;
-        }
+        
         /// <summary>
         /// Re-Initializes the DirectionalAbility to a fresh
         /// un-used state.
@@ -1014,18 +1310,9 @@ namespace RPChess
         {
             reset();
         }
+
         /// <summary>
-        /// Constructs a DirectionalAbility from an xml document.
-        /// </summary>
-        /// <param name="xml">
-        /// An XmlDocument containing DirectionAbility member data.
-        /// </param>
-        public DirectionalAbility(XmlDocument xml)
-        {
-            FromXmlDocument(xml);
-        }
-        /// <summary>
-        /// Calls ToXMLString() inorder to form a more perfect Union.
+        /// Calls ToXMLstring() inorder to form a more perfect Union.
         /// </summary>
         /// <returns>
         /// An XmlDocument containing DirectionAbility member data.
@@ -1033,9 +1320,10 @@ namespace RPChess
         public override XmlDocument ToXmlDocument()
         {
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(ToXMLString());
+            xml.LoadXml(this.ToXMLstring());
             return xml;
         }
+
         /// <summary>
         /// Loads the member data from an xml document.
         /// </summary>
@@ -1043,24 +1331,27 @@ namespace RPChess
         /// Xml document containing correctly formatted Directional Ability
         ///  member data.
         /// </param>
-        public override Object FromXmlDocument(XmlDocument xml)
+        /// <returns>A Directional Ability Type-Casted as an IObject</returns>
+        public override IObject FromXmlDocument(XmlDocument xml)
         {
-            return (Object) new Attack();
+            return (IObject)new Attack();
         }
+
         /// <summary>
         /// Forms an Xml Snippet representing this attack.
         /// </summary>
-        /// <returns>String that uses xml syntax.</returns>
-        public String ToXMLString()
+        /// <returns>string that uses xml syntax.</returns>
+        public string ToXMLstring()
         {
-            String repr = "<attack name=\"" + _name +
-                "\" direction=\"" + _vector.Direction +
-                "\" length=\"" + _vector.Length +
-                "\" damage=\"" + _damage +
-                "\"/>";
+            string repr = "<attack name=\"" + this.name +
+            "\" direction=\"" + this.vector.Direction +
+            "\" length=\"" + this.vector.Length +
+            "\" damage=\"" + this.damage +
+            "\"/>";
             return repr;
         }
     }
+
     /// <summary>
     /// The movement class handles topological calculations.</summary>
     /// <remarks>
@@ -1069,41 +1360,22 @@ namespace RPChess
     /// </remarks>
     public class Movement : Move
     {
-        // properties
         /// <summary>
         /// This is the inheritable offset (BoardLocation type) that holds an
         /// X, Y offset pair.
         /// </summary>
-        protected BoardLocation _offset;
-        /// <summary>
-        /// The Offset of the Movement. It holds how far a piece may travel
-        /// using this Move.
-        /// </summary>
-        public BoardLocation Offset
-        {
-            get
-            {
-                return _offset;
-            }
-        }
-        //protected BoardVector _vector;
+        private BoardLocation offset;
+
+        ////protected BoardVector vector;
+
         /// <summary>
         /// This determines whether other pieces may block this 
         /// piece's movement. It is an inheritable boolean.
         /// </summary>
-        protected bool _jump;
+        private bool jump;
+
         /// <summary>
-        /// The accessor for the Jump (bool) attribute.
-        /// </summary>
-        public bool Jump
-        {
-            get
-            {
-                return _jump;
-            }
-        }
-        // constructors
-        /// <summary>
+        /// Initializes a new instance of the Movement class.
         /// Deprecated Constructor.
         /// </summary>
         /// <param name="right">The right offset.</param>
@@ -1111,26 +1383,27 @@ namespace RPChess
         /// <param name="jump">
         /// False if this piece may be blocked by other pieces.
         /// </param>
-        [Obsolete ("Use the BoardLocation constructor instead.")]
+        [Obsolete("Use the BoardLocation constructor instead.")]
         public Movement(int right, int forward, bool jump)
         {
-            _offset.Y = forward;
-            _offset.X = right;
-            //_vector.fromOffset(_offset);
-            _jump = jump;
+            this.offset.Y = forward;
+            this.offset.X = right;
+            ////vector.FromOffset(offset);
+            this.jump = jump;
         }
+
         /// <summary>
-        /// Standard Movement Constructor from a BoardLocation format offset.
+        /// Initializes a new instance of the Movement class.
         /// Defaults to Jump = False.
         /// </summary>
         /// <param name="offset">The X, Y offsets of the move.</param>
         public Movement(BoardLocation offset)
         {
-            _setUp(offset, false);
+            this._setUp(offset, false);
         }
+
         /// <summary>
-        /// Construct a Movement using a BoardLocation offset
-        /// and a jump.
+        /// Initializes a new instance of the Movement class.
         /// </summary>
         /// <param name="offset">The X,Y offsets of the move.</param>
         /// <param name="jump">
@@ -1138,60 +1411,43 @@ namespace RPChess
         /// </param>
         public Movement(BoardLocation offset, bool jump)
         {
-            _setUp(offset, jump);
+            this._setUp(offset, jump);
         }
+
         /// <summary>
-        /// Construct a Movement from xml data.
+        /// Initializes a new instance of the Movement class from xml data.
         /// </summary>
         /// <param name="xml">Well formed xml document.</param>
         public Movement(XmlDocument xml)
         {
-            FromXmlDocument(xml);
+            this.FromXmlDocument(xml);
         }
-        private void _setUp(BoardLocation offset, bool jump)
-        {
-            _offset = offset;
-            //_vector.fromOffset(_offset);
-            _jump = jump;
-        }
-        // public methods
+
         /// <summary>
-        /// A simple move operation, given a start point.
+        /// Gets the Offset of the Movement. It holds how far a piece may 
+        /// travel using this Move.
         /// </summary>
-        /// <param name="bLoc">The starting point of the travel.</param>
-        /// <returns>
-        /// A new BoardLocation that is offset from bLoc
-        /// </returns>
-        public BoardLocation moveFrom(BoardLocation bLoc)
+        public BoardLocation Offset
         {
-            return bLoc + _offset;
-        }
-        /// <summary>
-        /// A basic move operation, given a start point and
-        /// distance to travel.
-        /// </summary>
-        /// <param name="bLoc">The starting point of the travel.</param>
-        /// <param name="distance">The number of blocks to move.</param>
-        /// <returns>
-        /// A new BoardLocation that is offset a distance from bLoc
-        /// </returns>
-        public BoardLocation moveFrom(BoardLocation bLoc, int distance)
-        {
-            if (!_jump)
+            get
             {
-                BoardVector v = new BoardVector();
-                v.fromOffset(_offset);
-                if (distance < v.Length)
-                {
-                    v.Length = distance;
-                }
-                return bLoc + v.toOffset();
+                return this.offset;
             }
-            return bLoc;
         }
-        // Move Interface methods and properties
+
         /// <summary>
-        /// Returns what type of Move, in this case Movement.
+        /// Gets a value indicating whether the Movement can't be blocked.
+        /// </summary>
+        public bool Jump
+        {
+            get
+            {
+                return this.jump;
+            }
+        }
+
+        /// <summary>
+        /// Gets what type of Move, in this case Movement.
         /// </summary>
         public MoveType Type
         {
@@ -1200,12 +1456,52 @@ namespace RPChess
                 return MoveType.Movement;
             }
         }
+
+        /// <summary>
+        /// A simple move operation, given a start point.
+        /// </summary>
+        /// <param name="brdLoc">The starting point of the travel.</param>
+        /// <returns>
+        /// A new BoardLocation that is offset from bLoc
+        /// </returns>
+        public BoardLocation MoveFrom(BoardLocation brdLoc)
+        {
+            return brdLoc + this.offset;
+        }
+
+        /// <summary>
+        /// A basic move operation, given a start point and
+        /// distance to travel.
+        /// </summary>
+        /// <param name="brdLoc">The starting point of the travel.</param>
+        /// <param name="distance">The number of blocks to move.</param>
+        /// <returns>
+        /// A new BoardLocation that is offset a distance from bLoc
+        /// </returns>
+        public BoardLocation MoveFrom(BoardLocation brdLoc, int distance)
+        {
+            if (!this.jump)
+            {
+                BoardVector v = new BoardVector();
+                v.FromOffset(this.offset);
+                if (distance < v.Length)
+                {
+                    v.Length = distance;
+                }
+
+                return brdLoc + v.ToOffset();
+            }
+
+            return brdLoc;
+        }
+
         /// <summary>
         /// Does absolutely nothing.
         /// </summary>
         public void Initialize()
         {
         }
+
         /// <summary>
         /// Forms an XmlNode of a well formed xml representation
         /// of the Movement memeber data.
@@ -1215,130 +1511,165 @@ namespace RPChess
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml("<Movement><Offset type=\"RPChess.BoardLocation\">" +
-			            "<X type=\"int\">" + this.Offset.X + "</X>" +
-			            "<Y type=\"int\">" + this.Offset.Y + "</Y>" +
-			            "</Offset>" +
-			            "<Jump type=\"bool\">" + this._jump + "</Jump>" +
-			            "</Movement>");
+            "<X type=\"int\">" + this.Offset.X + "</X>" +
+            "<Y type=\"int\">" + this.Offset.Y + "</Y>" +
+            "</Offset>" +
+            "<Jump type=\"bool\">" + this.jump + "</Jump>" +
+            "</Movement>");
             return xml;
         }
+
         /// <summary>
         /// Initializes movement from Xml Element.
         /// </summary>
         /// <param name="xml">
         /// Xml element containing Movement data.
         /// </param>
-		public Object FromXmlDocument(XmlDocument xml)
+        /// <returns>The xml snippet that serializes a movement.</returns>
+        public IObject FromXmlDocument(XmlDocument xml)
         {
-			_offset = new BoardLocation(0, 0);
-			_jump = false;
+            this.offset = new BoardLocation(0, 0);
+            this.jump = false;
             if (xml.FirstChild.Name == "Movement")
             {
-				
-				foreach (XmlNode kid in xml.FirstChild.ChildNodes)
-				{
-					switch ( kid.Name.ToLower() )
-					{
-					case "forward":
-					case "y":
-					case "row":
-						this._offset.Y = Int32.Parse(kid.InnerText);						
-						Console.Error.WriteLine("Xml element: " + xml.ToString() +
-						                        " is malformed. But will be " +
-						                        "fixed after saving.");
-						break;
-					case "right":
-					case "x":
-					case "column":
-						this._offset.X = Int32.Parse(kid.InnerText);						
-						Console.Error.WriteLine("Xml element: " + 
-						                        xml.ToString() +
-						                        " is malformed. But will be " +
-						                        "fixed after saving.");
-						break;
-					case "offset":
-						foreach (XmlNode grankid in kid.ChildNodes)
-						{
-							switch ( grankid.Name.ToLower() )
-							{
-							case "forward":
-							case "y":
-							case "row":
-								this._offset.Y = Int32.Parse(grankid.InnerText);
-								break;
-							case "right":
-							case "x":
-							case "column":
-								this._offset.X = Int32.Parse(grankid.InnerText);
-								break;
-							default:
-								Console.Error.WriteLine("Xml element: " + 
-								                        kid.ToString() +
-								                        " is malformed.");
-								break;
-							}
-						}
-						break;
-					case "jump":
-						this._jump = Boolean.Parse(kid.InnerText);
-						break;
-					default:
-						Console.Error.WriteLine("Xml element: " +
-						                        xml.ToString() +
-						                        " is malformed.");
-						break;
-					}
-				}
+                foreach (XmlNode kid in xml.FirstChild.ChildNodes)
+                {
+                    switch (kid.Name.ToLower())
+                    {
+                        case "forward":
+                        case "y":
+                        case "row":
+                            this.offset.Y = Int32.Parse(kid.InnerText);
+                            Console.Error.WriteLine("Xml element: " + xml.Tostring() +
+                                    " is malformed. But will be " +
+                                    "fixed after saving.");
+                            break;
+                        case "right":
+                        case "x":
+                        case "column":
+                            this.offset.X = Int32.Parse(kid.InnerText);
+                            Console.Error.WriteLine("Xml element: " +
+                                    xml.Tostring() +
+                                    " is malformed. But will be " +
+                                    "fixed after saving.");
+                            break;
+                        case "offset":
+                            foreach (XmlNode grankid in kid.ChildNodes)
+                            {
+                                switch (grankid.Name.ToLower())
+                                {
+                                    case "forward":
+                                    case "y":
+                                    case "row":
+                                        this.offset.Y = Int32.Parse(grankid.InnerText);
+                                        break;
+                                    case "right":
+                                    case "x":
+                                    case "column":
+                                        this.offset.X = Int32.Parse(grankid.InnerText);
+                                        break;
+                                    default:
+                                        Console.Error.WriteLine("Xml element: " +
+                                        kid.Tostring() +
+                                        " is malformed.");
+                                        break;
+                                }
+                            }
+
+                            break;
+                        case "jump":
+                            this.jump = Boolean.Parse(kid.InnerText);
+                            break;
+                        default:
+                            Console.Error.WriteLine("Xml element: " +
+                            xml.Tostring() +
+                            " is malformed.");
+                            break;
+                    }
+                }
             }
-			else
-			{
-				Console.Error.WriteLine("Xml element: " + xml.FirstChild.OuterXml +
-					" is not a Movement xml element.");
-			}
-			return (Object)this;
+            else
+            {
+                Console.Error.WriteLine("Xml element: " + xml.FirstChild.OuterXml +
+                " is not a Movement xml element.");
+            }
+
+            return (IObject)this;
         }
-        // Overriden Object Methods
+
         /// <summary>
-        /// Overrides ToString, returns a String of the form:
+        /// Overrides Tostring, returns a string of the form:
         /// "RPChess.Movement( X, Y )"
         /// </summary>
-        /// <returns>String representation of memember data</returns>
-        public override string ToString()
+        /// <returns>string representation of memember data</returns>
+        public override string Tostring()
         {
-            return base.ToString() + _offset;
+            return base.Tostring() + this.offset;
         }
-        
+
         /// <summary>
-        /// Compares the object's members.
+        /// Compares the IObject's members.
         /// </summary>
-        /// <param name="obj">Another object.</param>
-        /// <returns>True if objects have same members.</returns>
-		public override bool Equals(object obj)
-		{
-			// the gimmes
-			if (obj == null)
-				return false;			
-			if (base.Equals(obj))
-			    return true;
-			if (this.GetType() != obj.GetType()) 
-				return false;
-			
-			// the detials
-			Movement other = (Movement)obj;
-			if ( !( this._offset.Equals(other.Offset) ) )
-				return false;
-			if ( !(this._jump.Equals(other.Jump) ) )
-				return false;
-			return true;
-		}
-		/// <summary>
-		/// Gets rid of a warning, returns the base object
-		/// GetHashCode()
-		/// </summary>
-		/// <returns>base.GetHashCode()</returns>
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+        /// <param name="obj">Another IObject.</param>
+        /// <returns>True if IObjects have same members.</returns>
+        public override bool Equals(IObject obj)
+        {
+            // the gimmes
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (base.Equals(obj))
+            {
+                return true;
+            }
+
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            // the detials
+            Movement other = (Movement)obj;
+            if (!this.offset.Equals(other.Offset))
+            {
+                return false;
+            }
+
+            if (!this.jump.Equals(other.Jump))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets rid of a warning, returns the base IObject
+        /// GetHashCode()
+        /// </summary>
+        /// <returns>Just returns base.GetHashCode()</returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Little useless code snippet that abstracts the constructor code 
+        /// from the different constructor overloads.
+        /// </summary>
+        /// <param name="offset">
+        /// The X,Y pair that holds an offset on the board
+        /// </param>
+        /// <param name="jump">
+        /// If true the Movement can't be blocked (Flying)
+        /// </param>
+        private void _setUp(BoardLocation offset, bool jump)
+        {
+            this.offset = offset;
+            ////vector.FromOffset(offset);
+            this.jump = jump;
+        }
     }
 }
