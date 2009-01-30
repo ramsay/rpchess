@@ -6,6 +6,28 @@ using System.Xml;
 namespace RPChess
 {
     /// <summary>
+    /// The root of all [evil!] RPChess objects all classes must implement
+    /// this interface.  All other interfaces implement this interface.  
+    /// Guarantees a uniform XML Serialization behavior.
+    /// </summary>
+    public interface Object
+    {
+        /// <summary>
+        /// Returns the Object to the state it would be as if the game had not
+        /// started.
+        /// </summary>
+        void Initialize();
+        /// <summary>
+        /// Makes all objects comply to RPChess proprietary XML Serialization.
+        /// </summary>
+        /// <param name="xml"></param>
+        Object FromXmlDocument(XmlDocument xml);
+        /// <summary>
+        /// Makes all objects comply to RPChess proprietary XML Serialization.
+        /// </summary>
+        XmlDocument ToXmlDocument();
+    }
+    /// <summary>
     /// This enum matches words to cardinal directions (Forward, ForwardRight, 
     /// BackwardLeft, ...). This adheres to the standards of trigonometry:
     /// Each direction is the radian angle * 4/PI
@@ -63,7 +85,7 @@ namespace RPChess
     /// This is a struct that matches a distance and a direction
     /// for use on board topology.
     /// </summary>
-    public struct BoardVector
+    public struct BoardVector : Object
     {
         /// <summary>
         /// The direction of the vector, enum.
@@ -119,12 +141,23 @@ namespace RPChess
                 ( ( ( Math.Atan2( 
                 (double)offset.Y, (double)offset.X) * 4/Math.PI) + 8 )%8);
         }
+        public void Initialize()
+        {
+        }
+        public Object FromXmlDocument(XmlDocument xml)
+        {
+            return (Object)new BoardVector();
+        }
+        public XmlDocument ToXmlDocument()
+        {
+            return new XmlDocument();
+        }
     }
     /// <summary>
     /// This is a simple X,Y pair that is used for storing locations and
     /// offsets.
     /// </summary>
-    public struct BoardLocation 
+    public struct BoardLocation : Object
     {
         /// <summary>
         /// The maximum allowed distance across the board.
@@ -240,11 +273,22 @@ namespace RPChess
         {
             return "( " + X + ", " + Y + " )";
         }
+        public void Initialize()
+        {
+        }
+        public Object FromXmlDocument(XmlDocument xml)
+        {
+            return (Object)new BoardLocation();
+        }
+        public XmlDocument ToXmlDocument()
+        {
+            return new XmlDocument();
+        }
     }
     /// <summary>
     /// An interface to hold empty board spaces and pieces.
     /// </summary>
-    public interface BoardSpace
+    public interface BoardSpace : Object
     {
         /// <summary>
         /// Simple property to check if it is an empty space.
@@ -277,12 +321,23 @@ namespace RPChess
                 return true;
             }
         }
+        public void Initialize()
+        {
+        }
+        public Object FromXmlDocument(XmlDocument xml)
+        {
+            return (Object)new EmptySpace();
+        }
+        public XmlDocument ToXmlDocument()
+        {
+            return new XmlDocument();
+        }
     }
     /// <summary>
     /// I don't know anymore.
     /// Model-View-Controller design.
     /// </summary>
-    public class Model
+    public class Model : Object
     {
         private Board _ChessBoard;
         private Piece[] _WhiteTeam;
@@ -305,7 +360,7 @@ namespace RPChess
         /// </summary>
         public Model( )
         {
-            _ChessBoard = new Board(10, 10);
+            _ChessBoard = new Board();
             _WhiteTeam = new Piece[8];
             _BlackTeam = new Piece[8];
             _WhiteTeam[0] = new Piece( new XmlDocument() );
@@ -315,7 +370,7 @@ namespace RPChess
         /// <summary>
         /// Take care of any initialization that the class may have.
         /// </summary>
-        void Initialize()
+        public void Initialize()
         {
             _ChessBoard.Initialize();
             _WhiteTeam.Initialize();
@@ -326,7 +381,7 @@ namespace RPChess
         /// for human readable/editable file storage.
         /// </summary>
         /// <returns>The data in a well formatted XML document</returns>
-        public XmlDocument ToXML()
+        public XmlDocument ToXmlDocument()
         {
             return new XmlDocument();
         }
@@ -337,23 +392,24 @@ namespace RPChess
         /// <param name="xml" type="XmlDocument">
         /// An XmlDocument that points to a xml document with the data in a
         /// specific format.</param>
-        public void fromXML(XmlDocument xml)
+        public Object FromXmlDocument(XmlDocument xml)
         {
             Initialize();
             if (xml.FirstChild.Name == "Model")
             {
-                //TODO
+                return (Object)new Model();
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a RPChess.Model");
+                return (Object)new Model();
             }
         }
     }
     /// <summary>
     /// The implementation of the Model interface.
     /// </summary>
-    public class Board
+    public class Board : Object
     {
         /// <summary>
         /// The pieces on the White team.
@@ -396,7 +452,7 @@ namespace RPChess
         /// </summary>
         /// <param name="width">Width of the board.</param>
         /// <param name="length">Length of the board.</param>
-        public Board(int width, int length)
+        public Board()
         {
             // static 10 For now dynamic later:
             Width = 10; // width;
@@ -420,19 +476,20 @@ namespace RPChess
             TeamWhite.Initialize();
             TeamBlack.Initialize();
         }
-        public void fromXML(XmlDocument xml)
+        public Object FromXmlDocument(XmlDocument xml)
         {
             Initialize();
             if (xml.FirstChild.Name == "Board")
             {
-                //TODO
+                //TODO                
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a RPChess.Board");
             }
+            return (Object)new Board();
         }
-        public XmlDocument ToXML( )
+        public XmlDocument ToXmlDocument( )
         {
             StringBuilder repr = new StringBuilder();
             repr.AppendLine("<Board ");
@@ -440,6 +497,42 @@ namespace RPChess
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(repr.ToString());
             return xml;
+        }
+    }
+    public class Team : Object
+    {
+        private Piece _King;
+        // private ArrayList _Pieces;
+        public Piece King
+        {
+            get
+            {
+                return _King;
+            }
+        }
+        public Team()
+        {
+            _King = new Piece();
+        }
+        public void Initialize()
+        {
+        }
+        public Object FromXmlDocument(XmlDocument xml)
+        {
+            Initialize();
+            if (xml.FirstChild.Name == "Team")
+            {
+                //TODO
+            }
+            else
+            {
+                Console.Error.WriteLine("xmlDocument is not a piece");
+            }
+            return (Object)new Team();
+        }
+        public XmlDocument ToXmlDocument()
+        {
+            return new XmlDocument();
         }
     }
     /// <summary>
@@ -517,6 +610,9 @@ namespace RPChess
                 return false;
             }
         }
+        public Piece()
+        { 
+        }
         /// <summary>
         /// Standard constructor.
         /// </summary>
@@ -536,7 +632,11 @@ namespace RPChess
         /// <param name="xml">XmlDocument of piece data.</param>
         public Piece(XmlDocument xml)
         {
-            _fromXml(xml);
+            _Copy((Piece)FromXmlDocument(xml));
+        }
+        protected void _Copy(Piece other)
+        {
+            // copy attributes.
         }
         /// <summary>
         /// Initialize any values for the Piece.
@@ -545,14 +645,13 @@ namespace RPChess
         /// </summary>
         /// <returns>
         /// The max hp that the current hp is reset to.</returns>
-        public int Initialize()
+        public void Initialize()
         {
             _HP = MAX_HP;
             foreach (Move m in _moveSet)
             {
                 m.Initialize();
             }
-            return _HP;
         }
         /// <summary>
         /// Reduce the HP by the damage amount.
@@ -583,7 +682,7 @@ namespace RPChess
         /// Xml element.
         /// </summary>
         /// <param name="xml">An xml node containing all the member data.</param>
-        protected void _fromXml(XmlDocument xml)
+        public Object FromXmlDocument(XmlDocument xml)
         {
         	Initialize();
         	if ( xml.FirstChild.Name == "Piece" )
@@ -594,13 +693,14 @@ namespace RPChess
         	{
         		Console.Error.WriteLine( "xmlDocument is not a piece" );
         	}
+            return (Object)new Piece();
         }
         /// <summary>
         /// Write all the piece data to a well formatted 
         /// XML document for human readable storage.
         /// </summary>
         /// <returns>An XmlDocument</returns>
-        public XmlDocument ToXMLDocument()
+        public XmlDocument ToXmlDocument()
         {
             StringBuilder repr = new StringBuilder();
             repr.AppendLine( "<piece name=\"" + _name +
@@ -619,7 +719,7 @@ namespace RPChess
     /// <summary>
     /// An interface for the different actions a Piece can do.
     /// </summary>
-    public interface Move
+    public interface Move : Object
     {
         /// <summary>
         /// Type property </summary>
@@ -629,18 +729,6 @@ namespace RPChess
         {
             get;
         }
-        /// <summary>
-        /// This Initializes any dynamic variables.</summary>
-        void Initialize();
-        /// <summary>
-        /// Exports the properites of the Move.</summary>
-        /// <returns>A DTD complient XML fragment.</returns>
-        XmlDocument ToXML();
-        /// <summary>
-        /// Loads the properties of the Move from the XML.</summary>
-        /// <param name="xml" type="XmlDocument">The XML with Move
-        /// information.</param>
-        void fromXML(XmlDocument xml);
     }
     /// <summary>
     /// A base class for attacks.
@@ -774,7 +862,7 @@ namespace RPChess
         /// <returns>
         /// An xml document containing all of the member data of an attack.
         /// </returns>
-        public virtual XmlDocument ToXML()
+        public virtual XmlDocument ToXmlDocument()
         {
         	XmlDocument xml = new XmlDocument();
         	return xml;
@@ -788,9 +876,18 @@ namespace RPChess
         /// <param name="xml">
         /// An xml document containing all of the member data of an attack.
         /// </param>
-        public virtual void fromXML(XmlDocument xml)
+        public virtual Object FromXmlDocument(XmlDocument xml)
         {
-        	Initialize();
+            Initialize();
+            if (xml.FirstChild.Name == "Attack")
+            {
+                //TODO
+            }
+            else
+            {
+                Console.Error.WriteLine("xmlDocument is not an Attack");
+            }
+            return (Object)new Attack();        	
         }
     }
     /// <summary>
@@ -838,7 +935,7 @@ namespace RPChess
         /// <returns>
         /// An xml document containing AreaOfEffectAbility memeber data.
         /// </returns>
-        public override XmlDocument ToXML()
+        public override XmlDocument ToXmlDocument()
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(""); //TODO
@@ -850,10 +947,18 @@ namespace RPChess
         /// <param name="xml">
         /// An XML document containing AreaOfEffectAbility member data.
         /// </param>
-        public override void fromXML(XmlDocument xml)
+        public override Object FromXmlDocument(XmlDocument xml)
         {
-        	//TODO: Implement fromXML or force internal so as to use the
-        	//constructor polymorphism
+            Initialize();
+            if (xml.FirstChild.Name == "AreaOfEffectAbility")
+            {
+                //TODO
+            }
+            else
+            {
+                Console.Error.WriteLine("xmlDocument is not an AreaOfEffectAbility");
+            }
+            return (Object)new Attack();
         }
     }
     /// <summary>
@@ -917,7 +1022,7 @@ namespace RPChess
         /// </param>
         public DirectionalAbility(XmlDocument xml)
         {
-            fromXML(xml);
+            FromXmlDocument(xml);
         }
         /// <summary>
         /// Calls ToXMLString() inorder to form a more perfect Union.
@@ -925,7 +1030,7 @@ namespace RPChess
         /// <returns>
         /// An XmlDocument containing DirectionAbility member data.
         /// </returns>
-        public override XmlDocument ToXML()
+        public override XmlDocument ToXmlDocument()
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(ToXMLString());
@@ -938,8 +1043,9 @@ namespace RPChess
         /// Xml document containing correctly formatted Directional Ability
         ///  member data.
         /// </param>
-        public override void fromXML(XmlDocument xml)
+        public override Object FromXmlDocument(XmlDocument xml)
         {
+            return (Object) new Attack();
         }
         /// <summary>
         /// Forms an Xml Snippet representing this attack.
@@ -1040,7 +1146,7 @@ namespace RPChess
         /// <param name="xml">Well formed xml document.</param>
         public Movement(XmlDocument xml)
         {
-            fromXML(xml);
+            FromXmlDocument(xml);
         }
         private void _setUp(BoardLocation offset, bool jump)
         {
@@ -1105,7 +1211,7 @@ namespace RPChess
         /// of the Movement memeber data.
         /// </summary>
         /// <returns>Well formed Xml Document.</returns>
-        public XmlDocument ToXML()
+        public XmlDocument ToXmlDocument()
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml("<Movement><Offset type=\"RPChess.BoardLocation\">" +
@@ -1122,7 +1228,7 @@ namespace RPChess
         /// <param name="xml">
         /// Xml element containing Movement data.
         /// </param>
-		public void fromXML(XmlDocument xml)
+		public Object FromXmlDocument(XmlDocument xml)
         {
 			_offset = new BoardLocation(0, 0);
 			_jump = false;
@@ -1189,7 +1295,7 @@ namespace RPChess
 				Console.Error.WriteLine("Xml element: " + xml.FirstChild.OuterXml +
 					" is not a Movement xml element.");
 			}
-			return;
+			return (Object)this;
         }
         // Overriden Object Methods
         /// <summary>

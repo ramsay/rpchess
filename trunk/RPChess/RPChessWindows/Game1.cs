@@ -57,6 +57,11 @@ namespace RPChess
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _menuState = MenuState.MainMenu;
+            _movelog = new Log();
+
+            _view = new TextView();
+            _controller = new TextController();
+            _model = new Model();
         }
 
         /// <summary>
@@ -67,10 +72,10 @@ namespace RPChess
         /// </summary>
         protected override void Initialize()
         {
-            _movelog = new Log();
-            _view = new TextView();
-            _controller = new TextController();
-
+            _movelog.Initialize();
+            _view.Initialize();
+            _controller.Initialize();
+            _model.Initialize();
             base.Initialize();
         }
 

@@ -6,6 +6,7 @@ namespace RPChess
 {
    interface Controller
     {
+       void Initialize();
     }
 
     class TextController : Controller
@@ -18,7 +19,6 @@ namespace RPChess
                 return (int)_count;
             }
         }
-        private Log _log;
         public TextController()
         {
         }
@@ -26,12 +26,11 @@ namespace RPChess
         {
             if ( init )
             {
-                initialize();
+                Initialize();
             }
         }
-        public void initialize()
+        public void Initialize()
         {
-            _log = new Log();
 			_count = 0;
         }
     }

@@ -19,7 +19,7 @@ namespace RPChess
         {
             get;
         }
-		void initialize();
+		void Initialize();
         void update( Log movelog, BoardSpace[] boardState);
     }
 
@@ -52,7 +52,7 @@ namespace RPChess
         {
         }
 		
-		public void initialize()
+		public void Initialize()
 		{
 			_lastMove = 0;
             _lastTime = DateTime.MinValue;

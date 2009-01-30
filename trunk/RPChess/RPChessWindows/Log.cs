@@ -41,7 +41,7 @@ namespace RPChess
             _references++;
             if (init)
             {
-                initialize();
+                Initialize();
             }
         }
         /// <summary>
@@ -62,7 +62,7 @@ namespace RPChess
         /// <summary>
         /// Initializes the _moveList.  Emptys it if there were entrys.
         /// </summary>
-        public void initialize()
+        public void Initialize()
         {
             if ( _references < 2 || !_initialized)
             {

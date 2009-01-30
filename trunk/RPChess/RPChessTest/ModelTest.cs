@@ -7,6 +7,138 @@ namespace RPChess
 {
     using NUnit.Framework;
 
+    [TestFixture]
+    public class ModelTest
+    {
+        Model _testModel;
+        XmlDocument xmlDoc;
+        public ModelTest()
+        {
+            _testModel = new Model();
+        }
+        [TestFixtureSetUp]
+        public void ModelTestSetup()
+        {
+            _testModel.Initialize();
+        }
+        [TestFixtureTearDown]
+        public void ModelTestTeardown()
+        {
+        }
+        [Test]
+        public void ModelDefaultConstructorTest()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Model_InitializeTest()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Model_ToXmlDocumentTest()
+        {
+            //TODO:
+            xmlDoc = _testModel.ToXmlDocument();
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Model_FromXmlDocument()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+    }
+    [TestFixture]
+    public class BoardTest
+    {
+        private Board _testBoard;
+        private XmlDocument xmlDoc;
+        public BoardTest()
+        {
+            _testBoard = new Board();
+        }
+        [TestFixtureSetUp]
+        public void BoardTestSetup()
+        {
+            _testBoard.Initialize();
+        }
+        [TestFixtureTearDown]
+        public void BoardTestTeardown()
+        {
+        }
+        [Test]
+        public void BoardDefaultConstructorTest()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Board_InitializeTest()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Board_ToXmlDocumentTest()
+        {
+            //TODO:
+            xmlDoc = _testBoard.ToXmlDocument();
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Board_FromXmlDocument()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+    }
+    [TestFixture]
+    public class TeamTest
+    {
+        private Team _testTeam;
+        private XmlDocument xmlDoc;
+        public TeamTest()
+        {
+            _testTeam = new Team();
+        }
+        [TestFixtureSetUp]
+        public void TeamTestSetup()
+        {
+            _testTeam.Initialize();
+        }
+        [TestFixtureTearDown]
+        public void TeamTestTeardown()
+        {
+        }
+        [Test]
+        public void TeamDefaultConstructorTest()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Team_InitializeTest()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Team_ToXmlDocumentTest()
+        {
+            //TODO:
+            xmlDoc = _testTeam.ToXmlDocument();
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void Team_FromXmlDocument()
+        {
+            //TODO:
+            Assert.Fail("Not implemented!");
+        }
+    }
     ///<summary>
     ///Tests the Movement class's public properties.
     ///</summary>
@@ -334,7 +466,7 @@ namespace RPChess
         ///an XML element.
         ///</summary>
         [Test]
-        public void ToXMLTest()
+        public void ToXmlDocumentTest()
         {
             testMove = new Movement(startLoc);
 			string expectedXML =
@@ -345,7 +477,7 @@ namespace RPChess
 					"</Offset>" +
 					"<Jump type=\"bool\">False</Jump>" +
 					"</Movement>";
-            Assert.AreEqual(expectedXML, testMove.ToXML().OuterXml );
+            Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml );
             testLoc = new BoardLocation();
 			bool jump = false; 
             for (int i = 0; i < 100; i++)
@@ -363,16 +495,16 @@ namespace RPChess
 				              "</Offset>" +
 				              "<Jump type=\"bool\">" + jump + "</Jump>" +
 				              "</Movement>";
-                Assert.AreEqual(expectedXML, testMove.ToXML().OuterXml);
+                Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml);
             }
-            Console.Out.WriteLine("ToXMLTest() passed!");
+            Console.Out.WriteLine("ToXmlDocumentTest() passed!");
         }
         ///<summary>
         ///Tests that the Movment class can load data from XML
         ///correctly.
         ///</summary>
         [Test]
-        public void fromXMLTest()
+        public void FromXmlDocumentTest()
         {
             xmlDoc.LoadXml("<Movement>" +
 			               "<Offset type=\"RPChess.BoardLocation\">" +
@@ -384,7 +516,7 @@ namespace RPChess
             testMove = new Movement( xmlDoc );
             Movement right1 = new Movement(new BoardLocation(1,0));
             Assert.AreEqual(right1, testMove);
-            Console.Out.WriteLine("fromXMLTest() passed!");
+            Console.Out.WriteLine("FromXmlDocumentTest() passed!");
         }
         ///<summary>
         ///A simple test that returns a string represtentation of the 
@@ -441,7 +573,6 @@ namespace RPChess
         	Console.Out.WriteLine("equalsTest passed.");
         }
     }
-
     ///<summary>
     /// Tests the Attack class.
     /// The Attack class is a base class, with only a few real (non-virtual)
@@ -542,8 +673,7 @@ namespace RPChess
         	               "Successive use of Attack.reset() were different.");
         	
         }
-    }
-    
+    }  
     ///<summary>
     /// Tests the DirectionalAbility class.
     /// Tests the String and XML methods, as well as the constructors.
@@ -650,12 +780,12 @@ namespace RPChess
 			Console.WriteLine( "DirectionalAbility.ToString Test passed." );
     	}
     	/// <summary>
-    	/// Test the ToXML Method.
+    	/// Test the ToXmlDocument Method.
     	/// </summary>
     	[Test]
-    	public void ToXMLTest()
+    	public void ToXmlDocumentTest()
     	{
-    		//TODO; modify to properly test DirectionalAbility.ToXML()            
+    		//TODO; modify to properly test DirectionalAbility.ToXmlDocument()            
 			string expectedXML =
 				    "<DirectionalAbility name=\"\">" +
 					"<Vector type=\"RPChess.BoardVector\">" +
@@ -664,7 +794,7 @@ namespace RPChess
 					"</Vector>" +
 					"<Damage type=\"int\">0</Damage>" +
 					"</DirectionalAbility>";
-            Assert.AreEqual(expectedXML, zeroDA.ToXML().OuterXml );
+            Assert.AreEqual(expectedXML, zeroDA.ToXmlDocument().OuterXml );
             
             testBV = new BoardVector();
             for (int i = 0; i < 100; i++)
@@ -682,17 +812,17 @@ namespace RPChess
 					"</Vector>" +
 					"<Damage type=\"int\">" + testDA.Damage + "</Damage>" +
 					"</DirectionalAbility>";
-                Assert.AreEqual(expectedXML, testDA.ToXML().OuterXml);
+                Assert.AreEqual(expectedXML, testDA.ToXmlDocument().OuterXml);
             }
-            Console.Out.WriteLine(this.ToString() + ".ToXMLTest() passed!");
+            Console.Out.WriteLine(this.ToString() + ".ToXmlDocumentTest() passed!");
     	}    	
     	/// <summary>
-    	/// Test the FromXML Method.
+    	/// Test the FromXmlDocument Method.
     	/// </summary>
     	[Test]
-    	public void FromXMLTest()
+    	public void FromXmlDocumentTest()
     	{
-    		//TODO: Beef up DirectionalAbility FromXML Test.
+    		//TODO: Beef up DirectionalAbility FromXmlDocument Test.
 			XmlDocument xmlDoc = new XmlDocument();
 			String zeroXML =
 				    "<DirectionalAbility name=\"\">" +
@@ -703,8 +833,8 @@ namespace RPChess
 					"<Damage type=\"int\">0</Damage>" +
 					"</DirectionalAbility>";
 			xmlDoc.LoadXml( zeroXML );
-			DirectionalAbility zeroDAfromXml = new DirectionalAbility( xmlDoc );
-			Assert.AreEqual( zeroDAfromXml, zeroDA );
+			DirectionalAbility zeroDAFromXmlDocument = new DirectionalAbility( xmlDoc );
+			Assert.AreEqual( zeroDAFromXmlDocument, zeroDA );
 			String testXML =
 				    "<DirectionalAbility name=\"test\">" +
 					"<Vector type=\"RPChess.BoardVector\">" +
@@ -714,12 +844,11 @@ namespace RPChess
 					"<Damage type=\"int\">1</Damage>" +
 					"</DirectionalAbility>";
 			xmlDoc.LoadXml( testXML );
-			DirectionalAbility testDAfromXml = new DirectionalAbility( xmlDoc );
-			Assert.AreEqual( testDAfromXml, testDA );
+			DirectionalAbility testDAFromXmlDocument = new DirectionalAbility( xmlDoc );
+			Assert.AreEqual( testDAFromXmlDocument, testDA );
 			
     	}
-    }
-    
+    }  
     ///<summary>
     /// Tests the DirectionalAbility class.
     /// Tests the String and XML methods, as well as the constructors.
@@ -805,12 +934,12 @@ namespace RPChess
 			                testAoEA.ToString() );
     	}
     	/// <summary>
-    	/// Test the ToXML Method.
+    	/// Test the ToXmlDocument Method.
     	/// </summary>
     	[Test]
-    	public void ToXMLTest()
+    	public void ToXmlDocumentTest()
     	{
-    		//TODO; Modify to properly test AreaOfEffectAbility.ToXML test and modify.
+    		//TODO; Modify to properly test AreaOfEffectAbility.ToXmlDocument test and modify.
     		string expectedXML =
 				    "<Attack type=\"RPChess.Model.AreaOfEffectAbility\">" +
 				    "<Name type=\"String\"></Name>" +
@@ -820,7 +949,7 @@ namespace RPChess
     			    "<column index=\"0\">0</column>" +
     			    "</row>" +
 				    "</Attack>";
-			Assert.AreEqual(expectedXML, testAoEA.ToXML().OuterXml );
+			Assert.AreEqual(expectedXML, testAoEA.ToXmlDocument().OuterXml );
 			
 			testAoEA = new AreaOfEffectAbility("Cross", 3, cross);
 			expectedXML =
@@ -831,7 +960,7 @@ namespace RPChess
 					"</Offset>" +
 					"<Jump type=\"bool\">False</Jump>" +
 					"</Movement>";
-            Assert.AreEqual(expectedXML, testAoEA.ToXML().OuterXml );
+            Assert.AreEqual(expectedXML, testAoEA.ToXmlDocument().OuterXml );
             
             /*testLoc = new BoardLocation();
 			bool jump = false; 
@@ -850,15 +979,15 @@ namespace RPChess
 				              "</Offset>" +
 				              "<Jump type=\"bool\">" + jump + "</Jump>" +
 				              "</Movement>";
-                Assert.AreEqual(expectedXML, testMove.ToXML().OuterXml);
+                Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml);
             }*/
-            Console.Out.WriteLine("AreaOfEffectAbility.ToXML() Test passed!");
+            Console.Out.WriteLine("AreaOfEffectAbility.ToXmlDocument() Test passed!");
     	}    	
     	/// <summary>
-    	/// Test the FromXML Method.
+    	/// Test the FromXmlDocument Method.
     	/// </summary>
     	[Test]
-    	public void FromXMLTest()
+    	public void FromXmlDocumentTest()
     	{
     		//TODO;
     		Assert.Fail();
