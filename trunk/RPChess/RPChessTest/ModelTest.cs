@@ -318,16 +318,16 @@ namespace RPChess
             Console.Out.WriteLine("moveFromDistanceNegitiveX() passed!");
         }
         ///<summary>
-        ///Tests that the initialize method changes nothing.
+        ///Tests that the Initialize method changes nothing.
         ///</summary>
         [Test]
-        public void initializeTest()
+        public void InitializeTest()
         {
             Movement newMove = new Movement(startLoc);
             testMove = newMove;
-            testMove.initialize();
+            testMove.Initialize();
             Assert.AreEqual(newMove, testMove);
-            Console.Out.WriteLine("initializeTest() passed!");
+            Console.Out.WriteLine("InitializeTest() passed!");
         }
         ///<summary>
         ///Tests that the Movement class correctly exports it's data to
@@ -617,19 +617,19 @@ namespace RPChess
 			System.Console.Write( "DirectionalAbility ConstructorTest passed." );
     	}    	
     	/// <summary>
-    	/// Test the initialize Method.
+    	/// Test the Initialize Method.
     	/// </summary>
     	[Test]
-    	public void initializeTest()
+    	public void InitializeTest()
     	{
-    		zeroDA.initialize();
+    		zeroDA.Initialize();
     		Assert.AreEqual("", zeroDA.Name);
     		Assert.AreEqual(zeroBV, zeroDA.Vector);
     		Assert.AreEqual(0, zeroDA.Damage);
     		
 			testBV.Direction = MoveDirection.Forward;
 			testBV.Length = 10;
-    		testDA.initialize();
+    		testDA.Initialize();
 			Assert.AreEqual("test", testDA.Name);
     		Assert.AreEqual(testBV, testDA.Vector);
     		Assert.AreEqual(1, testDA.Damage);
@@ -762,7 +762,7 @@ namespace RPChess
     	[TestFixtureSetUp]
     	public void CreateAreaOfEffectAbilities()
     	{
-    		blankAoEA.initialize();
+    		blankAoEA.Initialize();
     		testAoEA  = new AreaOfEffectAbility("AreaOfEffect", 0, cross);
     	}
     	/// <summary>
@@ -779,16 +779,16 @@ namespace RPChess
 			Assert.AreEqual(cross.ToString(), testAoEA.AreaOfEffect.ToString());
     	}    	
     	/// <summary>
-    	/// Test the initialize Method.
+    	/// Test the Initialize Method.
     	/// </summary>
     	[Test]
-    	public void initializeTest()
+    	public void InitializeTest()
     	{
-    		blankAoEA.initialize();
+    		blankAoEA.Initialize();
     		Assert.AreEqual("", blankAoEA.Name);
     		Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
     		
-    		testAoEA.initialize();
+    		testAoEA.Initialize();
     		Assert.AreEqual("AreaOfEffect", testAoEA.Name);
     		Assert.AreEqual(cross, testAoEA.AreaOfEffect);
     	}
