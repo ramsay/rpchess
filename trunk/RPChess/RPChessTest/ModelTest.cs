@@ -205,40 +205,40 @@ namespace RPChess
         public void BoardLocationAdditionTest()
         {
             testLoc = eastLoc + northLoc;
-            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testLoc.X);
-            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testLoc.Y);
+            Assert.AreEqual((int)BoardLocation.BoardLimit, testLoc.X);
+            Assert.AreEqual((int)BoardLocation.BoardLimit, testLoc.Y);
             testLoc = westLoc + southLoc;
-            Assert.AreEqual(BoardLocation.MIN_BOARD_DISTANCE, testLoc.X);
-            Assert.AreEqual(BoardLocation.MIN_BOARD_DISTANCE, testLoc.Y);
+            Assert.AreEqual(-(int)BoardLocation.BoardLimit, testLoc.X);
+            Assert.AreEqual(-(int)BoardLocation.BoardLimit, testLoc.Y);
             testLoc = eastLoc + westLoc;
             Assert.AreEqual(zeroLoc, testLoc);
             testLoc = southLoc + northLoc;
             Assert.AreEqual(zeroLoc, testLoc);
         }
         ///<summary>
-        ///Tests the BoardVector fromOffset.
+        ///Tests the BoardVector FromOffset.
         ///</summary>
         [Test]
         public void BoardVectorFromOffsetTest()
         {
-            testVector.fromOffset(eastLoc);
-            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
+            testVector.FromOffset(eastLoc);
+            Assert.AreEqual((int)BoardLocation.BoardLimit, testVector.Length);
             Assert.AreEqual(MoveDirection.Right, testVector.Direction);
 
-            testVector.fromOffset(northLoc);
-            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
+            testVector.FromOffset(northLoc);
+            Assert.AreEqual((int)BoardLocation.BoardLimit, testVector.Length);
             Assert.AreEqual(MoveDirection.Forward, testVector.Direction);
 
-            testVector.fromOffset(westLoc);
-            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
+            testVector.FromOffset(westLoc);
+            Assert.AreEqual((int)BoardLocation.BoardLimit, testVector.Length);
             Assert.AreEqual(MoveDirection.Left, testVector.Direction);
 
-            testVector.fromOffset(southLoc);
-            Assert.AreEqual(BoardLocation.MAX_BOARD_DISTANCE, testVector.Length);
+            testVector.FromOffset(southLoc);
+            Assert.AreEqual((int)BoardLocation.BoardLimit, testVector.Length);
             Assert.AreEqual(MoveDirection.Backward, testVector.Direction);
         }
         ///<summary>
-        ///Tests the BoardVector toOffset.
+        ///Tests the BoardVector ToOffset.
         ///</summary>
         [Test]
         public void BoardVectorToOffsetTest()
@@ -248,26 +248,26 @@ namespace RPChess
             for ( int d = 0; d < 8; d++)
             {
                 testVector.Direction = (MoveDirection)d;
-                testLoc = testVector.toOffset();
+                testLoc = testVector.ToOffset();
                 sb.AppendLine("testVector in direction: " + 
                     (MoveDirection)d + " => " + testLoc);
             }
             Console.Out.Write(sb.ToString());
             testVector.Direction = MoveDirection.Right;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(eastLoc, testVector.toOffset(), sb.ToString());
+            Assert.AreEqual(eastLoc, testVector.ToOffset(), sb.ToString());
 
             testVector.Direction = MoveDirection.Forward;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(northLoc, testVector.toOffset(), sb.ToString());
+            Assert.AreEqual(northLoc, testVector.ToOffset(), sb.ToString());
 
             testVector.Direction = MoveDirection.Left;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(westLoc, testVector.toOffset(), sb.ToString());
+            Assert.AreEqual(westLoc, testVector.ToOffset(), sb.ToString());
 
             testVector.Direction = MoveDirection.Backward;
             testVector.Length = Int32.MaxValue;
-            Assert.AreEqual(southLoc, testVector.toOffset(), sb.ToString());
+            Assert.AreEqual(southLoc, testVector.ToOffset(), sb.ToString());
         }
     }
     ///<summary>
@@ -291,163 +291,163 @@ namespace RPChess
             xmlDoc = new XmlDocument();
         }
         ///<summary>
-        ///Tests the Movement.moveFrom() using BoardLocation.
+        ///Tests the Movement.MoveFrom() using BoardLocation.
         ///</summary>
         [Test]
-        public void moveFromBoardLocationX()
+        public void MoveFromBoardLocationX()
         {
             testLoc = new BoardLocation(1, 0);
             testMove = new Movement(testLoc, false);
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc);
+            testLoc = testMove.MoveFrom(startLoc);
             Assert.AreEqual(1, testLoc.X);
             Assert.AreEqual(0, testLoc.Y);
 
             testMove = new Movement(new BoardLocation(-1,0));
-            testLoc = testMove.moveFrom(startLoc);
+            testLoc = testMove.MoveFrom(startLoc);
             Assert.AreEqual(-1, testLoc.X);
             Assert.AreEqual(0, testLoc.Y);
 
             int randomX;
             for (int i = 0; i < 1000; i++)
             {
-                randomX = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
+                randomX = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
                 testMove = new Movement(new BoardLocation(randomX, 0));
                 testLoc = startLoc;
-                testLoc = testMove.moveFrom(startLoc);
+                testLoc = testMove.MoveFrom(startLoc);
                 Assert.AreEqual(randomX, testLoc.X, "X: Random test failed on iteration: " + i);
                 Assert.AreEqual(0, testLoc.Y);
             }
 
-            Console.Out.WriteLine("moveFromBoardLocationX()");
+            Console.Out.WriteLine("MoveFromBoardLocationX()");
         }
         ///<summary>
-        ///Tests the Movement.moveFrom() using BoardLocation and
+        ///Tests the Movement.MoveFrom() using BoardLocation and
         ///distance parameters.
         ///</summary>
         [Test]
-        public void moveFromDistancePositiveY()
+        public void MoveFromDistancePositiveY()
         {
             testMove = new Movement(new BoardLocation(0,10));
-            testLoc = testMove.moveFrom(startLoc, 1);
+            testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(1, testLoc.Y, "Y:Didn't move correct distance");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 5);
+            testLoc = testMove.MoveFrom(startLoc, 5);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(5, testLoc.Y, "Y:Didn't move correct distance");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 20);
+            testLoc = testMove.MoveFrom(startLoc, 20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(10, testLoc.Y, "Y:Didn't move correct distance");
-            testLoc = testMove.moveFrom(startLoc, -1);
+            testLoc = testMove.MoveFrom(startLoc, -1);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -5);
+            testLoc = testMove.MoveFrom(startLoc, -5);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -20);
+            testLoc = testMove.MoveFrom(startLoc, -20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
-            Console.Out.WriteLine("moveFromDistancePositiveY() passed!");
+            Console.Out.WriteLine("MoveFromDistancePositiveY() passed!");
         }///<summary>
-        ///Tests the Movement.moveFrom() using BoardLocation and
+        ///Tests the Movement.MoveFrom() using BoardLocation and
         ///distance parameters.
         ///</summary>
         [Test]
-        public void moveFromDistanceNegativeY()
+        public void MoveFromDistanceNegativeY()
         {
             testMove = new Movement(new BoardLocation(0,-10));
-            testLoc = testMove.moveFrom(startLoc, 1);
+            testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(-1, testLoc.Y, "Y:Didn't move correct distance");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 5);
+            testLoc = testMove.MoveFrom(startLoc, 5);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(-5, testLoc.Y, "Y:Didn't move correct distance");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 20);
+            testLoc = testMove.MoveFrom(startLoc, 20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(-10, testLoc.Y, "Y:Didn't move correct distance");
-            testLoc = testMove.moveFrom(startLoc, -1);
+            testLoc = testMove.MoveFrom(startLoc, -1);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -5);
+            testLoc = testMove.MoveFrom(startLoc, -5);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -20);
+            testLoc = testMove.MoveFrom(startLoc, -20);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(0, testLoc.Y, "Y:Shouldn't accept negative lengths.");
-            Console.Out.WriteLine("moveFromDistanceNegitiveY() passed!");
+            Console.Out.WriteLine("MoveFromDistanceNegitiveY() passed!");
         }
         ///<summary>
-        ///Tests the Movement.moveFrom() using BoardLocation and
+        ///Tests the Movement.MoveFrom() using BoardLocation and
         ///distance parameters.
         ///</summary>
         [Test]
-        public void moveFromDistancePositiveX()
+        public void MoveFromDistancePositiveX()
         {
             testMove = new Movement(new BoardLocation(10,0));
-            testLoc = testMove.moveFrom(startLoc, 1);
+            testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(1, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 5);
+            testLoc = testMove.MoveFrom(startLoc, 5);
             Assert.AreEqual(5, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 20);
+            testLoc = testMove.MoveFrom(startLoc, 20);
             Assert.AreEqual(10, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            testLoc = testMove.moveFrom(startLoc, -1);
+            testLoc = testMove.MoveFrom(startLoc, -1);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -5);
+            testLoc = testMove.MoveFrom(startLoc, -5);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -20);
+            testLoc = testMove.MoveFrom(startLoc, -20);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            Console.Out.WriteLine("moveFromDistancePositiveX() passed!");
+            Console.Out.WriteLine("MoveFromDistancePositiveX() passed!");
         }
         ///<summary>
-        ///Tests the Movement.moveFrom() using BoardLocation and
+        ///Tests the Movement.MoveFrom() using BoardLocation and
         ///distance parameters.
         ///</summary>
         [Test]
-        public void moveFromDistanceNegativeX()
+        public void MoveFromDistanceNegativeX()
         {
             testMove = new Movement(new BoardLocation(-10,0));
-            testLoc = testMove.moveFrom(startLoc, 1);
+            testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(-1, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 5);
+            testLoc = testMove.MoveFrom(startLoc, 5);
             Assert.AreEqual(-5, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, 20);
+            testLoc = testMove.MoveFrom(startLoc, 20);
             Assert.AreEqual(-10, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            testLoc = testMove.moveFrom(startLoc, -1);
+            testLoc = testMove.MoveFrom(startLoc, -1);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -5);
+            testLoc = testMove.MoveFrom(startLoc, -5);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
             testLoc = startLoc;
-            testLoc = testMove.moveFrom(startLoc, -20);
+            testLoc = testMove.MoveFrom(startLoc, -20);
             Assert.AreEqual(0, testLoc.X, "X:Shouldn't accept negative distances.");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
-            Console.Out.WriteLine("moveFromDistanceNegitiveX() passed!");
+            Console.Out.WriteLine("MoveFromDistanceNegitiveX() passed!");
         }
         ///<summary>
         ///Tests that the Initialize method changes nothing.
@@ -482,10 +482,10 @@ namespace RPChess
 			bool jump = false; 
             for (int i = 0; i < 100; i++)
             {
-                testLoc.X = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
-                testLoc.Y = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
+                testLoc.X = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
+                testLoc.Y = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
 				jump =  (i % 2) == 0;
                 testMove = new Movement(testLoc, jump);
                 expectedXML = "<Movement>" +
@@ -551,10 +551,10 @@ namespace RPChess
         	int randX, randY;
         	for (int i = 0; i < 50; i++)
         	{
-        		randX = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
-        		randY = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
+        		randX = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
+        		randY = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
         		testMove = new Movement( new BoardLocation( randX, randY ), (i%2==0) );
         		newMove  = new Movement( new BoardLocation( randX, randY ), (i%2==0) );
         		Assert.IsTrue(testMove.Equals(testMove), 
@@ -597,80 +597,80 @@ namespace RPChess
         public void ConstructorTest()
         {
         	Assert.AreEqual("", blank.Name);
-        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.MaxPoints);
         	Assert.AreEqual(0, blank.Points);
         	String name = "name";
         	int points = 10;
         	a = new Attack(name, points);
         	Assert.AreEqual(name, a.Name);
-        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.MaxPoints);
         	Assert.AreEqual(points, a.Points);
         }
         /// <summary>
-        /// Test the method use, make sure it respects bounds.
+        /// Test the method Use, make sure it respects bounds.
         /// And only acts on the right members.
         /// </summary>
         [Test]
-        public void useTest()
+        public void UseTest()
         {
-        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.MaxPoints);
         	Assert.AreEqual(0, blank.Points);
-        	blank.use();
-        	Assert.AreEqual(0, blank.MAX_POINTS,
-        	                "MAX_POINTS should not change.");
+        	blank.Use();
+        	Assert.AreEqual(0, blank.MaxPoints,
+        	                "MaxPoints should not change.");
         	Assert.AreEqual(0, blank.Points, 
         	                "Points shouldn't be less than zero.");
         	
         	String name = "name";
         	int points = 10;
         	a = new Attack(name, points);
-        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.MaxPoints);
         	Assert.AreEqual(points, a.Points);
-        	a.use();
-        	Assert.AreEqual(points, a.MAX_POINTS,        	               
-        	                "MAX_POINTS should not change.");
+        	a.Use();
+        	Assert.AreEqual(points, a.MaxPoints,        	               
+        	                "MaxPoints should not change.");
         	Assert.AreEqual(points-1, a.Points,
-        	                "Points should decrement one after Attack.use()");
-        	a.use(10);
+        	                "Points should decrement one after Attack.Use()");
+        	a.Use(10);
         	Assert.AreEqual(0, a.Points, 
         	                "Points shouldn't be less than zero.");
-        	a.use();
+        	a.Use();
         	Assert.AreEqual(0, a.Points, 
         	                "Points shouldn't be less than zero.");
         }
         /// <summary>
-        /// Ensure that reset only sets Points to MAX_POINTS and nothing else.
+        /// Ensure that Reset only sets Points to MaxPoints and nothing else.
         /// </summary>
         [Test]
-        public void resetTest()
+        public void ResetTest()
         {
         	Assert.AreEqual("", blank.Name);
-        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.MaxPoints);
         	Assert.AreEqual(0, blank.Points);
-        	blank.reset();
+        	blank.Reset();
         	Assert.AreEqual("", blank.Name);
-        	Assert.AreEqual(0, blank.MAX_POINTS);
+        	Assert.AreEqual(0, blank.MaxPoints);
         	Assert.AreEqual(0, blank.Points);
         	
         	String name = "name";
         	int points = 10;
         	a = new Attack(name, points);
         	Assert.AreEqual(name, a.Name);
-        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.MaxPoints);
         	Assert.AreEqual(points, a.Points);
-        	a.use();
+        	a.Use();
         	// Assume these are true.
         	/*
         	Assert.AreEqual(name, a.Name);
-        	Assert.AreEqual(points, a.MAX_POINTS);
+        	Assert.AreEqual(points, a.MaxPoints);
         	Assert.IsFalse(points == a.Points);
         	*/
-        	a.reset();
+        	a.Reset();
         	Assert.AreEqual(points, a.Points,
-        	               "Attack.reset() didn't work.");
-        	a.reset();
+        	               "Attack.Reset() didn't work.");
+        	a.Reset();
         	Assert.AreEqual(points, a.Points,
-        	               "Successive use of Attack.reset() were different.");
+        	               "Successive Use of Attack.Reset() were different.");
         	
         }
     }  
@@ -799,8 +799,8 @@ namespace RPChess
             testBV = new BoardVector();
             for (int i = 0; i < 100; i++)
             {
-                testBV.Length = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
+                testBV.Length = random.Next((int)-(int)BoardLocation.BoardLimit,
+                    (int)(int)BoardLocation.BoardLimit);
             	testBV.Direction = (MoveDirection)random.Next( (int)MoveDirection.Right,
             	    (int)MoveDirection.BackwardRight);
                 testDA = new DirectionalAbility(name, points, testBV, damage);
@@ -966,10 +966,10 @@ namespace RPChess
 			bool jump = false; 
             for (int i = 0; i < 100; i++)
             {
-                testLoc.X = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
-                testLoc.Y = random.Next(BoardLocation.MIN_BOARD_DISTANCE,
-                    BoardLocation.MAX_BOARD_DISTANCE);
+                testLoc.X = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
+                testLoc.Y = random.Next(-(int)BoardLocation.BoardLimit,
+                    (int)BoardLocation.BoardLimit);
 				jump =  (i % 2) == 0;
                 testMove = new Movement(testLoc, jump);
                 expectedXML = "<Movement>" +

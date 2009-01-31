@@ -1,0 +1,6 @@
+C:\Documents and Settings\Robert\Desktop\rpchess\RPChess\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\Robert\Desktop\rpchess\RPChess\obj\x86\Release\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Documents and Settings\Robert\Desktop\rpchess\RPChess\bin\x86\Release\RPChess.exe
+C:\Documents and Settings\Robert\Desktop\rpchess\RPChess\bin\x86\Release\RPChess.pdb
+C:\Documents and Settings\Robert\Desktop\rpchess\RPChess\obj\x86\Release\RPChess.exe
+C:\Documents and Settings\Robert\Desktop\rpchess\RPChess\obj\x86\Release\RPChess.pdb
