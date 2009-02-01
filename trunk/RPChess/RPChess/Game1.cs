@@ -36,7 +36,7 @@ namespace RPChess
         /// <summary>
         /// The View of the game.
         /// </summary>
-        private View view;
+        private IView view;
 
         /// <summary>
         /// The model of the game.
@@ -62,9 +62,10 @@ namespace RPChess
             this.menuState = MenuState.MainMenu;
             this.moveLog = new Log();
 
-            this.view = new TextView();
-            this.controller = new TextController();
             this.model = new Model();
+            this.view = new View2D(ref this.graphics, ref this.model, ref 
+                this.moveLog);
+            this.controller = new TextController();
         }
 
         /// <summary>
@@ -293,6 +294,7 @@ namespace RPChess
                     break;
                 case MenuState.Campaign:
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    view.Draw(gameTime);
                     break;
                 case MenuState.Versus:
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);

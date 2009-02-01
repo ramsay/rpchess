@@ -4,7 +4,7 @@
 namespace RPChess
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
     using System.Text;
     using System.Xml;
 
@@ -572,7 +572,7 @@ namespace RPChess
         /// <summary>
         /// State of the board.
         /// </summary>
-        private IBoardSpace[][] boardState;
+        private List<List<IBoardSpace>> boardState;
 
         /// <summary>
         /// Initializes static members of the Board class.
@@ -581,6 +581,7 @@ namespace RPChess
         static Board()
         {
             ////Initialize();
+            instance.boardState = new List<List<IBoardSpace>>();
         }
 
         /// <summary>
@@ -598,7 +599,7 @@ namespace RPChess
         /// Gets access to the BoardState as a 2d array of 
         /// IBoardSpaces.
         /// </summary>
-        public IBoardSpace[][] BoardState
+        public List<List<IBoardSpace>> BoardState
         {
             get
             {
@@ -611,13 +612,13 @@ namespace RPChess
         /// </summary>
         public void Initialize()
         {
-            this.boardState = new IBoardSpace[this.Length][];
+            this.boardState = new List<List<IBoardSpace>>(this.Length);
             for (int row = 0; row < this.Length; row++)
             {
-                IBoardSpace[] b = new IBoardSpace[this.Width];
+                this.boardState[row] = new List<IBoardSpace>(this.Width);
                 for (int col = 0; col < this.Width; col++)
                 {
-                    IBoardSpace s = (IBoardSpace)EmptySpace.Instance;
+                    this.boardState[row][col] = EmptySpace.Instance;
                 }
             }
         }
@@ -761,7 +762,7 @@ namespace RPChess
         /// Holds a list of all the moves
         /// the piece can make.
         /// </summary>
-        private ArrayList moveSet;
+        private List<IMove> moveSet;
 
         /// <summary>
         /// The current Hit Points of the Piece.
@@ -781,7 +782,7 @@ namespace RPChess
         /// <param name="name">Name for piece</param>
         /// <param name="maxHP">Maximum HitPoints</param>
         /// <param name="moveSet">Set of moves</param>
-        public Piece(string name, int maxHP, ArrayList moveSet)
+        public Piece(string name, int maxHP, List<IMove> moveSet)
         {
             this.name = name;
             this.maxHP = maxHP;
