@@ -4,7 +4,7 @@
 namespace RPChess
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections;
     using System.Text;
     using System.Xml;
 
@@ -761,7 +761,7 @@ namespace RPChess
         /// Holds a list of all the moves
         /// the piece can make.
         /// </summary>
-        private IMove[] moveSet;
+        private ArrayList moveSet;
 
         /// <summary>
         /// The current Hit Points of the Piece.
@@ -781,7 +781,7 @@ namespace RPChess
         /// <param name="name">Name for piece</param>
         /// <param name="maxHP">Maximum HitPoints</param>
         /// <param name="moveSet">Set of moves</param>
-        public Piece(string name, int maxHP, IMove[] moveSet)
+        public Piece(string name, int maxHP, ArrayList moveSet)
         {
             this.name = name;
             this.maxHP = maxHP;
@@ -850,7 +850,7 @@ namespace RPChess
         {
             get
             {
-                return this.moveSet;
+                return (IMove[])this.moveSet.ToArray();
             }
         }
 
@@ -862,7 +862,7 @@ namespace RPChess
         public void Initialize()
         {
             this.hp = this.MAX_HP;
-            if (moveSet.Length > 0)
+            if (moveSet != null)
             {
                 foreach (IMove m in this.moveSet)
                 {
@@ -1616,7 +1616,7 @@ namespace RPChess
         /// </summary>
         /// <param name="obj">Another IObject.</param>
         /// <returns>True if IObjects have same members.</returns>
-        public bool Equals(IObject obj)
+        public override bool Equals(object obj)
         {
             // the gimmes
             if (obj == null)

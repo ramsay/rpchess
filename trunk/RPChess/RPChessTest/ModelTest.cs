@@ -10,42 +10,42 @@ namespace RPChess
     [TestFixture]
     public class ModelTest
     {
-        Model _testModel;
+        Model testModel;
         XmlDocument xmlDoc;
         public ModelTest()
         {
-            _testModel = new Model();
+            testModel = new Model();
         }
         [TestFixtureSetUp]
         public void ModelTestSetup()
         {
-            _testModel.Initialize();
+            testModel.Initialize();
         }
         [TestFixtureTearDown]
         public void ModelTestTeardown()
         {
         }
         [Test]
-        public void ModelDefaultConstructorTest()
+        public void DefaultConstructorTest()
         {
             //TODO:
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Model_InitializeTest()
+        public void InitializeTest()
         {
             //TODO:
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Model_ToXmlDocumentTest()
+        public void ToXmlDocumentTest()
         {
             //TODO:
-            xmlDoc = _testModel.ToXmlDocument();
+            xmlDoc = testModel.ToXmlDocument();
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Model_FromXmlDocument()
+        public void FromXmlDocument()
         {
             //TODO:
             Assert.Fail("Not implemented!");
@@ -54,42 +54,42 @@ namespace RPChess
     [TestFixture]
     public class BoardTest
     {
-        private Board _testBoard;
+        private Board testBoard;
         private XmlDocument xmlDoc;
         public BoardTest()
         {
-            _testBoard = new Board();
+            testBoard = new Board();
         }
         [TestFixtureSetUp]
-        public void BoardTestSetup()
+        public void TestSetup()
         {
-            _testBoard.Initialize();
+            testBoard.Initialize();
         }
         [TestFixtureTearDown]
-        public void BoardTestTeardown()
+        public void TestTeardown()
         {
         }
         [Test]
-        public void BoardDefaultConstructorTest()
-        {
-            //TODO:
-            Assert.Fail("Not implemented!");
-        }
-        [Test]
-        public void Board_InitializeTest()
+        public void DefaultConstructorTest()
         {
             //TODO:
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Board_ToXmlDocumentTest()
+        public void InitializeTest()
         {
             //TODO:
-            xmlDoc = _testBoard.ToXmlDocument();
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Board_FromXmlDocument()
+        public void ToXmlDocumentTest()
+        {
+            //TODO:
+            xmlDoc = testBoard.ToXmlDocument();
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void FromXmlDocument()
         {
             //TODO:
             Assert.Fail("Not implemented!");
@@ -98,42 +98,42 @@ namespace RPChess
     [TestFixture]
     public class TeamTest
     {
-        private Team _testTeam;
+        private Team testTeam;
         private XmlDocument xmlDoc;
         public TeamTest()
         {
-            _testTeam = new Team();
+            testTeam = new Team();
         }
         [TestFixtureSetUp]
-        public void TeamTestSetup()
+        public void TestSetup()
         {
-            _testTeam.Initialize();
+            testTeam.Initialize();
         }
         [TestFixtureTearDown]
-        public void TeamTestTeardown()
+        public void TestTeardown()
         {
         }
         [Test]
-        public void TeamDefaultConstructorTest()
-        {
-            //TODO:
-            Assert.Fail("Not implemented!");
-        }
-        [Test]
-        public void Team_InitializeTest()
+        public void DefaultConstructorTest()
         {
             //TODO:
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Team_ToXmlDocumentTest()
+        public void InitializeTest()
         {
             //TODO:
-            xmlDoc = _testTeam.ToXmlDocument();
             Assert.Fail("Not implemented!");
         }
         [Test]
-        public void Team_FromXmlDocument()
+        public void ToXmlDocumentTest()
+        {
+            //TODO:
+            xmlDoc = testTeam.ToXmlDocument();
+            Assert.Fail("Not implemented!");
+        }
+        [Test]
+        public void FromXmlDocument()
         {
             //TODO:
             Assert.Fail("Not implemented!");
@@ -515,7 +515,12 @@ namespace RPChess
 			               "</Movement>");
             testMove = new Movement( xmlDoc );
             Movement right1 = new Movement(new BoardLocation(1,0));
+            Assert.AreEqual(right1.GetType(), testMove.GetType(), "Get type error!");
+            Assert.AreEqual(right1.Offset, testMove.Offset, "Offset equals");
+            Assert.AreEqual(right1.Jump, testMove.Jump, "Jump not equal");
+            Assert.IsTrue(right1.Equals(testMove));
             Assert.AreEqual(right1, testMove);
+            
             Console.Out.WriteLine("FromXmlDocumentTest() passed!");
         }
         ///<summary>
@@ -569,7 +574,7 @@ namespace RPChess
         		                "Successive invocations of x.Equals(y) differed.");
         	}
         	Assert.AreEqual(testMove, newMove,
-        	                "Assert.AreEqual() returned false.");
+                "Assert.AreEqual() returned false.");
         	Console.Out.WriteLine("equalsTest passed.");
         }
     }
