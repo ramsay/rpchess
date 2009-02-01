@@ -1,70 +1,102 @@
-///<summary>
-///The Main Game loop for RPChess
-///</summary>
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Net;
-using Microsoft.Xna.Framework.Storage;
+//-----------------------------------------------------------------------
+// <copyright file="Game1.cs" company="BENTwerx">
+//     LGPL Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
 
 namespace RPChess
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.GamerServices;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+    using Microsoft.Xna.Framework.Net;
+    using Microsoft.Xna.Framework.Storage;
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-		// Main Game members
+        /// <summary>
+        /// Holds the value of the current menuState of the game.
+        /// </summary>
+        private MenuState menuState;
+
+        /// <summary>
+        /// The move log of the game.
+        /// </summary>
+        private Log moveLog;
+
+        /// <summary>
+        /// The View of the game.
+        /// </summary>
+        private View view;
+
+        /// <summary>
+        /// The model of the game.
+        /// </summary>
+        private Model model;
+
+        /// <summary>
+        /// The controller of the game.
+        /// </summary>
+        private Controller controller;
+
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+
+        /// <summary>
+        /// Initializes a new instance of the Game1 class that actually runs 
+        /// the game loop.
+        /// </summary>
+        public Game1()
+        {
+            this.graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            this.menuState = MenuState.MainMenu;
+            this.moveLog = new Log();
+
+            this.view = new TextView();
+            this.controller = new TextController();
+            this.model = new Model();
+        }
+
+        /// <summary>
+        /// An enum of the different possible states of the game.
+        /// </summary>
         public enum MenuState
         {
             /// <summary>
             /// MainMenu = 0, This value means the game is at the main menu.
             /// </summary>
             MainMenu,
+
             /// <summary>
             /// Campaign = 1, This is the first choice of the main menu, it
             /// states the player is in the campaign mode.
             /// </summary>
             Campaign,
+
             /// <summary>
             /// Versus = 2, This is the local multiplayer mode.
             /// </summary>
             Versus,
+
             /// <summary>
             /// PartyEditor = 3, A customize mode that lets players create a team for campaign or versus.
             /// </summary>
             PartyEditor,
+
             /// <summary>
             /// Settings = 4, General game settings.
             /// </summary>
             Settings
-        }
-        private MenuState _menuState;
-        // Chess members
-        private Log _movelog;
-        private View _view;
-
-        private Model _model;
-        private Controller _controller;
-
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
-        public Game1()
-        {
-            graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            _menuState = MenuState.MainMenu;
-            _movelog = new Log();
-
-            _view = new TextView();
-            _controller = new TextController();
-            _model = new Model();
         }
 
         /// <summary>
@@ -75,10 +107,10 @@ namespace RPChess
         /// </summary>
         protected override void Initialize()
         {
-            _movelog.Initialize();
-            _view.Initialize();
-            _controller.Initialize();
-            _model.Initialize();
+            this.moveLog.Initialize();
+            this.view.Initialize();
+            this.controller.Initialize();
+            this.model.Initialize();
             base.Initialize();
         }
 
@@ -89,7 +121,7 @@ namespace RPChess
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -110,28 +142,43 @@ namespace RPChess
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            switch (_menuState)
+            switch (this.menuState)
             {
-                case MenuState.MainMenu:
+                case MenuState.MainMenu:                    
                     // Allows the game to exit
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    {
                         this.Exit();
+                    }
+
                     break;
                 case MenuState.Campaign:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                        _menuState = MenuState.MainMenu;
+                    {
+                        this.menuState = MenuState.MainMenu;
+                    }
+                    
                     break;
                 case MenuState.PartyEditor:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                        _menuState = MenuState.MainMenu;
+                    {
+                        this.menuState = MenuState.MainMenu;
+                    }
+                    
                     break;
                 case MenuState.Settings:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                        _menuState = MenuState.MainMenu;
+                    {
+                        this.menuState = MenuState.MainMenu;
+                    }
+                    
                     break;
                 case MenuState.Versus:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                        _menuState = MenuState.MainMenu;
+                    {
+                        this.menuState = MenuState.MainMenu;
+                    }
+                    
                     break;
             }
 
@@ -144,25 +191,25 @@ namespace RPChess
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            switch (_menuState)
+            switch (this.menuState)
             {
                 case MenuState.MainMenu:
-                    graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    // 
+                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
                 case MenuState.Settings:
-                    graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
                 case MenuState.Campaign:
-                    graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
                 case MenuState.Versus:
-                    graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
                 case MenuState.PartyEditor:
-                    graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
             }
+
             base.Draw(gameTime);
         }
     }

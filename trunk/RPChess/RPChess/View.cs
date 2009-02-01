@@ -40,7 +40,7 @@ namespace RPChess
 
     class TextView : View
     {
-        private IBoardSpace[][] _BoardState;
+        ////private IBoardSpace[][] _BoardState;
 		long _lastMove;
 		public long LastMove
 		{
