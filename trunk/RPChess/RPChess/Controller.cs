@@ -11,6 +11,7 @@ namespace RPChess
     using System.Collections.Generic;
     using System.Text;
     using System.Xml;
+
     /// <summary>
     /// Interface to keep all future controllers interchangeable.
     /// </summary>

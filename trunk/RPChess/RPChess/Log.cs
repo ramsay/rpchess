@@ -69,9 +69,10 @@ namespace RPChess
         {
             if ( _references < 2 || !_initialized)
             {
-                if (_moveList.Count != 0)
+                if (_moveList != null)
                 {
                     _moveList.Clear();
+                    _moveList = null;
                 }
                 _moveList = new List<string>();
                 _initialized = true;

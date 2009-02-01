@@ -500,8 +500,8 @@ namespace RPChess
         {
             this.whiteTeam = new Piece[8];
             this.blackTeam = new Piece[8];
-            this.whiteTeam[0] = new Piece(new XmlDocument());
-            this.blackTeam[0] = new Piece(new XmlDocument());
+            this.whiteTeam[0] = new Piece();
+            this.blackTeam[0] = new Piece();
 
             // TODO: Add all pieces (built-ins) to each team.
         }

@@ -73,11 +73,6 @@ namespace RPChess
         public enum MenuState
         {
             /// <summary>
-            /// MainMenu = 0, This value means the game is at the main menu.
-            /// </summary>
-            MainMenu,
-
-            /// <summary>
             /// Campaign = 1, This is the first choice of the main menu, it
             /// states the player is in the campaign mode.
             /// </summary>
@@ -94,11 +89,17 @@ namespace RPChess
             PartyEditor,
 
             /// <summary>
-            /// Settings = 4, General game settings.
+            /// Settings = 3, General game settings.
             /// </summary>
-            Settings
+            Settings,
+
+            /// <summary>
+            /// MainMenu = 4, This value means the game is at the main menu.
+            /// </summary>
+            MainMenu
         }
 
+        List<string> menuList;
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -112,8 +113,16 @@ namespace RPChess
             this.controller.Initialize();
             this.model.Initialize();
             base.Initialize();
+
+            menuList = new List<string>(5);
+            menuList.Add("Campaign");
+            menuList.Add("Versus");
+            menuList.Add("Settings");
+            menuList.Add("Party Editor");
+            menuList.Add("Exit");
         }
 
+        SpriteFont Font1;
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -122,7 +131,7 @@ namespace RPChess
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Font1 = Content.Load<SpriteFont>("Kootenay");
             // TODO: use this.Content to load your game content here
         }
 
@@ -147,6 +156,41 @@ namespace RPChess
                 case MenuState.MainMenu:                    
                     // Allows the game to exit
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    {
+                        this.Exit();
+                    }
+
+                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Down) ||
+                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadDown))
+                    {
+                        if (menuSelection < 4)
+                        {
+                            menuSelection++;
+                        }
+                    }
+
+                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Up) ||
+                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
+                    {
+                        if (menuSelection > 0)
+                        {
+                            menuSelection--;
+                        }
+                    }
+
+                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Enter) ||
+                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.A))
+                    {
+                        if (menuSelection == menuList.Count - 1)
+                        {
+                            this.Exit();
+                        }
+
+                        menuState = (MenuState)menuSelection;
+                    }
+
+                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Back) ||
+                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back))
                     {
                         this.Exit();
                     }
@@ -185,16 +229,64 @@ namespace RPChess
             base.Update(gameTime);
         }
 
+        int menuSelection = 0;
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             switch (this.menuState)
             {
                 case MenuState.MainMenu:
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    string gamename = "RPChess";
+
+                    // Find the center of the string
+                    float increment = graphics.GraphicsDevice.Viewport.Height 
+                        / (menuList.Count + 2);
+                    Vector2 FontPos = 
+                        new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
+                        increment);
+                    Vector2 FontOrigin = Font1.MeasureString(gamename) / 2;
+                    // Draw the string
+                    spriteBatch.DrawString(Font1, gamename, FontPos, Color.LightGreen,
+                        0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+                  
+                    for (int i = 0; i < menuList.Count; i++) 
+                    {
+                        // Find the center of the string
+                        FontOrigin = Font1.MeasureString(menuList[i]) / 2;
+                        FontPos.Y += increment;
+                        // Draw the string
+                        if (i == menuSelection)
+                        {
+                            spriteBatch.DrawString(
+                                Font1, 
+                                menuList[i], 
+                                FontPos,
+                                Color.Red, 
+                                0, 
+                                FontOrigin, 
+                                0.7f, 
+                                SpriteEffects.None, 
+                                0.5f);
+                        }
+                        else
+                        {
+                            spriteBatch.DrawString(
+                                Font1, 
+                                menuList[i], 
+                                FontPos, 
+                                Color.LightGreen,
+                                0, 
+                                FontOrigin, 
+                                0.5f, 
+                                SpriteEffects.None, 
+                                0.5f);
+                        }
+                    }
                     break;
                 case MenuState.Settings:
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -209,7 +301,7 @@ namespace RPChess
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
                     break;
             }
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
