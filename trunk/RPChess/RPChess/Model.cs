@@ -615,10 +615,10 @@ namespace RPChess
             this.boardState = new List<List<IBoardSpace>>(this.Length);
             for (int row = 0; row < this.Length; row++)
             {
-                this.boardState[row] = new List<IBoardSpace>(this.Width);
+                this.boardState.Add(new List<IBoardSpace>(this.Width));
                 for (int col = 0; col < this.Width; col++)
                 {
-                    this.boardState[row][col] = EmptySpace.Instance;
+                    this.boardState[row].Add(EmptySpace.Instance);
                 }
             }
         }

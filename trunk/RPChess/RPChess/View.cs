@@ -122,13 +122,23 @@ namespace RPChess
         /// </summary>
         private long lastMove;
 
+        /// <summary>
+        /// Stores the time since the last Draw.
+        /// </summary>
         private TimeSpan lastTime;
-        
+
+        private GraphicsDeviceManager graphics;
+        private Model model;
+        private Log log;
+
         public View2D(
             ref GraphicsDeviceManager g,
             ref Model m,
             ref Log l)
         {
+            graphics = g;
+            model = m;
+            log = l;
         }
 
         /// <summary>

@@ -124,6 +124,8 @@ namespace RPChess
         }
 
         SpriteFont Font1;
+        Texture2D chessboard;
+        Matrix SpriteScale;
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -133,7 +135,14 @@ namespace RPChess
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
             Font1 = Content.Load<SpriteFont>("Kootenay");
-            // TODO: use this.Content to load your game content here
+            chessboard = Content.Load<Texture2D>("chessboard");
+
+            // Default resolution is 800x600; scale sprites up or down based on
+            // current viewport
+            float screenscale = (float)graphics.GraphicsDevice.Viewport.Width / 800f;
+            // Create the scale transform for Draw. 
+            // Do not scale the sprite depth (Z=1).
+            SpriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
         }
 
         /// <summary>
@@ -230,6 +239,25 @@ namespace RPChess
             base.Update(gameTime);
         }
 
+        protected Rectangle GetTitleSafeArea(float percent)
+        {
+            Rectangle retval = new Rectangle(graphics.GraphicsDevice.Viewport.X,
+                graphics.GraphicsDevice.Viewport.Y,
+                graphics.GraphicsDevice.Viewport.Width,
+                graphics.GraphicsDevice.Viewport.Height);
+#if XBOX
+        // Find Title Safe area of Xbox 360.
+        float border = (1 - percent) / 2;
+        retval.X = (int)(border * retval.Width);
+        retval.Y = (int)(border * retval.Height);
+        retval.Width = (int)(percent * retval.Width);
+        retval.Height = (int)(percent * retval.Height);
+        return retval;            
+#else
+            return retval;
+#endif
+        }
+
         int menuSelection = 0;
         /// <summary>
         /// This is called when the game should draw itself.
@@ -237,7 +265,8 @@ namespace RPChess
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred,
+                        SaveStateMode.None, SpriteScale);
             switch (this.menuState)
             {
                 case MenuState.MainMenu:
@@ -294,7 +323,32 @@ namespace RPChess
                     break;
                 case MenuState.Campaign:
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    view.Draw(gameTime);
+                    ////view.Draw(gameTime);
+                    // Draw chess board.
+                    spriteBatch.Draw(
+                        chessboard, 
+                        Vector2.Zero, 
+                        null, 
+                        Color.White, 
+                        0.0f, 
+                        Vector2.Zero,
+                        (float)graphics.GraphicsDevice.Viewport.Height / 
+                        (float)chessboard.Height, 
+                        SpriteEffects.None, 
+                        0.0f); 
+                    
+                    // Draw each piece.
+                    foreach (List<IBoardSpace> row in Board.Instance.BoardState)
+                    {
+                        foreach (IBoardSpace space in row)
+                        {
+                            if (!space.IsEmpty)
+                            {
+                                // Draw physical object / piece.
+                                
+                            }
+                        }
+                    }
                     break;
                 case MenuState.Versus:
                     this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
