@@ -85,7 +85,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Army.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Dice.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Piece.cs" />
