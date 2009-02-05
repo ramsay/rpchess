@@ -1,6 +1,10 @@
-/// <summary>
-/// This is the Model code all of the game mechanics are in here.
-/// </sumary>
+//-----------------------------------------------------------------------
+// <copyright file="Model.cs" company="BENTwerx">
+//     LGPL Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
+ 
 namespace RPChess
 {
     using System;
@@ -372,14 +376,6 @@ namespace RPChess
         private static EmptySpace instance = new EmptySpace();
 
         /// <summary>
-        /// Initializes static members of EmptySpace, nothing to
-        /// do here.
-        /// </summary>
-        ////static EmptySpace()
-        ////{
-        ////}
-
-        /// <summary>
         /// Gets the EmptySpace Instance.
         /// </summary>
         public static EmptySpace Instance
@@ -449,7 +445,7 @@ namespace RPChess
         /// </summary>
         private List<Piece> blackRoster;
 
-        private Board board; // Superflous for now.
+        ////private Board board; // Superflous for now.
 
         /// <summary>
         /// Initializes a new instance of the Model class.
@@ -478,6 +474,17 @@ namespace RPChess
             // TODO: Add all pieces (built-ins) to each team.
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Model class.
+        /// </summary>
+        /// <param name="whiteRoster">
+        /// A List of pieces that will be used by player white.
+        /// </param>
+        /// <param name="blackRoster">
+        /// A List of pieces that will be used by player black.</param>
+        /// <param name="board">
+        /// A reference to the Board.
+        /// </param>
         public Model(
             List<Piece> whiteRoster,
             List<Piece> blackRoster,

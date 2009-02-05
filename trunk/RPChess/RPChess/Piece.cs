@@ -4,7 +4,13 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Xml;
-    public enum PieceType { King, Queen, Rook, Bishop, Knight, Pawn };
+
+    /// <summary>
+    /// An Enum that gives names to all of the base types for Pieces.  One
+    /// might use it to index an array with descriptive keywords instead of
+    /// integers.
+    /// </summary>
+    public enum ChessPiece { King, Queen, Rook, Bishop, Knight, Pawn };
 
     /// <summary>
     /// A class that holds the stats and other data for a
@@ -12,7 +18,7 @@
     /// </summary>
     public class Piece : IBoardSpace
     {
-        private PieceType pieceType;
+        private ChessPiece ChessPiece;
 
         /// <summary>
         /// Maximum number of this kind of units in army. The final army 
@@ -71,13 +77,18 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the Piece class.
+        /// 
         /// </summary>
-        /// <param name="name">Name for piece</param>
-        /// <param name="maxHP">Maximum HitPoints</param>
-        /// <param name="moveSet">Set of moves</param>
+        /// <param name="ChessPiece"></param>
+        /// <param name="name"></param>
+        /// <param name="max"></param>
+        /// <param name="cost"></param>
+        /// <param name="move"></param>
+        /// <param name="save"></param>
+        /// <param name="melee"></param>
+        /// <param name="specials"></param>
         public Piece(
-            PieceType pieceType,
+            ChessPiece ChessPiece,
             string name, 
             uint max,
             uint cost,
@@ -86,7 +97,7 @@
             int melee,
             List<IMove> specials)
         {
-            this.pieceType = pieceType;
+            this.ChessPiece = ChessPiece;
             this.name = name;
             this.max = max;
             this.cost = cost;
@@ -231,7 +242,7 @@
         }
 
         /// <summary>
-        /// Gets a List<> of special moves.
+        /// Gets a List of special moves.
         /// </summary>
         public List<IMove> SpecialsList
         {
@@ -269,11 +280,25 @@
             }
         }
 
+        /// <summary>
+        /// Adds the base melee value with a random D6 roll that will be used
+        /// for a melee attack.
+        /// </summary>
+        /// <returns>
+        /// An integer value that a target piece must defend.
+        /// </returns>
         public int Attack()
         {
             return this.melee + Dice.RollD6();
         }
 
+        /// <summary>
+        /// Attempts to make a save from a given event value
+        /// </summary>
+        /// <param name="value">
+        /// A value that must be beat inorder to survive, charge, etc.
+        /// </param>
+        /// <returns>True if this Piece has made it's saving throw.</returns>
         public bool MakeSave(int value)
         {
             return (this.save + Dice.RollD6()) > value;
@@ -308,7 +333,7 @@
         public XmlDocument ToXmlDocument()
         {
             StringBuilder repr = new StringBuilder();
-            repr.AppendLine("<piece type=\"" + this.pieceType + "\">");
+            repr.AppendLine("<piece type=\"" + this.ChessPiece + "\">");
             repr.AppendLine("<max>" + this.max + "</max>");
             repr.AppendLine("<cost>" + this.cost + "</cost>");
             repr.AppendLine("<move>" + this.move + "</move>");

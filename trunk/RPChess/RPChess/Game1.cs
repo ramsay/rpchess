@@ -239,6 +239,11 @@ namespace RPChess
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Returns a Rectangle that is safe to draw dependent on platform.
+        /// </summary>
+        /// <param name="percent">How much of the screen to use.</param>
+        /// <returns>A rectangle that is safe for drawing.</returns>
         protected Rectangle GetTitleSafeArea(float percent)
         {
             Rectangle retval = new Rectangle(graphics.GraphicsDevice.Viewport.X,

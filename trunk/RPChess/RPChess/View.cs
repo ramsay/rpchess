@@ -58,15 +58,25 @@ namespace RPChess
         void Draw(GameTime gameTime);
     }
 
+    /// <summary>
+    /// Implements a text interface for the RPChess game.
+    /// </summary>
     public class TextView : IView
     {
-		long lastMove;
-        TimeSpan lastTime;
+		private long lastMove;
+        private TimeSpan lastTime;
 
+        /// <summary>
+        /// Instantiates a new instance of the TextView class.
+        /// </summary>
         public TextView()
         {
         }
 
+        /// <summary>
+        /// Gets the index of the last move that had been displayed to the
+        /// user.
+        /// </summary>
         public long LastMove
         {
             get
@@ -75,6 +85,10 @@ namespace RPChess
             }
         }
 
+        /// <summary>
+        /// Gets the time that has passed since the board state has been 
+        /// displayed to the user.
+        /// </summary>
         public TimeSpan LastTime
         {
             get
@@ -83,6 +97,9 @@ namespace RPChess
             }
         }
 
+        /// <summary>
+        /// Gets the type of UI this object implements.
+        /// </summary>
         public ViewType Type
         {
             get
@@ -91,6 +108,9 @@ namespace RPChess
             }
         }
 		
+        /// <summary>
+        /// Resets all private members.
+        /// </summary>
 		public void Initialize()
 		{
 			lastMove = 0;
@@ -115,6 +135,9 @@ namespace RPChess
         }
     }
 
+    /// <summary>
+    /// Implements a 2D UI of the RPChess.
+    /// </summary>
     public class View2D : IView
     {
         /// <summary>
@@ -131,6 +154,18 @@ namespace RPChess
         private Model model;
         private Log log;
 
+        /// <summary>
+        /// Instantiates a new instace of the View2D class.
+        /// </summary>
+        /// <param name="g">
+        /// A reference to the Xna GraphicsDeviceManager for the current game.
+        /// </param>
+        /// <param name="m">
+        /// A reference to the Model that should be displayed.
+        /// </param>
+        /// <param name="l">
+        /// A reference to the Log for this game.
+        /// </param>
         public View2D(
             ref GraphicsDeviceManager g,
             ref Model m,
@@ -175,7 +210,7 @@ namespace RPChess
         }
 
         /// <summary>
-        /// 
+        /// Resets all private fields.
         /// </summary>
         public void Initialize()
         {

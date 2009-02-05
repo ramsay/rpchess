@@ -16,13 +16,10 @@ namespace RPChess
         private static uint _references;
         private static bool _initialized;
         /// <summary>
-        /// The number of moves in the Log.
+        /// Gets the number of moves in the Log.
         /// </summary>
         public int Count
         {
-            ///<summary>
-            ///Gets the number of moves.
-            ///</summary>
             get
             {
                 return _moveList.Count;
