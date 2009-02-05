@@ -438,16 +438,18 @@ namespace RPChess
     public class Model : IRPChessObject
     {
         /// <summary>
-        /// It's the WhiteTeam.
+        /// It's the whiteRoster.
         /// TODO: Make a RPChess.Team instead of Piece[].
         /// </summary>
-        private Piece[] whiteTeam;
+        private List<Piece> whiteRoster;
 
         /// <summary>
-        /// It's the BlackTeam.
+        /// It's the blackRoster.
         /// TODO: Make a RPChess.Team instead of Piece[].
         /// </summary>
-        private Piece[] blackTeam;
+        private List<Piece> blackRoster;
+
+        private Board board; // Superflous for now.
 
         /// <summary>
         /// Initializes a new instance of the Model class.
@@ -468,12 +470,19 @@ namespace RPChess
         /// </summary>
         public Model()
         {
-            this.whiteTeam = new Piece[8];
-            this.blackTeam = new Piece[8];
-            this.whiteTeam[0] = new Piece();
-            this.blackTeam[0] = new Piece();
+            this.whiteRoster = new List<Piece>(8);
+            this.blackRoster = new List<Piece>(8);
+            this.whiteRoster.Add(new Piece());
+            this.blackRoster.Add(new Piece());
 
             // TODO: Add all pieces (built-ins) to each team.
+        }
+
+        public Model(
+            List<Piece> whiteRoster,
+            List<Piece> blackRoster,
+            Board board)
+        {
         }
 
         /// <summary>
@@ -482,8 +491,15 @@ namespace RPChess
         public void Initialize()
         {
             Board.Instance.Initialize();
-            this.whiteTeam.Initialize();
-            this.blackTeam.Initialize();
+            foreach (Piece p in whiteRoster)
+            {
+                p.Initialize();
+            }
+
+            foreach (Piece p in blackRoster)
+            {
+                p.Initialize();
+            }
         }
 
         /// <summary>
@@ -632,79 +648,6 @@ namespace RPChess
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(repr.ToString());
             return xml;
-        }
-    }
-
-    /// <summary>
-    /// This will be essentially an ArraList of Pieces.
-    /// </summary>
-    public class Team : IRPChessObject
-    {
-        /// <summary>
-        /// The required King Piece of the Team.
-        /// </summary>
-        private Piece king;
-
-        ////private ArrayList _Pieces;
-
-        /// <summary>
-        /// Initializes a new instance of the Team class.
-        /// </summary>
-        public Team()
-        {
-            this.king = new Piece();
-        }
-
-        /// <summary>
-        /// Gets the King of the Team.
-        /// </summary>
-        public Piece King
-        {
-            get
-            {
-                return this.king;
-            }
-        }
-
-        /// <summary>
-        /// Initializes each Piece on the team.
-        /// </summary>
-        public void Initialize()
-        {
-        }
-
-        /// <summary>
-        /// Creates a Team type-casted as an IRPChessObject.
-        /// TODO: Convert to constructor.
-        /// </summary>
-        /// <param name="xml">
-        /// The xml snipet containing a serialized team.
-        /// </param>
-        /// <returns>
-        /// A Team type-casted as an IRPChessObject.
-        /// </returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xml)
-        {
-            this.Initialize();
-            if (xml.FirstChild.Name == "Team")
-            {
-                // TODO
-            }
-            else
-            {
-                Console.Error.WriteLine("xmlDocument is not a piece");
-            }
-
-            return (IRPChessObject)new Team();
-        }
-
-        /// <summary>
-        /// Serializes the Team instance.
-        /// </summary>
-        /// <returns>A serialized Team instance as an XmlDocument</returns>
-        public XmlDocument ToXmlDocument()
-        {
-            return new XmlDocument();
         }
     }
 

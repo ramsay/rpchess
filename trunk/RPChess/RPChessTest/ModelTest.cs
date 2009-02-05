@@ -95,50 +95,7 @@ namespace RPChess
             Assert.Fail("Not implemented!");
         }
     }
-    [TestFixture]
-    public class TeamTest
-    {
-        private Team testTeam;
-        private XmlDocument xmlDoc;
-        public TeamTest()
-        {
-            testTeam = new Team();
-        }
-        [TestFixtureSetUp]
-        public void TestSetup()
-        {
-            testTeam.Initialize();
-        }
-        [TestFixtureTearDown]
-        public void TestTeardown()
-        {
-        }
-        [Test]
-        public void DefaultConstructorTest()
-        {
-            //TODO:
-            Assert.Fail("Not implemented!");
-        }
-        [Test]
-        public void InitializeTest()
-        {
-            //TODO:
-            Assert.Fail("Not implemented!");
-        }
-        [Test]
-        public void ToXmlDocumentTest()
-        {
-            //TODO:
-            xmlDoc = testTeam.ToXmlDocument();
-            Assert.Fail("Not implemented!");
-        }
-        [Test]
-        public void FromXmlDocument()
-        {
-            //TODO:
-            Assert.Fail("Not implemented!");
-        }
-    }
+
     ///<summary>
     ///Tests the Movement class's public properties.
     ///</summary>
