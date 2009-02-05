@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Text;
     using System.Xml;
 
@@ -58,8 +59,10 @@
         /// Any special abilities
         /// </summary>
         private List<IMove> specials;
+        public ReadOnlyCollection<IMove> Specials;
 
         ////private List<IEffects> effects;
+        ////public ReadOnlyCollection<IEffects> Effects;
 
         /// <summary>
         /// Initializes a new instance of the Piece class that has all private
@@ -238,29 +241,6 @@
             get
             {
                 return this.save;
-            }
-        }
-
-        /// <summary>
-        /// Gets a List of special moves.
-        /// </summary>
-        public List<IMove> SpecialsList
-        {
-            get
-            {
-                return this.specials;
-            }
-        }
-
-        
-        /// <summary>
-        /// Gets a set of the piece's available moves.
-        /// </summary>
-        public IMove[] Specials
-        {
-            get
-            {
-                return (IMove[])this.specials.ToArray();
             }
         }
 

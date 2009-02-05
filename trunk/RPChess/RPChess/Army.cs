@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
     using System.Xml;
@@ -14,6 +15,7 @@
         private string name;
         private uint initiative;
         private Piece[] ranks;
+        public ReadOnlyCollection<Piece> Ranks;
         private uint wealth;
         private string description;
 
@@ -27,6 +29,7 @@
             this.ranks = null;
             this.wealth = 0;
             this.description = null;
+            this.Ranks = new ReadOnlyCollection<Piece>(this.ranks);
         }
 
         /// <summary>
@@ -38,7 +41,7 @@
         /// <param name="initiative">
         /// The value that determines which player will go first.
         /// </param>
-        /// <param name="Ranks">
+        /// <param name="ranks">
         /// A list of Pieces that give the specifications for each of the 
         /// chess pieces.
         /// </param>
@@ -52,13 +55,14 @@
         public Army( 
             string name,
             uint initiative,
-            Piece[] Ranks,
+            Piece[] ranks,
             uint wealth,
             string description)
         {
             this.name = name;
             this.initiative = initiative;
-            this.ranks = Ranks;
+            this.ranks = ranks;
+            this.Ranks = new ReadOnlyCollection<Piece>(ranks);
             this.wealth = wealth;
             this.description = description;
         }
@@ -104,18 +108,6 @@
             get
             {
                 return this.initiative;
-            }
-        }
-
-        /// <summary>
-        /// Gets an array of pieces that give the specifications for each of 
-        /// the chess pieces.
-        /// </summary>
-        public Piece[] Ranks
-        {
-            get
-            {
-                return this.ranks;
             }
         }
 

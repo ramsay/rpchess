@@ -906,7 +906,7 @@ namespace RPChess
 				    "<Attack type=\"RPChess.Model.AreaOfEffectAbility\">" +
 				    "<Name type=\"String\"></Name>" +
 				    "<Points type=\"Integer\">0</Points>" +
-    			    "<AreaOfEffect type=\"Integer[][]\" rows=" + 1 + " columns=" + 1 + ">" +
+    			    "<AreaOfEffect type=\"Integer[,]\" rows=" + 1 + " columns=" + 1 + ">" +
     			    "<row index=\"0\">" +
     			    "<column index=\"0\">0</column>" +
     			    "</row>" +

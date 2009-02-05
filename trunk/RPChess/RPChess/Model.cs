@@ -9,6 +9,7 @@ namespace RPChess
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Text;
     using System.Xml;
 
@@ -435,15 +436,14 @@ namespace RPChess
     {
         /// <summary>
         /// It's the whiteRoster.
-        /// TODO: Make a RPChess.Team instead of Piece[].
         /// </summary>
         private List<Piece> whiteRoster;
-
+        public ReadOnlyCollection<Piece> WhiteRoster;
         /// <summary>
         /// It's the blackRoster.
-        /// TODO: Make a RPChess.Team instead of Piece[].
         /// </summary>
         private List<Piece> blackRoster;
+        public ReadOnlyCollection<Piece> BlackRoster;
 
         ////private Board board; // Superflous for now.
 
@@ -469,7 +469,9 @@ namespace RPChess
             this.whiteRoster = new List<Piece>(8);
             this.blackRoster = new List<Piece>(8);
             this.whiteRoster.Add(new Piece());
-            this.blackRoster.Add(new Piece());
+            WhiteRoster = new ReadOnlyCollection<Piece>(whiteRoster);
+            this.blackRoster.Add(new Piece()); 
+            BlackRoster = new ReadOnlyCollection<Piece>(blackRoster);
 
             // TODO: Add all pieces (built-ins) to each team.
         }
@@ -565,8 +567,8 @@ namespace RPChess
         /// <summary>
         /// State of the board.
         /// </summary>
-        private List<List<IBoardSpace>> boardState;
-
+        private IBoardSpace[,] boardState;
+        public ReadOnlyCollection<IBoardSpace> BoardState;
         /// <summary>
         /// Initializes static members of the Board class.
         /// Only called once.
@@ -574,7 +576,8 @@ namespace RPChess
         static Board()
         {
             ////Initialize();
-            instance.boardState = new List<List<IBoardSpace>>();
+            instance.boardState = 
+                new IBoardSpace[instance.Length, instance.Width];
         }
 
         /// <summary>
@@ -589,29 +592,16 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Gets access to the BoardState as a 2d array of 
-        /// IBoardSpaces.
-        /// </summary>
-        public List<List<IBoardSpace>> BoardState
-        {
-            get
-            {
-                return this.boardState;
-            }
-        }
-
-        /// <summary>
         /// Initialize constructor.
         /// </summary>
         public void Initialize()
         {
-            this.boardState = new List<List<IBoardSpace>>(this.Length);
-            for (int row = 0; row < this.Length; row++)
+            this.boardState = new IBoardSpace[instance.Length, instance.Width];
+            for (int r = 0; r < instance.Length; r++)
             {
-                this.boardState.Add(new List<IBoardSpace>(this.Width));
-                for (int col = 0; col < this.Width; col++)
+                for (int c = 0; c < instance.Width; c++)
                 {
-                    this.boardState[row].Add(EmptySpace.Instance);
+                    this.boardState[r, c] = EmptySpace.Instance;
                 }
             }
         }
@@ -869,7 +859,8 @@ namespace RPChess
         /// The 2d integer array that represents the AreaOfEffect Shape.
         /// </summary>
         private int[,] areaOfEffect;
-        
+        public ReadOnlyCollection<int> AreaOfEffect;
+
         /// <summary>
         /// Initializes a new instance of the AreaOfEffectAbility class.
         /// </summary>
@@ -884,18 +875,7 @@ namespace RPChess
             : base(name, points)
         {
             this.areaOfEffect = areaOfEffect;
-        }
-
-        /// <summary>
-        /// Gets an array of integers expressing the size and shape of the
-        /// ability.
-        /// </summary>
-        public int[,] AreaOfEffect
-        {
-            get
-            {
-                return this.areaOfEffect;
-            }
+            this.AreaOfEffect = new ReadOnlyCollection<int>(this.AreaOfEffect);
         }
 
         /// <summary>
