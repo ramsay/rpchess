@@ -285,8 +285,8 @@
         /// Xml element.
         /// </summary>
         /// <param name="xml">An xml node containing all the member data.</param>
-        /// <returns>A Piece type-casted as an IObject.</returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        /// <returns>A Piece type-casted as an IRPChessObject.</returns>
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             if (xml.FirstChild.Name == "Piece")
             {
@@ -297,7 +297,7 @@
                 Console.Error.WriteLine("xmlDocument is not a piece");
             }
 
-            return (IObject)new Piece();
+            return (IRPChessObject)new Piece();
         }
 
         /// <summary>

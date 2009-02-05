@@ -47,39 +47,9 @@ namespace RPChess
     }
 
     /// <summary>
-    /// The root of all [evil!] RPChess IObjects all classes must implement
-    /// this interface.  All other interfaces implement this interface.  
-    /// Guarantees a uniform XML Serialization behavior.
-    /// </summary>
-    public interface IObject
-    {
-        /// <summary>
-        /// Returns the IObject to the state it would be as if the game had not
-        /// started.
-        /// </summary>
-        void Initialize();
-
-        /// <summary>
-        /// Makes all IObjects comply to RPChess proprietary XML Serialization.
-        /// </summary>
-        /// <param name="xml">XmlDocument containing a Serialized IObject</param>
-        /// <returns>The Constructed IObject Type-Casted</returns>
-        IObject FromXmlDocument(XmlDocument xml);
-
-        /// <summary>
-        /// Makes all IObjects comply to RPChess proprietary XML Serialization.
-        /// </summary>
-        /// <returns>
-        /// An xml snippet containing all the properties and fields 
-        /// of the IObject
-        /// </returns>
-        XmlDocument ToXmlDocument();
-    }
-
-    /// <summary>
     /// An interface to hold empty board spaces and pieces.
     /// </summary>
-    public interface IBoardSpace : IObject
+    public interface IBoardSpace : IRPChessObject
     {
         /// <summary>
         /// Gets a value indicating whether this IBoardSpace is empty.
@@ -94,7 +64,7 @@ namespace RPChess
     /// This is a struct that matches a distance and a direction
     /// for use on board topology.
     /// </summary>
-    public struct BoardVector : IObject
+    public struct BoardVector : IRPChessObject
     {
         /// <summary>
         /// The direction of the vector, enum.
@@ -183,9 +153,9 @@ namespace RPChess
         /// An XmlDocument possibly containing a BoardVector.
         /// </param>
         /// <returns>An EmptySpace reference.</returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
-            return (IObject)new BoardLocation();
+            return (IRPChessObject)new BoardLocation();
         }
 
         /// <summary>
@@ -205,7 +175,7 @@ namespace RPChess
     /// This is a simple X,Y pair that is used for storing locations and
     /// offsets.
     /// </summary>
-    public struct BoardLocation : IObject
+    public struct BoardLocation : IRPChessObject
     {
         /// <summary>
         /// The maximum allowed distance across the board.
@@ -312,12 +282,12 @@ namespace RPChess
         }
 
         /// <summary>
-        /// IObject value equals override
+        /// IRPChessObject value equals override
         /// </summary>
-        /// <param name="obj">Another IObject</param>
+        /// <param name="obj">Another IRPChessObject</param>
         /// <returns>
         /// True if the X and Y values are the same.</returns>
-        public bool Equals(IObject obj)
+        public bool Equals(IRPChessObject obj)
         {
             // the gimmes
             if (obj == null)
@@ -340,7 +310,7 @@ namespace RPChess
         /// <summary>
         /// hashcode override
         /// </summary>
-        /// <returns>The hashcode of this IObject.</returns>
+        /// <returns>The hashcode of this IRPChessObject.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -373,9 +343,9 @@ namespace RPChess
         /// An XmlDocument possibly containing a BoardLocation.
         /// </param>
         /// <returns>An EmptySpace reference.</returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
-            return (IObject)new BoardLocation();
+            return (IRPChessObject)new BoardLocation();
         }
 
         /// <summary>
@@ -446,9 +416,9 @@ namespace RPChess
         /// An XmlDocument possibly containing an EmptySpace
         /// </param>
         /// <returns>An EmptySpace reference.</returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
-            return (IObject)new EmptySpace();
+            return (IRPChessObject)new EmptySpace();
         }
 
         /// <summary>
@@ -465,7 +435,7 @@ namespace RPChess
     /// I don't know anymore.
     /// Model-View-Controller design.
     /// </summary>
-    public class Model : IObject
+    public class Model : IRPChessObject
     {
         /// <summary>
         /// It's the WhiteTeam.
@@ -533,18 +503,18 @@ namespace RPChess
         /// <param name="xml" type="XmlDocument">
         /// An XmlDocument that points to a xml document with the data in a
         /// specific format.</param>
-        /// <returns>A Model type-casted as an IObject.</returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        /// <returns>A Model type-casted as an IRPChessObject.</returns>
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             this.Initialize();
             if (xml.FirstChild.Name == "Model")
             {
-                return (IObject)new Model();
+                return (IRPChessObject)new Model();
             }
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a RPChess.Model");
-                return (IObject)new Model();
+                return (IRPChessObject)new Model();
             }
         }
     }
@@ -552,7 +522,7 @@ namespace RPChess
     /// <summary>
     /// The implementation of the Model interface.
     /// </summary>
-    public sealed class Board : IObject
+    public sealed class Board : IRPChessObject
     {
         /// <summary>
         /// The width of the board.
@@ -624,16 +594,16 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Creates a Board type-casted as an IObject.
+        /// Creates a Board type-casted as an IRPChessObject.
         /// TODO: Convert to constructor.
         /// </summary>
         /// <param name="xml">
         /// The xml snipet containing a serialized board.
         /// </param>
         /// <returns>
-        /// A Board type-casted as an IObject.
+        /// A Board type-casted as an IRPChessObject.
         /// </returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             this.Initialize();
             if (xml.FirstChild.Name == "Board")
@@ -645,7 +615,7 @@ namespace RPChess
                 Console.Error.WriteLine("xmlDocument is not a RPChess.Board");
             }
 
-            return (IObject)new Board();
+            return (IRPChessObject)new Board();
         }
 
         /// <summary>
@@ -668,7 +638,7 @@ namespace RPChess
     /// <summary>
     /// This will be essentially an ArraList of Pieces.
     /// </summary>
-    public class Team : IObject
+    public class Team : IRPChessObject
     {
         /// <summary>
         /// The required King Piece of the Team.
@@ -704,16 +674,16 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Creates a Team type-casted as an IObject.
+        /// Creates a Team type-casted as an IRPChessObject.
         /// TODO: Convert to constructor.
         /// </summary>
         /// <param name="xml">
         /// The xml snipet containing a serialized team.
         /// </param>
         /// <returns>
-        /// A Team type-casted as an IObject.
+        /// A Team type-casted as an IRPChessObject.
         /// </returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             this.Initialize();
             if (xml.FirstChild.Name == "Team")
@@ -725,7 +695,7 @@ namespace RPChess
                 Console.Error.WriteLine("xmlDocument is not a piece");
             }
 
-            return (IObject)new Team();
+            return (IRPChessObject)new Team();
         }
 
         /// <summary>
@@ -741,12 +711,12 @@ namespace RPChess
     /// <summary>
     /// An interface for the different actions a Piece can do.
     /// </summary>
-    public interface IMove : IObject
+    public interface IMove : IRPChessObject
     {
         /// <summary>
         /// Gets the Type property of a Move
         /// </summary>
-        /// <value>The type of move this IObject is an instance of.</value>
+        /// <value>The type of move this IRPChessObject is an instance of.</value>
         MoveType Type
         {
             get;
@@ -921,8 +891,8 @@ namespace RPChess
         /// <param name="xml">
         /// An xml document containing all of the member data of an attack.
         /// </param>
-        /// <returns>An Attack Type-Casted as an IObject.</returns>
-        public virtual IObject FromXmlDocument(XmlDocument xml)
+        /// <returns>An Attack Type-Casted as an IRPChessObject.</returns>
+        public virtual IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             this.Initialize();
             if (xml.FirstChild.Name == "Attack")
@@ -934,7 +904,7 @@ namespace RPChess
                 Console.Error.WriteLine("xmlDocument is not an Attack");
             }
 
-            return (IObject)new Attack();
+            return (IRPChessObject)new Attack();
         }
     }
 
@@ -1005,8 +975,8 @@ namespace RPChess
         /// <param name="xml">
         /// An XML document containing AreaOfEffectAbility member data.
         /// </param>
-        /// <returns>An AreaOfEffectAbility Type-Casted as an IObject</returns>
-        public override IObject FromXmlDocument(XmlDocument xml)
+        /// <returns>An AreaOfEffectAbility Type-Casted as an IRPChessObject</returns>
+        public override IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             this.Initialize();
             if (xml.FirstChild.Name == "AreaOfEffectAbility")
@@ -1018,7 +988,7 @@ namespace RPChess
                 Console.Error.WriteLine("xmlDocument is not an AreaOfEffectAbility");
             }
 
-            return (IObject)new Attack();
+            return (IRPChessObject)new Attack();
         }
     }
 
@@ -1124,10 +1094,10 @@ namespace RPChess
         /// Xml document containing correctly formatted Directional Ability
         ///  member data.
         /// </param>
-        /// <returns>A Directional Ability Type-Casted as an IObject</returns>
-        public override IObject FromXmlDocument(XmlDocument xml)
+        /// <returns>A Directional Ability Type-Casted as an IRPChessObject</returns>
+        public override IRPChessObject FromXmlDocument(XmlDocument xml)
         {
-            return (IObject)new Attack();
+            return (IRPChessObject)new Attack();
         }
 
         /// <summary>
@@ -1319,7 +1289,7 @@ namespace RPChess
         /// Xml element containing Movement data.
         /// </param>
         /// <returns>The xml snippet that serializes a movement.</returns>
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
             this.offset = new BoardLocation(0, 0);
             this.jump = false;
@@ -1387,7 +1357,7 @@ namespace RPChess
                 " is not a Movement xml element.");
             }
 
-            return (IObject)this;
+            return (IRPChessObject)this;
         }
 
         /// <summary>
@@ -1401,10 +1371,10 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Compares the IObject's members.
+        /// Compares the IRPChessObject's members.
         /// </summary>
-        /// <param name="obj">Another IObject.</param>
-        /// <returns>True if IObjects have same members.</returns>
+        /// <param name="obj">Another IRPChessObject.</param>
+        /// <returns>True if IRPChessObjects have same members.</returns>
         public override bool Equals(object obj)
         {
             // the gimmes
@@ -1439,7 +1409,7 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Gets rid of a warning, returns the base IObject
+        /// Gets rid of a warning, returns the base IRPChessObject
         /// GetHashCode()
         /// </summary>
         /// <returns>Just returns base.GetHashCode()</returns>

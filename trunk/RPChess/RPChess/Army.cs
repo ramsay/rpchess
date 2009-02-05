@@ -6,7 +6,7 @@
     using System.Text;
     using System.Xml;
 
-    public class Army : IObject
+    public class Army : IRPChessObject
     {
         private string name;
         private uint initiative;
@@ -140,9 +140,9 @@
             return xmldoc;
         }
 
-        public IObject FromXmlDocument(XmlDocument xmldoc)
+        public IRPChessObject FromXmlDocument(XmlDocument xmldoc)
         {
-            return (IObject)new Army();
+            return (IRPChessObject)new Army();
         }
     }
 }

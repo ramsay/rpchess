@@ -15,7 +15,7 @@ namespace RPChess
     /// <summary>
     /// Interface to keep all future controllers interchangeable.
     /// </summary>
-    interface Controller : IObject
+    interface Controller : IRPChessObject
     {
     }
 
@@ -50,9 +50,9 @@ namespace RPChess
         {
             return new XmlDocument();
         }
-        public IObject FromXmlDocument(XmlDocument xml)
+        public IRPChessObject FromXmlDocument(XmlDocument xml)
         {
-            return (IObject)new TextController();
+            return (IRPChessObject)new TextController();
         }
     }
 }
