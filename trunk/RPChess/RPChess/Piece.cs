@@ -53,11 +53,21 @@
         /// </summary>
         private List<IMove> specials;
 
+        ////private List<IEffects> effects;
+
         /// <summary>
-        /// Initializes a new instance of the Piece class.
+        /// Initializes a new instance of the Piece class that has all private
+        /// fields set to null or 0.
         /// </summary>
         public Piece()
         {
+            this.cost = 0;
+            this.name = null;
+            this.max = 0;
+            this.melee = 0;
+            this.move = 0;
+            this.save = 0;
+            this.specials = null;
         }
 
         /// <summary>
@@ -120,6 +130,7 @@
                         case "specials":
                             foreach (XmlNode grankid in kid.ChildNodes)
                             {
+                                // TODO: Add specials support.
                                 ////specials.Add(new IMove(grankid));
                             }
 
@@ -152,7 +163,7 @@
         }
 
         /// <summary>
-        /// Gets name of the piece.
+        /// Gets name of this piece.
         /// </summary>
         public string Name
         {
@@ -162,6 +173,75 @@
             }
         }
 
+        /// <summary>
+        /// Gets the maximum number per 100 squares that a team can have of 
+        /// this piece
+        /// </summary>
+        public uint Maximum
+        {
+            get
+            {
+                return this.max;
+            }
+        }
+
+        /// <summary>
+        /// Gets the team building cost of this piece.
+        /// </summary>
+        public uint Cost
+        {
+            get
+            {
+                return this.cost;
+            }
+        }
+
+        /// <summary>
+        /// Gets the attribute of the piece that determines how many spaces  
+        /// this Piece can move on it's move phase.
+        /// </summary>
+        public uint Move
+        {
+            get
+            {
+                return this.move;
+            }
+        }
+
+        /// <summary>
+        /// Gets the base value of this Piece's melee attack.
+        /// </summary>
+        public int Melee
+        {
+            get
+            {
+                return this.melee;
+            }
+        }
+
+        /// <summary>
+        /// Gets the value that determines the resolve of this Piece.
+        /// </summary>
+        public int Save
+        {
+            get
+            {
+                return this.save;
+            }
+        }
+
+        /// <summary>
+        /// Gets a List<> of special moves.
+        /// </summary>
+        public List<IMove> SpecialsList
+        {
+            get
+            {
+                return this.specials;
+            }
+        }
+
+        
         /// <summary>
         /// Gets a set of the piece's available moves.
         /// </summary>
@@ -187,6 +267,16 @@
                     m.Initialize();
                 }
             }
+        }
+
+        public int Attack()
+        {
+            return this.melee + Dice.RollD6();
+        }
+
+        public bool MakeSave(int value)
+        {
+            return (this.save + Dice.RollD6()) > value;
         }
 
         /// <summary>
