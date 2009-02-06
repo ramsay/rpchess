@@ -3,7 +3,7 @@
 
 = Introduction =
 
-RPChess is a C# XNA game developed as an elementary yet highly-customizable strategic Role Playing platform.  At it's root it is both a Chess engine and a Table Top Game simulator.   Supporting open source licensing and free culture it separate the Game specification (Licensed through Creative Commons [http://creativecommons.org/licenses/by-sa/3.0/ Attribution-Share Alike 3.0 Unported])and a GPL'd Game Engine.  Using this licensing scheme I will be able to create a unique XNA game licensed to me but open for others to learn from, contribute to or modify.  Basic milestones path is that the game will first be released to Windows with only 2D support.  Next, we will support a Xbox 360 release adding key features of a standard Xbox Arcade title.  Finally we will add support for all 
+RPChess is a C# XNA game developed as an elementary yet highly-customizable strategic Role Playing platform.  At it's root it is both a Chess engine and a Table Top Game simulator.   Supporting open source licensing and free culture it separate the Game specification (Licensed through Creative Commons [http://creativecommons.org/licenses/by-sa/3.0/ Attribution-Share Alike 3.0 Unported])and a GPL'd Game Engine.  Using this licensing scheme I will be able to create a unique XNA game licensed to me but open for others to learn from, contribute to or modify.  Basic milestones path is that the game will first be released to Windows with only 2D support.  Next, we will support a Xbox 360 release adding key features of a standard Xbox Arcade title.  Finally we will add support for all possible target platforms mono or .Net based.
 
 
 == Road Map ==
