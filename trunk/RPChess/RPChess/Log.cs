@@ -1,14 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+//-----------------------------------------------------------------------
+// <copyright file="Log.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
 
 namespace RPChess
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     /// <summary>
     /// A lazy man's message storage / callback.
     /// The Log class maintains a list of all moves made
     /// throughout the game. The list is static making 
-	/// this a monostate.
+    /// this a monostate.
     /// </summary>
     public class Log
     {
@@ -64,7 +71,7 @@ namespace RPChess
         /// </summary>
         public void Initialize()
         {
-            if ( _references < 2 || !_initialized)
+            if (_references < 2 || !_initialized)
             {
                 if (_moveList != null)
                 {
@@ -92,7 +99,7 @@ namespace RPChess
         /// <returns>The latest string log entry.</returns>
         public string peek()
         {
-            return _moveList[_moveList.Count-1];
+            return _moveList[_moveList.Count - 1];
         }
         /// <summary>
         /// Clears the log.
@@ -100,7 +107,7 @@ namespace RPChess
         /// <returns>Returns the number of entries cleared.</returns>
         public int Clear()
         {
-            if ( _references < 2 )
+            if (_references < 2)
             {
                 int count = _moveList.Count;
                 _moveList.Clear();
@@ -108,17 +115,17 @@ namespace RPChess
             }
             return 0;
         }
-		/// <summary>
-		/// Index access to all elements in the log.
-		/// </summary>
-		/// <returns>A string located at the index.</returns>
-		public string at ( int index )
-		{
-			if ( index < 0 || index >= Count || Count == 0)
-			{
-				return "";
-			}
-			return _moveList[index];
-		}
+        /// <summary>
+        /// Index access to all elements in the log.
+        /// </summary>
+        /// <returns>A string located at the index.</returns>
+        public string at(int index)
+        {
+            if (index < 0 || index >= Count || Count == 0)
+            {
+                return "";
+            }
+            return _moveList[index];
+        }
     }
 }

@@ -1,10 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+//-----------------------------------------------------------------------
+// <copyright file="ModelTest.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
 
 namespace RPChess
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Xml;
     using NUnit.Framework;
 
     [TestFixture]
@@ -16,27 +22,32 @@ namespace RPChess
         {
             testModel = new Model();
         }
+
         [TestFixtureSetUp]
         public void ModelTestSetup()
         {
             testModel.Initialize();
         }
+
         [TestFixtureTearDown]
         public void ModelTestTeardown()
         {
         }
+
         [Test]
         public void DefaultConstructorTest()
         {
             //TODO:
             Assert.Fail("Not implemented!");
         }
+
         [Test]
         public void InitializeTest()
         {
             //TODO:
             Assert.Fail("Not implemented!");
         }
+
         [Test]
         public void ToXmlDocumentTest()
         {
@@ -44,6 +55,7 @@ namespace RPChess
             xmlDoc = testModel.ToXmlDocument();
             Assert.Fail("Not implemented!");
         }
+
         [Test]
         public void FromXmlDocument()
         {
@@ -51,6 +63,7 @@ namespace RPChess
             Assert.Fail("Not implemented!");
         }
     }
+
     [TestFixture]
     public class BoardTest
     {
@@ -202,11 +215,11 @@ namespace RPChess
         {
             testVector.Length = Int32.MaxValue;
             StringBuilder sb = new StringBuilder();
-            for ( int d = 0; d < 8; d++)
+            for (int d = 0; d < 8; d++)
             {
                 testVector.Direction = (MoveDirection)d;
                 testLoc = testVector.ToOffset();
-                sb.AppendLine("testVector in direction: " + 
+                sb.AppendLine("testVector in direction: " +
                     (MoveDirection)d + " => " + testLoc);
             }
             Console.Out.Write(sb.ToString());
@@ -260,7 +273,7 @@ namespace RPChess
             Assert.AreEqual(1, testLoc.X);
             Assert.AreEqual(0, testLoc.Y);
 
-            testMove = new Movement(new BoardLocation(-1,0));
+            testMove = new Movement(new BoardLocation(-1, 0));
             testLoc = testMove.MoveFrom(startLoc);
             Assert.AreEqual(-1, testLoc.X);
             Assert.AreEqual(0, testLoc.Y);
@@ -286,7 +299,7 @@ namespace RPChess
         [Test]
         public void MoveFromDistancePositiveY()
         {
-            testMove = new Movement(new BoardLocation(0,10));
+            testMove = new Movement(new BoardLocation(0, 10));
             testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(1, testLoc.Y, "Y:Didn't move correct distance");
@@ -317,7 +330,7 @@ namespace RPChess
         [Test]
         public void MoveFromDistanceNegativeY()
         {
-            testMove = new Movement(new BoardLocation(0,-10));
+            testMove = new Movement(new BoardLocation(0, -10));
             testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(0, testLoc.X, "X:Moved in Wrong Direction");
             Assert.AreEqual(-1, testLoc.Y, "Y:Didn't move correct distance");
@@ -349,7 +362,7 @@ namespace RPChess
         [Test]
         public void MoveFromDistancePositiveX()
         {
-            testMove = new Movement(new BoardLocation(10,0));
+            testMove = new Movement(new BoardLocation(10, 0));
             testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(1, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
@@ -381,7 +394,7 @@ namespace RPChess
         [Test]
         public void MoveFromDistanceNegativeX()
         {
-            testMove = new Movement(new BoardLocation(-10,0));
+            testMove = new Movement(new BoardLocation(-10, 0));
             testLoc = testMove.MoveFrom(startLoc, 1);
             Assert.AreEqual(-1, testLoc.X, "X:Didn't move correct distance");
             Assert.AreEqual(0, testLoc.Y, "Y:Moved in Wrong Direction");
@@ -426,32 +439,32 @@ namespace RPChess
         public void ToXmlDocumentTest()
         {
             testMove = new Movement(startLoc);
-			string expectedXML =
-				    "<Movement>" +
-					"<Offset type=\"RPChess.BoardLocation\">" +
-					"<X type=\"int\">0</X>" +
-					"<Y type=\"int\">0</Y>" +
-					"</Offset>" +
-					"<Jump type=\"bool\">False</Jump>" +
-					"</Movement>";
-            Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml );
+            string expectedXML =
+                    "<Movement>" +
+                    "<Offset type=\"RPChess.BoardLocation\">" +
+                    "<X type=\"int\">0</X>" +
+                    "<Y type=\"int\">0</Y>" +
+                    "</Offset>" +
+                    "<Jump type=\"bool\">False</Jump>" +
+                    "</Movement>";
+            Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml);
             testLoc = new BoardLocation();
-			bool jump = false; 
+            bool jump = false;
             for (int i = 0; i < 100; i++)
             {
                 testLoc.X = random.Next(-(int)BoardLocation.BoardLimit,
                     (int)BoardLocation.BoardLimit);
                 testLoc.Y = random.Next(-(int)BoardLocation.BoardLimit,
                     (int)BoardLocation.BoardLimit);
-				jump =  (i % 2) == 0;
+                jump = (i % 2) == 0;
                 testMove = new Movement(testLoc, jump);
                 expectedXML = "<Movement>" +
-				              "<Offset type=\"RPChess.BoardLocation\">" +
-				              "<X type=\"int\">" + testLoc.X + "</X>" +
-				              "<Y type=\"int\">" + testLoc.Y + "</Y>" +
-				              "</Offset>" +
-				              "<Jump type=\"bool\">" + jump + "</Jump>" +
-				              "</Movement>";
+                              "<Offset type=\"RPChess.BoardLocation\">" +
+                              "<X type=\"int\">" + testLoc.X + "</X>" +
+                              "<Y type=\"int\">" + testLoc.Y + "</Y>" +
+                              "</Offset>" +
+                              "<Jump type=\"bool\">" + jump + "</Jump>" +
+                              "</Movement>";
                 Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml);
             }
             Console.Out.WriteLine("ToXmlDocumentTest() passed!");
@@ -464,20 +477,20 @@ namespace RPChess
         public void FromXmlDocumentTest()
         {
             xmlDoc.LoadXml("<Movement>" +
-			               "<Offset type=\"RPChess.BoardLocation\">" +
-			               "<X type=\"int\">1</X>" +
-			               "<Y type=\"int\">0</Y>" +
-			               "</Offset>" +
-			               "<Jump type=\"bool\">False</Jump>" +
-			               "</Movement>");
-            testMove = new Movement( xmlDoc );
-            Movement right1 = new Movement(new BoardLocation(1,0));
+                           "<Offset type=\"RPChess.BoardLocation\">" +
+                           "<X type=\"int\">1</X>" +
+                           "<Y type=\"int\">0</Y>" +
+                           "</Offset>" +
+                           "<Jump type=\"bool\">False</Jump>" +
+                           "</Movement>");
+            testMove = new Movement(xmlDoc);
+            Movement right1 = new Movement(new BoardLocation(1, 0));
             Assert.AreEqual(right1.GetType(), testMove.GetType(), "Get type error!");
             Assert.AreEqual(right1.Offset, testMove.Offset, "Offset equals");
             Assert.AreEqual(right1.Jump, testMove.Jump, "Jump not equal");
             Assert.IsTrue(right1.Equals(testMove));
             Assert.AreEqual(right1, testMove);
-            
+
             Console.Out.WriteLine("FromXmlDocumentTest() passed!");
         }
         ///<summary>
@@ -498,41 +511,41 @@ namespace RPChess
         [Test]
         public void equalsTest()
         {
-        	Movement newMove = new Movement(startLoc, false);
-        	testMove = new Movement(startLoc, false);
-        	Assert.IsTrue(testMove.Equals(testMove), 
-        	              "x.Equals(x) returned False.");
-        	Assert.IsFalse(testMove.Equals(null),
-        	              "x.Equals(null) did not return false.");
-        	Assert.AreEqual(testMove.Equals(newMove), 
-        	                newMove.Equals(testMove),
-        	               "x.Equals(y) didn't the same value as y.Equals(x).");
-        	Assert.AreEqual(testMove.Equals(newMove), 
-        	                newMove.Equals(testMove),
-        	               "Successive invocations of x.Equals(y) differed.");
-        	int randX, randY;
-        	for (int i = 0; i < 50; i++)
-        	{
-        		randX = random.Next(-(int)BoardLocation.BoardLimit,
+            Movement newMove = new Movement(startLoc, false);
+            testMove = new Movement(startLoc, false);
+            Assert.IsTrue(testMove.Equals(testMove),
+                          "x.Equals(x) returned False.");
+            Assert.IsFalse(testMove.Equals(null),
+                          "x.Equals(null) did not return false.");
+            Assert.AreEqual(testMove.Equals(newMove),
+                            newMove.Equals(testMove),
+                           "x.Equals(y) didn't the same value as y.Equals(x).");
+            Assert.AreEqual(testMove.Equals(newMove),
+                            newMove.Equals(testMove),
+                           "Successive invocations of x.Equals(y) differed.");
+            int randX, randY;
+            for (int i = 0; i < 50; i++)
+            {
+                randX = random.Next(-(int)BoardLocation.BoardLimit,
                     (int)BoardLocation.BoardLimit);
-        		randY = random.Next(-(int)BoardLocation.BoardLimit,
+                randY = random.Next(-(int)BoardLocation.BoardLimit,
                     (int)BoardLocation.BoardLimit);
-        		testMove = new Movement( new BoardLocation( randX, randY ), (i%2==0) );
-        		newMove  = new Movement( new BoardLocation( randX, randY ), (i%2==0) );
-        		Assert.IsTrue(testMove.Equals(testMove), 
-        	              "x.Equals(x) returned False.");
-        		Assert.IsFalse(testMove.Equals(null),
-        		               "x.Equals(null) did not return false.");
-        		Assert.AreEqual(testMove.Equals(newMove),
-        		                newMove.Equals(testMove),
-        		                "x.Equals(y) didn't the same value as y.Equals(x).");
-        		Assert.AreEqual(testMove.Equals(newMove),
-        		                newMove.Equals(testMove),
-        		                "Successive invocations of x.Equals(y) differed.");
-        	}
-        	Assert.AreEqual(testMove, newMove,
+                testMove = new Movement(new BoardLocation(randX, randY), (i % 2 == 0));
+                newMove = new Movement(new BoardLocation(randX, randY), (i % 2 == 0));
+                Assert.IsTrue(testMove.Equals(testMove),
+                          "x.Equals(x) returned False.");
+                Assert.IsFalse(testMove.Equals(null),
+                               "x.Equals(null) did not return false.");
+                Assert.AreEqual(testMove.Equals(newMove),
+                                newMove.Equals(testMove),
+                                "x.Equals(y) didn't the same value as y.Equals(x).");
+                Assert.AreEqual(testMove.Equals(newMove),
+                                newMove.Equals(testMove),
+                                "Successive invocations of x.Equals(y) differed.");
+            }
+            Assert.AreEqual(testMove, newMove,
                 "Assert.AreEqual() returned false.");
-        	Console.Out.WriteLine("equalsTest passed.");
+            Console.Out.WriteLine("equalsTest passed.");
         }
     }
     ///<summary>
@@ -543,30 +556,30 @@ namespace RPChess
     [TestFixture]
     public class AttackTest
     {
-    	Attack blank = new Attack("",0);
-    	Attack a;
+        Attack blank = new Attack("", 0);
+        Attack a;
         Random random = new Random();
         ///<summary>
         ///Constructor sets up common variables.
         ///</summary>
         public AttackTest()
         {
-        }        
+        }
         /// <summary>
         /// Tests all the constructor.
         /// </summary>
         [Test]
         public void ConstructorTest()
         {
-        	Assert.AreEqual("", blank.Name);
-        	Assert.AreEqual(0, blank.MaxPoints);
-        	Assert.AreEqual(0, blank.Points);
-        	String name = "name";
-        	int points = 10;
-        	a = new Attack(name, points);
-        	Assert.AreEqual(name, a.Name);
-        	Assert.AreEqual(points, a.MaxPoints);
-        	Assert.AreEqual(points, a.Points);
+            Assert.AreEqual("", blank.Name);
+            Assert.AreEqual(0, blank.MaxPoints);
+            Assert.AreEqual(0, blank.Points);
+            String name = "name";
+            int points = 10;
+            a = new Attack(name, points);
+            Assert.AreEqual(name, a.Name);
+            Assert.AreEqual(points, a.MaxPoints);
+            Assert.AreEqual(points, a.Points);
         }
         /// <summary>
         /// Test the method Use, make sure it respects bounds.
@@ -575,30 +588,30 @@ namespace RPChess
         [Test]
         public void UseTest()
         {
-        	Assert.AreEqual(0, blank.MaxPoints);
-        	Assert.AreEqual(0, blank.Points);
-        	blank.Use();
-        	Assert.AreEqual(0, blank.MaxPoints,
-        	                "MaxPoints should not change.");
-        	Assert.AreEqual(0, blank.Points, 
-        	                "Points shouldn't be less than zero.");
-        	
-        	String name = "name";
-        	int points = 10;
-        	a = new Attack(name, points);
-        	Assert.AreEqual(points, a.MaxPoints);
-        	Assert.AreEqual(points, a.Points);
-        	a.Use();
-        	Assert.AreEqual(points, a.MaxPoints,        	               
-        	                "MaxPoints should not change.");
-        	Assert.AreEqual(points-1, a.Points,
-        	                "Points should decrement one after Attack.Use()");
-        	a.Use(10);
-        	Assert.AreEqual(0, a.Points, 
-        	                "Points shouldn't be less than zero.");
-        	a.Use();
-        	Assert.AreEqual(0, a.Points, 
-        	                "Points shouldn't be less than zero.");
+            Assert.AreEqual(0, blank.MaxPoints);
+            Assert.AreEqual(0, blank.Points);
+            blank.Use();
+            Assert.AreEqual(0, blank.MaxPoints,
+                            "MaxPoints should not change.");
+            Assert.AreEqual(0, blank.Points,
+                            "Points shouldn't be less than zero.");
+
+            String name = "name";
+            int points = 10;
+            a = new Attack(name, points);
+            Assert.AreEqual(points, a.MaxPoints);
+            Assert.AreEqual(points, a.Points);
+            a.Use();
+            Assert.AreEqual(points, a.MaxPoints,
+                            "MaxPoints should not change.");
+            Assert.AreEqual(points - 1, a.Points,
+                            "Points should decrement one after Attack.Use()");
+            a.Use(10);
+            Assert.AreEqual(0, a.Points,
+                            "Points shouldn't be less than zero.");
+            a.Use();
+            Assert.AreEqual(0, a.Points,
+                            "Points shouldn't be less than zero.");
         }
         /// <summary>
         /// Ensure that Reset only sets Points to MaxPoints and nothing else.
@@ -606,36 +619,36 @@ namespace RPChess
         [Test]
         public void ResetTest()
         {
-        	Assert.AreEqual("", blank.Name);
-        	Assert.AreEqual(0, blank.MaxPoints);
-        	Assert.AreEqual(0, blank.Points);
-        	blank.Reset();
-        	Assert.AreEqual("", blank.Name);
-        	Assert.AreEqual(0, blank.MaxPoints);
-        	Assert.AreEqual(0, blank.Points);
-        	
-        	String name = "name";
-        	int points = 10;
-        	a = new Attack(name, points);
-        	Assert.AreEqual(name, a.Name);
-        	Assert.AreEqual(points, a.MaxPoints);
-        	Assert.AreEqual(points, a.Points);
-        	a.Use();
-        	// Assume these are true.
-        	/*
-        	Assert.AreEqual(name, a.Name);
-        	Assert.AreEqual(points, a.MaxPoints);
-        	Assert.IsFalse(points == a.Points);
-        	*/
-        	a.Reset();
-        	Assert.AreEqual(points, a.Points,
-        	               "Attack.Reset() didn't work.");
-        	a.Reset();
-        	Assert.AreEqual(points, a.Points,
-        	               "Successive Use of Attack.Reset() were different.");
-        	
+            Assert.AreEqual("", blank.Name);
+            Assert.AreEqual(0, blank.MaxPoints);
+            Assert.AreEqual(0, blank.Points);
+            blank.Reset();
+            Assert.AreEqual("", blank.Name);
+            Assert.AreEqual(0, blank.MaxPoints);
+            Assert.AreEqual(0, blank.Points);
+
+            String name = "name";
+            int points = 10;
+            a = new Attack(name, points);
+            Assert.AreEqual(name, a.Name);
+            Assert.AreEqual(points, a.MaxPoints);
+            Assert.AreEqual(points, a.Points);
+            a.Use();
+            // Assume these are true.
+            /*
+            Assert.AreEqual(name, a.Name);
+            Assert.AreEqual(points, a.MaxPoints);
+            Assert.IsFalse(points == a.Points);
+            */
+            a.Reset();
+            Assert.AreEqual(points, a.Points,
+                           "Attack.Reset() didn't work.");
+            a.Reset();
+            Assert.AreEqual(points, a.Points,
+                           "Successive Use of Attack.Reset() were different.");
+
         }
-    }  
+    }
     ///<summary>
     /// Tests the DirectionalAbility class.
     /// Tests the String and XML methods, as well as the constructors.
@@ -645,172 +658,172 @@ namespace RPChess
     [TestFixture]
     public class DirectionalAbilityTest
     {
-    	readonly DirectionalAbility zeroDA;
-    	DirectionalAbility testDA;
-    	readonly BoardVector zeroBV;
-    	BoardVector testBV;
-		readonly BoardLocation zeroBL;
-		BoardLocation testBL;
-    	Random random = new Random();
-    	string name;
-    	int points;
-    	int damage;
-    	
-    	/// <summary>
-    	/// Empty default constructor.
-    	/// </summary>
-    	public DirectionalAbilityTest()
-    	{
-    		zeroBV = new BoardVector();
-    		zeroBV.Direction = MoveDirection.Right;
-    		zeroBV.Length = 0;
-    		
-    		testBV = new BoardVector();
-			
-			zeroBL = new BoardLocation(0,0);
-			
-			testBL = new BoardLocation(0,0);
-    		
-    		zeroDA = new DirectionalAbility("", 0, zeroBV, 0);
-    		
-    		random = new Random();
-    	}
-    	/// <summary>
-    	/// Sets up a blank DirectionalAbility and sets basic
-    	/// testable DirectionalAbility
-    	/// </summary>
-    	[TestFixtureSetUp]
-    	public void CreateDirectionalAbilities()
-    	{
-    		BoardVector bv = new BoardVector();
-    		bv.Direction = MoveDirection.Forward;
-    		bv.Length = 10;
-    		testDA  = new DirectionalAbility("test", 5, bv, 1);
-    		name = "";
-    		points = 0;
-    		damage = 0;
-    	}
-    	/// <summary>
-    	/// Tests the default and standard constructors.
-    	/// </summary>
-    	[Test]
-    	public void ConstructorsTest()
-    	{
-    		Assert.AreEqual("", zeroDA.Name);
-    		Assert.AreEqual(zeroBV, zeroDA.Vector);
-    		Assert.AreEqual(0, zeroDA.Damage);
-    		
-			testBV.Direction = MoveDirection.Forward;
-			testBV.Length = 10;
-    		Assert.AreEqual("test", testDA.Name);
-    		Assert.AreEqual(testBV, testDA.Vector);
-    		Assert.AreEqual(1, testDA.Damage);
-			//TODO: Beef up constructor test.
-			System.Console.Write( "DirectionalAbility ConstructorTest passed." );
-    	}    	
-    	/// <summary>
-    	/// Test the Initialize Method.
-    	/// </summary>
-    	[Test]
-    	public void InitializeTest()
-    	{
-    		zeroDA.Initialize();
-    		Assert.AreEqual("", zeroDA.Name);
-    		Assert.AreEqual(zeroBV, zeroDA.Vector);
-    		Assert.AreEqual(0, zeroDA.Damage);
-    		
-			testBV.Direction = MoveDirection.Forward;
-			testBV.Length = 10;
-    		testDA.Initialize();
-			Assert.AreEqual("test", testDA.Name);
-    		Assert.AreEqual(testBV, testDA.Vector);
-    		Assert.AreEqual(1, testDA.Damage);
-    	}
-    	/// <summary>
-    	/// Test the ToString Method.
-    	/// </summary>
-    	[Test]
-    	public void ToStringTest()
-    	{
-    		//TODO: Decide correct usage here, and beef up.
-			String zeroDAString = "RPChess.Model.DirectionalAbility( \"\", ( 0, BoardDirection.Right ), 0, 0, 0)";
-			Assert.AreEqual( zeroDAString, zeroDA.ToString() );
-			
-			String testDAString = "RPChess.Model.DirectionalAbility( \"test\", ( 10, BoardDirection.Forward ), 10, 0, 1)";
-			Assert.AreEqual( testDAString, testDA.ToString() );
-			
-			Console.WriteLine( "DirectionalAbility.ToString Test passed." );
-    	}
-    	/// <summary>
-    	/// Test the ToXmlDocument Method.
-    	/// </summary>
-    	[Test]
-    	public void ToXmlDocumentTest()
-    	{
-    		//TODO; modify to properly test DirectionalAbility.ToXmlDocument()            
-			string expectedXML =
-				    "<DirectionalAbility name=\"\">" +
-					"<Vector type=\"RPChess.BoardVector\">" +
-					"<Length type=\"int\">0</Length>" +
-					"<Direction type=\"RPChess.MoveDirection\">Right</Direction>" +
-					"</Vector>" +
-					"<Damage type=\"int\">0</Damage>" +
-					"</DirectionalAbility>";
-            Assert.AreEqual(expectedXML, zeroDA.ToXmlDocument().OuterXml );
-            
+        readonly DirectionalAbility zeroDA;
+        DirectionalAbility testDA;
+        readonly BoardVector zeroBV;
+        BoardVector testBV;
+        readonly BoardLocation zeroBL;
+        BoardLocation testBL;
+        Random random = new Random();
+        string name;
+        int points;
+        int damage;
+
+        /// <summary>
+        /// Empty default constructor.
+        /// </summary>
+        public DirectionalAbilityTest()
+        {
+            zeroBV = new BoardVector();
+            zeroBV.Direction = MoveDirection.Right;
+            zeroBV.Length = 0;
+
+            testBV = new BoardVector();
+
+            zeroBL = new BoardLocation(0, 0);
+
+            testBL = new BoardLocation(0, 0);
+
+            zeroDA = new DirectionalAbility("", 0, zeroBV, 0);
+
+            random = new Random();
+        }
+        /// <summary>
+        /// Sets up a blank DirectionalAbility and sets basic
+        /// testable DirectionalAbility
+        /// </summary>
+        [TestFixtureSetUp]
+        public void CreateDirectionalAbilities()
+        {
+            BoardVector bv = new BoardVector();
+            bv.Direction = MoveDirection.Forward;
+            bv.Length = 10;
+            testDA = new DirectionalAbility("test", 5, bv, 1);
+            name = "";
+            points = 0;
+            damage = 0;
+        }
+        /// <summary>
+        /// Tests the default and standard constructors.
+        /// </summary>
+        [Test]
+        public void ConstructorsTest()
+        {
+            Assert.AreEqual("", zeroDA.Name);
+            Assert.AreEqual(zeroBV, zeroDA.Vector);
+            Assert.AreEqual(0, zeroDA.Damage);
+
+            testBV.Direction = MoveDirection.Forward;
+            testBV.Length = 10;
+            Assert.AreEqual("test", testDA.Name);
+            Assert.AreEqual(testBV, testDA.Vector);
+            Assert.AreEqual(1, testDA.Damage);
+            //TODO: Beef up constructor test.
+            System.Console.Write("DirectionalAbility ConstructorTest passed.");
+        }
+        /// <summary>
+        /// Test the Initialize Method.
+        /// </summary>
+        [Test]
+        public void InitializeTest()
+        {
+            zeroDA.Initialize();
+            Assert.AreEqual("", zeroDA.Name);
+            Assert.AreEqual(zeroBV, zeroDA.Vector);
+            Assert.AreEqual(0, zeroDA.Damage);
+
+            testBV.Direction = MoveDirection.Forward;
+            testBV.Length = 10;
+            testDA.Initialize();
+            Assert.AreEqual("test", testDA.Name);
+            Assert.AreEqual(testBV, testDA.Vector);
+            Assert.AreEqual(1, testDA.Damage);
+        }
+        /// <summary>
+        /// Test the ToString Method.
+        /// </summary>
+        [Test]
+        public void ToStringTest()
+        {
+            //TODO: Decide correct usage here, and beef up.
+            String zeroDAString = "RPChess.Model.DirectionalAbility( \"\", ( 0, BoardDirection.Right ), 0, 0, 0)";
+            Assert.AreEqual(zeroDAString, zeroDA.ToString());
+
+            String testDAString = "RPChess.Model.DirectionalAbility( \"test\", ( 10, BoardDirection.Forward ), 10, 0, 1)";
+            Assert.AreEqual(testDAString, testDA.ToString());
+
+            Console.WriteLine("DirectionalAbility.ToString Test passed.");
+        }
+        /// <summary>
+        /// Test the ToXmlDocument Method.
+        /// </summary>
+        [Test]
+        public void ToXmlDocumentTest()
+        {
+            //TODO; modify to properly test DirectionalAbility.ToXmlDocument()            
+            string expectedXML =
+                    "<DirectionalAbility name=\"\">" +
+                    "<Vector type=\"RPChess.BoardVector\">" +
+                    "<Length type=\"int\">0</Length>" +
+                    "<Direction type=\"RPChess.MoveDirection\">Right</Direction>" +
+                    "</Vector>" +
+                    "<Damage type=\"int\">0</Damage>" +
+                    "</DirectionalAbility>";
+            Assert.AreEqual(expectedXML, zeroDA.ToXmlDocument().OuterXml);
+
             testBV = new BoardVector();
             for (int i = 0; i < 100; i++)
             {
                 testBV.Length = random.Next((int)-(int)BoardLocation.BoardLimit,
                     (int)(int)BoardLocation.BoardLimit);
-            	testBV.Direction = (MoveDirection)random.Next( (int)MoveDirection.Right,
-            	    (int)MoveDirection.BackwardRight);
+                testBV.Direction = (MoveDirection)random.Next((int)MoveDirection.Right,
+                    (int)MoveDirection.BackwardRight);
                 testDA = new DirectionalAbility(name, points, testBV, damage);
                 expectedXML =
-				    "<DirectionalAbility name=\"" +testDA.Name + "\">" +
-					"<Vector type=\"RPChess.BoardVector\">" +
-					"<Length type=\"int\">" + testDA.Vector.Length + "</Length>" +
-                	"<Direction type=\"RPChess.MoveDirection\">" + testDA.Vector.Direction.ToString() + "</Direction>" +
-					"</Vector>" +
-					"<Damage type=\"int\">" + testDA.Damage + "</Damage>" +
-					"</DirectionalAbility>";
+                    "<DirectionalAbility name=\"" + testDA.Name + "\">" +
+                    "<Vector type=\"RPChess.BoardVector\">" +
+                    "<Length type=\"int\">" + testDA.Vector.Length + "</Length>" +
+                    "<Direction type=\"RPChess.MoveDirection\">" + testDA.Vector.Direction.ToString() + "</Direction>" +
+                    "</Vector>" +
+                    "<Damage type=\"int\">" + testDA.Damage + "</Damage>" +
+                    "</DirectionalAbility>";
                 Assert.AreEqual(expectedXML, testDA.ToXmlDocument().OuterXml);
             }
             Console.Out.WriteLine(this.ToString() + ".ToXmlDocumentTest() passed!");
-    	}    	
-    	/// <summary>
-    	/// Test the FromXmlDocument Method.
-    	/// </summary>
-    	[Test]
-    	public void FromXmlDocumentTest()
-    	{
-    		//TODO: Beef up DirectionalAbility FromXmlDocument Test.
-			XmlDocument xmlDoc = new XmlDocument();
-			String zeroXML =
-				    "<DirectionalAbility name=\"\">" +
-					"<Vector type=\"RPChess.BoardVector\">" +
-					"<Length type=\"int\">0</Length>" +
-                	"<Direction type=\"RPChess.MoveDirection\">Right</Direction>" +
-					"</Vector>" +
-					"<Damage type=\"int\">0</Damage>" +
-					"</DirectionalAbility>";
-			xmlDoc.LoadXml( zeroXML );
-			DirectionalAbility zeroDAFromXmlDocument = new DirectionalAbility( xmlDoc );
-			Assert.AreEqual( zeroDAFromXmlDocument, zeroDA );
-			String testXML =
-				    "<DirectionalAbility name=\"test\">" +
-					"<Vector type=\"RPChess.BoardVector\">" +
-					"<Length type=\"int\">10</Length>" +
-                	"<Direction type=\"RPChess.MoveDirection\">Forward</Direction>" +
-					"</Vector>" +
-					"<Damage type=\"int\">1</Damage>" +
-					"</DirectionalAbility>";
-			xmlDoc.LoadXml( testXML );
-			DirectionalAbility testDAFromXmlDocument = new DirectionalAbility( xmlDoc );
-			Assert.AreEqual( testDAFromXmlDocument, testDA );
-			
-    	}
-    }  
+        }
+        /// <summary>
+        /// Test the FromXmlDocument Method.
+        /// </summary>
+        [Test]
+        public void FromXmlDocumentTest()
+        {
+            //TODO: Beef up DirectionalAbility FromXmlDocument Test.
+            XmlDocument xmlDoc = new XmlDocument();
+            String zeroXML =
+                    "<DirectionalAbility name=\"\">" +
+                    "<Vector type=\"RPChess.BoardVector\">" +
+                    "<Length type=\"int\">0</Length>" +
+                    "<Direction type=\"RPChess.MoveDirection\">Right</Direction>" +
+                    "</Vector>" +
+                    "<Damage type=\"int\">0</Damage>" +
+                    "</DirectionalAbility>";
+            xmlDoc.LoadXml(zeroXML);
+            DirectionalAbility zeroDAFromXmlDocument = new DirectionalAbility(xmlDoc);
+            Assert.AreEqual(zeroDAFromXmlDocument, zeroDA);
+            String testXML =
+                    "<DirectionalAbility name=\"test\">" +
+                    "<Vector type=\"RPChess.BoardVector\">" +
+                    "<Length type=\"int\">10</Length>" +
+                    "<Direction type=\"RPChess.MoveDirection\">Forward</Direction>" +
+                    "</Vector>" +
+                    "<Damage type=\"int\">1</Damage>" +
+                    "</DirectionalAbility>";
+            xmlDoc.LoadXml(testXML);
+            DirectionalAbility testDAFromXmlDocument = new DirectionalAbility(xmlDoc);
+            Assert.AreEqual(testDAFromXmlDocument, testDA);
+
+        }
+    }
     ///<summary>
     /// Tests the DirectionalAbility class.
     /// Tests the String and XML methods, as well as the constructors.
@@ -820,139 +833,139 @@ namespace RPChess
     [TestFixture]
     public class AreaOfEffectAbilityTest
     {
-    	readonly AreaOfEffectAbility blankAoEA;
-    	AreaOfEffectAbility testAoEA;
-    	int[,] cross;
-    	int[,] empty;
-    	/// <summary>
-    	/// Empty default constructor.
-    	/// </summary>
-    	public AreaOfEffectAbilityTest()
-    	{
-    		cross = new int[3,3];
-    		for (int i = 0; i < 3; i++)
-    		{
-    			for (int j = 0; i < 3; i++)
-    			{
-    				if ( i == j )
-    					cross[i,j] = 1;
-    				else if ( 3-i == j )
-    					cross[i,j] = 1;
-    				else
-    					cross[i,j] = 0;
-    			}
-    		}
-    		empty = new int[3,3];
-    		empty[1,1]=0;
-    		blankAoEA = new AreaOfEffectAbility("", 0, empty);
-    	}
-    	/// <summary>
-    	/// Sets up a blank DirectionalAbility and sets basic
-    	/// testable DirectionalAbility
-    	/// </summary>
-    	[TestFixtureSetUp]
-    	public void CreateAreaOfEffectAbilities()
-    	{
-    		blankAoEA.Initialize();
-    		testAoEA  = new AreaOfEffectAbility("AreaOfEffect", 0, cross);
-    	}
-    	/// <summary>
-    	/// Tests the default and standard constructors.
-    	/// </summary>
-    	[Test]
-    	public void ConstructorsTest()
-    	{
-			//TODO: Separate Multidemensional arrays into single dimension arrays or create function for doing it.
-    		Assert.AreEqual("", blankAoEA.Name);
-    		Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
-			
-    		Assert.AreEqual("AreaOfEffect", testAoEA.Name);
-			Assert.AreEqual(cross.ToString(), testAoEA.AreaOfEffect.ToString());
-    	}    	
-    	/// <summary>
-    	/// Test the Initialize Method.
-    	/// </summary>
-    	[Test]
-    	public void InitializeTest()
-    	{
-    		blankAoEA.Initialize();
-    		Assert.AreEqual("", blankAoEA.Name);
-    		Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
-    		
-    		testAoEA.Initialize();
-    		Assert.AreEqual("AreaOfEffect", testAoEA.Name);
-    		Assert.AreEqual(cross, testAoEA.AreaOfEffect);
-    	}
-    	/// <summary>
-    	/// Test the ToString Method.
-    	/// </summary>
-    	[Test]
-    	public void ToStringTest()
-    	{
-			Assert.AreEqual( "AreaOfEffectAbility{ \"\", {0}, 0, 0}", 
-			                blankAoEA.ToString() );
-			
-			Assert.AreEqual( "AreaOfEffectAbility{ \"test\", {{0,1,0},{1,1,1},{0,1,0}}, 1, 1}", 
-			                testAoEA.ToString() );
-    	}
-    	/// <summary>
-    	/// Test the ToXmlDocument Method.
-    	/// </summary>
-    	[Test]
-    	public void ToXmlDocumentTest()
-    	{
-    		//TODO; Modify to properly test AreaOfEffectAbility.ToXmlDocument test and modify.
-    		string expectedXML =
-				    "<Attack type=\"RPChess.Model.AreaOfEffectAbility\">" +
-				    "<Name type=\"String\"></Name>" +
-				    "<Points type=\"Integer\">0</Points>" +
-    			    "<AreaOfEffect type=\"Integer[,]\" rows=" + 1 + " columns=" + 1 + ">" +
-    			    "<row index=\"0\">" +
-    			    "<column index=\"0\">0</column>" +
-    			    "</row>" +
-				    "</Attack>";
-			Assert.AreEqual(expectedXML, testAoEA.ToXmlDocument().OuterXml );
-			
-			testAoEA = new AreaOfEffectAbility("Cross", 3, cross);
-			expectedXML =
-				    "<Movement>" +
-					"<Offset type=\"RPChess.BoardLocation\">" +
-					"<X type=\"int\">0</X>" +
-					"<Y type=\"int\">0</Y>" +
-					"</Offset>" +
-					"<Jump type=\"bool\">False</Jump>" +
-					"</Movement>";
-            Assert.AreEqual(expectedXML, testAoEA.ToXmlDocument().OuterXml );
-            
+        readonly AreaOfEffectAbility blankAoEA;
+        AreaOfEffectAbility testAoEA;
+        int[,] cross;
+        int[,] empty;
+        /// <summary>
+        /// Empty default constructor.
+        /// </summary>
+        public AreaOfEffectAbilityTest()
+        {
+            cross = new int[3, 3];
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; i < 3; i++)
+                {
+                    if (i == j)
+                        cross[i, j] = 1;
+                    else if (3 - i == j)
+                        cross[i, j] = 1;
+                    else
+                        cross[i, j] = 0;
+                }
+            }
+            empty = new int[3, 3];
+            empty[1, 1] = 0;
+            blankAoEA = new AreaOfEffectAbility("", 0, empty);
+        }
+        /// <summary>
+        /// Sets up a blank DirectionalAbility and sets basic
+        /// testable DirectionalAbility
+        /// </summary>
+        [TestFixtureSetUp]
+        public void CreateAreaOfEffectAbilities()
+        {
+            blankAoEA.Initialize();
+            testAoEA = new AreaOfEffectAbility("AreaOfEffect", 0, cross);
+        }
+        /// <summary>
+        /// Tests the default and standard constructors.
+        /// </summary>
+        [Test]
+        public void ConstructorsTest()
+        {
+            //TODO: Separate Multidemensional arrays into single dimension arrays or create function for doing it.
+            Assert.AreEqual("", blankAoEA.Name);
+            Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
+
+            Assert.AreEqual("AreaOfEffect", testAoEA.Name);
+            Assert.AreEqual(cross.ToString(), testAoEA.AreaOfEffect.ToString());
+        }
+        /// <summary>
+        /// Test the Initialize Method.
+        /// </summary>
+        [Test]
+        public void InitializeTest()
+        {
+            blankAoEA.Initialize();
+            Assert.AreEqual("", blankAoEA.Name);
+            Assert.AreEqual(empty, blankAoEA.AreaOfEffect);
+
+            testAoEA.Initialize();
+            Assert.AreEqual("AreaOfEffect", testAoEA.Name);
+            Assert.AreEqual(cross, testAoEA.AreaOfEffect);
+        }
+        /// <summary>
+        /// Test the ToString Method.
+        /// </summary>
+        [Test]
+        public void ToStringTest()
+        {
+            Assert.AreEqual("AreaOfEffectAbility{ \"\", {0}, 0, 0}",
+                            blankAoEA.ToString());
+
+            Assert.AreEqual("AreaOfEffectAbility{ \"test\", {{0,1,0},{1,1,1},{0,1,0}}, 1, 1}",
+                            testAoEA.ToString());
+        }
+        /// <summary>
+        /// Test the ToXmlDocument Method.
+        /// </summary>
+        [Test]
+        public void ToXmlDocumentTest()
+        {
+            //TODO; Modify to properly test AreaOfEffectAbility.ToXmlDocument test and modify.
+            string expectedXML =
+                    "<Attack type=\"RPChess.Model.AreaOfEffectAbility\">" +
+                    "<Name type=\"String\"></Name>" +
+                    "<Points type=\"Integer\">0</Points>" +
+                    "<AreaOfEffect type=\"Integer[,]\" rows=" + 1 + " columns=" + 1 + ">" +
+                    "<row index=\"0\">" +
+                    "<column index=\"0\">0</column>" +
+                    "</row>" +
+                    "</Attack>";
+            Assert.AreEqual(expectedXML, testAoEA.ToXmlDocument().OuterXml);
+
+            testAoEA = new AreaOfEffectAbility("Cross", 3, cross);
+            expectedXML =
+                    "<Movement>" +
+                    "<Offset type=\"RPChess.BoardLocation\">" +
+                    "<X type=\"int\">0</X>" +
+                    "<Y type=\"int\">0</Y>" +
+                    "</Offset>" +
+                    "<Jump type=\"bool\">False</Jump>" +
+                    "</Movement>";
+            Assert.AreEqual(expectedXML, testAoEA.ToXmlDocument().OuterXml);
+
             /*testLoc = new BoardLocation();
-			bool jump = false; 
+            bool jump = false; 
             for (int i = 0; i < 100; i++)
             {
                 testLoc.X = random.Next(-(int)BoardLocation.BoardLimit,
                     (int)BoardLocation.BoardLimit);
                 testLoc.Y = random.Next(-(int)BoardLocation.BoardLimit,
                     (int)BoardLocation.BoardLimit);
-				jump =  (i % 2) == 0;
+                jump =  (i % 2) == 0;
                 testMove = new Movement(testLoc, jump);
                 expectedXML = "<Movement>" +
-				              "<Offset type=\"RPChess.BoardLocation\">" +
-				              "<X type=\"int\">" + testLoc.X + "</X>" +
-				              "<Y type=\"int\">" + testLoc.Y + "</Y>" +
-				              "</Offset>" +
-				              "<Jump type=\"bool\">" + jump + "</Jump>" +
-				              "</Movement>";
+                              "<Offset type=\"RPChess.BoardLocation\">" +
+                              "<X type=\"int\">" + testLoc.X + "</X>" +
+                              "<Y type=\"int\">" + testLoc.Y + "</Y>" +
+                              "</Offset>" +
+                              "<Jump type=\"bool\">" + jump + "</Jump>" +
+                              "</Movement>";
                 Assert.AreEqual(expectedXML, testMove.ToXmlDocument().OuterXml);
             }*/
             Console.Out.WriteLine("AreaOfEffectAbility.ToXmlDocument() Test passed!");
-    	}    	
-    	/// <summary>
-    	/// Test the FromXmlDocument Method.
-    	/// </summary>
-    	[Test]
-    	public void FromXmlDocumentTest()
-    	{
-    		//TODO;
-    		Assert.Fail();
-    	}
+        }
+        /// <summary>
+        /// Test the FromXmlDocument Method.
+        /// </summary>
+        [Test]
+        public void FromXmlDocumentTest()
+        {
+            //TODO;
+            Assert.Fail();
+        }
     }
 }

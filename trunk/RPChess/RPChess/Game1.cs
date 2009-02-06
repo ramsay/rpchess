@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="Game1.cs" company="BENTwerx">
-//     LGPL Copyright 2008 Robert Ramsay
+//     GPLv3 Copyright 2008 Robert Ramsay
 // </copyright>
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
@@ -163,7 +163,7 @@ namespace RPChess
         {
             switch (this.menuState)
             {
-                case MenuState.MainMenu:                    
+                case MenuState.MainMenu:
                     // Allows the game to exit
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     {
@@ -211,28 +211,28 @@ namespace RPChess
                     {
                         this.menuState = MenuState.MainMenu;
                     }
-                    
+
                     break;
                 case MenuState.PartyEditor:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
-                    
+
                     break;
                 case MenuState.Settings:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
-                    
+
                     break;
                 case MenuState.Versus:
                     if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
-                    
+
                     break;
             }
 
@@ -279,17 +279,17 @@ namespace RPChess
                     string gamename = "RPChess";
 
                     // Find the center of the string
-                    float increment = graphics.GraphicsDevice.Viewport.Height 
+                    float increment = graphics.GraphicsDevice.Viewport.Height
                         / (menuList.Count + 2);
-                    Vector2 FontPos = 
+                    Vector2 FontPos =
                         new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                         increment);
                     Vector2 FontOrigin = Font1.MeasureString(gamename) / 2;
                     // Draw the string
                     spriteBatch.DrawString(Font1, gamename, FontPos, Color.LightGreen,
                         0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-                  
-                    for (int i = 0; i < menuList.Count; i++) 
+
+                    for (int i = 0; i < menuList.Count; i++)
                     {
                         // Find the center of the string
                         FontOrigin = Font1.MeasureString(menuList[i]) / 2;
@@ -298,27 +298,27 @@ namespace RPChess
                         if (i == menuSelection)
                         {
                             spriteBatch.DrawString(
-                                Font1, 
-                                menuList[i], 
+                                Font1,
+                                menuList[i],
                                 FontPos,
-                                Color.Red, 
-                                0, 
-                                FontOrigin, 
-                                0.7f, 
-                                SpriteEffects.None, 
+                                Color.Red,
+                                0,
+                                FontOrigin,
+                                0.7f,
+                                SpriteEffects.None,
                                 0.5f);
                         }
                         else
                         {
                             spriteBatch.DrawString(
-                                Font1, 
-                                menuList[i], 
-                                FontPos, 
+                                Font1,
+                                menuList[i],
+                                FontPos,
                                 Color.LightGreen,
-                                0, 
-                                FontOrigin, 
-                                0.5f, 
-                                SpriteEffects.None, 
+                                0,
+                                FontOrigin,
+                                0.5f,
+                                SpriteEffects.None,
                                 0.5f);
                         }
                     }
@@ -331,17 +331,17 @@ namespace RPChess
                     ////view.Draw(gameTime);
                     // Draw chess board.
                     spriteBatch.Draw(
-                        chessboard, 
-                        Vector2.Zero, 
-                        null, 
-                        Color.White, 
-                        0.0f, 
+                        chessboard,
                         Vector2.Zero,
-                        (float)graphics.GraphicsDevice.Viewport.Height / 
-                        (float)chessboard.Height, 
-                        SpriteEffects.None, 
-                        0.0f); 
-                    
+                        null,
+                        Color.White,
+                        0.0f,
+                        Vector2.Zero,
+                        (float)graphics.GraphicsDevice.Viewport.Height /
+                        (float)chessboard.Height,
+                        SpriteEffects.None,
+                        0.0f);
+
                     // Draw each piece.
                     foreach (List<IBoardSpace> row in Board.Instance.BoardState)
                     {
@@ -350,7 +350,7 @@ namespace RPChess
                             if (!space.IsEmpty)
                             {
                                 // Draw physical object / piece.
-                                
+
                             }
                         }
                     }

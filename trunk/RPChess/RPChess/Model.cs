@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------
 // <copyright file="Model.cs" company="BENTwerx">
-//     LGPL Copyright 2008 Robert Ramsay
+//     GPLv3 Copyright 2008 Robert Ramsay
 // </copyright>
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
- 
+
 namespace RPChess
 {
     using System;
@@ -470,7 +470,7 @@ namespace RPChess
             this.blackRoster = new List<Piece>(8);
             this.whiteRoster.Add(new Piece());
             WhiteRoster = new ReadOnlyCollection<Piece>(whiteRoster);
-            this.blackRoster.Add(new Piece()); 
+            this.blackRoster.Add(new Piece());
             BlackRoster = new ReadOnlyCollection<Piece>(blackRoster);
 
             // TODO: Add all pieces (built-ins) to each team.
@@ -576,7 +576,7 @@ namespace RPChess
         static Board()
         {
             ////Initialize();
-            instance.boardState = 
+            instance.boardState =
                 new IBoardSpace[instance.Length, instance.Width];
         }
 
@@ -680,7 +680,7 @@ namespace RPChess
         /// Inheritable, protected, int.
         /// </summary>
         private int pointsMax;
-        
+
         /// <summary>
         /// Internal representation for Points.
         /// Inheritable, protected, int.
@@ -994,7 +994,7 @@ namespace RPChess
                 return this.damage;
             }
         }
-        
+
         /// <summary>
         /// Re-Initializes the DirectionalAbility to a fresh
         /// un-used state.

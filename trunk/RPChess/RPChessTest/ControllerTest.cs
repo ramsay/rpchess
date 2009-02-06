@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="Controller.cs" company="BENTwerx">
-//     LGPL Copyright 2008 Robert Ramsay
+// <copyright file="ControllerTest.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
 // </copyright>
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------

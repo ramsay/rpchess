@@ -1,4 +1,10 @@
-﻿
+﻿//-----------------------------------------------------------------------
+// <copyright file="Dice.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
+
 namespace RPChess
 {
     using System;

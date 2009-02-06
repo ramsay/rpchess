@@ -1,3 +1,10 @@
+//-----------------------------------------------------------------------
+// <copyright file="View.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
+
 namespace RPChess
 {
     using System;
@@ -16,7 +23,7 @@ namespace RPChess
     /// The viewType enum makes the distinction of how the game is going
     /// to be drawn.
     /// </summary>
-	public enum ViewType { Text, TwoD, ThreeD };
+    public enum ViewType { Text, TwoD, ThreeD };
 
     /// <summary>
     /// The Interface for the different types of views of the RPChess game class.
@@ -63,7 +70,7 @@ namespace RPChess
     /// </summary>
     public class TextView : IView
     {
-		private long lastMove;
+        private long lastMove;
         private TimeSpan lastTime;
 
         /// <summary>
@@ -107,31 +114,31 @@ namespace RPChess
                 return ViewType.Text;
             }
         }
-		
+
         /// <summary>
         /// Resets all private members.
         /// </summary>
-		public void Initialize()
-		{
-			lastMove = 0;
+        public void Initialize()
+        {
+            lastMove = 0;
             lastTime = TimeSpan.MinValue;
-			// set Buffer size (length, width)
-			// set window size (length, width)
-			// set Background color
-			// set foreground color
-			// set Window Title
-		}
+            // set Buffer size (length, width)
+            // set window size (length, width)
+            // set Background color
+            // set foreground color
+            // set Window Title
+        }
 
-		/// <summary>
-		/// Updates the view. Consider merging with Game1.cs or bringing other
+        /// <summary>
+        /// Updates the view. Consider merging with Game1.cs or bringing other
         /// game elements in (Menu, Settings, etc.).
-		/// </summary>
+        /// </summary>
         public void Draw(GameTime gameTime)
         {
             Console.Clear();
-			Console.Write(Board.Instance);
-			Console.Write("Next Move>");
-			this.lastTime = gameTime.TotalGameTime;
+            Console.Write(Board.Instance);
+            Console.Write("Next Move>");
+            this.lastTime = gameTime.TotalGameTime;
         }
     }
 

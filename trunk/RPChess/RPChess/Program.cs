@@ -1,7 +1,13 @@
-using System;
+//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
 
 namespace RPChess
 {
+    using System;
     static class Program
     {
         /// <summary>

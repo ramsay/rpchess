@@ -1,4 +1,11 @@
-﻿namespace RPChess
+﻿//-----------------------------------------------------------------------
+// <copyright file="Piece.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
+
+namespace RPChess
 {
     using System;
     using System.Collections.Generic;
@@ -92,7 +99,7 @@
         /// <param name="specials"></param>
         public Piece(
             ChessPiece ChessPiece,
-            string name, 
+            string name,
             uint max,
             uint cost,
             uint move,
@@ -107,7 +114,7 @@
             this.save = save;
             this.melee = melee;
             this.specials = specials;
-            
+
             this.Initialize();
         }
 
@@ -154,7 +161,7 @@
                             xml.ToString() +
                             " is malformed.");
                             break;
- 
+
                     }
                 }
             }

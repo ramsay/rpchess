@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="Controller.cs" company="BENTwerx">
-//     LGPL Copyright 2008 Robert Ramsay
+//     GPLv3 Copyright 2008 Robert Ramsay
 // </copyright>
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
@@ -37,14 +37,14 @@ namespace RPChess
         }
         public TextController(bool init)
         {
-            if ( init )
+            if (init)
             {
                 Initialize();
             }
         }
         public void Initialize()
         {
-			_count = 0;
+            _count = 0;
         }
         public XmlDocument ToXmlDocument()
         {

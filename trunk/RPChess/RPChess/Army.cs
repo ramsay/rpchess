@@ -1,9 +1,15 @@
-﻿namespace RPChess
+﻿//-----------------------------------------------------------------------
+// <copyright file="Army.cs" company="BENTwerx">
+//     GPLv3 Copyright 2008 Robert Ramsay
+// </copyright>
+// <author>Robert Ramsay</author>
+//-----------------------------------------------------------------------
+
+namespace RPChess
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Text;
     using System.Xml;
 
@@ -52,7 +58,7 @@
         /// <param name="description">
         /// Gives an imaginative description or backstory to the Race.
         /// </param>
-        public Army( 
+        public Army(
             string name,
             uint initiative,
             Piece[] ranks,
