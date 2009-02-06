@@ -1,38 +1,73 @@
 #summary This is an outline of progress to completion.
-#labels Phase-Requirements
+#labels Phase-Requirements,Featured,Phase-Design
 
 = Introduction =
 
-RPChess is a C# XNA game developed as an elementary yet highly-customizable strategic RPG platform.  At it's root it is a Chess engine.  But allows for pieces to have HP, Abilities, and creative Movesets.  The ultimate goal for RPChess is a cross-platform online capable fun strategy game.
+RPChess is a C# XNA game developed as an elementary yet highly-customizable strategic Role Playing platform.  At it's root it is both a Chess engine and a Table Top Game simulator.   Supporting open source licensing and free culture it separate the Game specification (Licensed through Creative Commons [http://creativecommons.org/licenses/by-sa/3.0/ Attribution-Share Alike 3.0 Unported])and a GPL'd Game Engine.  Using this licensing scheme I will be able to create a unique XNA game licensed to me but open for others to learn from, contribute to or modify.  Basic milestones path is that the game will first be released to Windows with only 2D support.  Next, we will support a Xbox 360 release adding key features of a standard Xbox Arcade title.  Finally we will add support for all 
 
 
 == Road Map ==
 
-=== RPChess 0.01 Pre-Alpha ===
 
-The pre-alpha will be announced when the basic data structures for the Model and Game classes are finished and the View and Controller have a text interface Rounded out.
+=== RPChess 0.1 Beta ===
 
-The following files match requirements in ClassSpecification:
+This will be first interactive version.
 
-  * Pieces.cs
-  * Board.cs
-  * Game.cs
+* Minimal Requirements *
 
-The following classes are implemented:
+ * Windows Support. (Given since I'm developing with Windows)
+ * Minimal 2D GUI. (25% - 2 out of 8 Components complete)
+ * Minimal XML specification support.
 
-  * Screen.cs
-    * !BaseScreen
-    * !TextScreen
-  * Controller.cs
-    * !BaseController
-    * !TextController
+=== RPChess 1.0 Milestone Release ===
 
-=== RPChess 0.10 Alpha ===
+This will be the first official release that is playable on Windows.  It will be released to the community for customization and play-testing.
 
-The Alpha stage will be announced when the game is playable at it's most fundamental form.  You can compile/run it.  When you run game.cs a console opens up and you can choose pieces and move them.
+*Major Features:*
 
-The following new files files match requirements in ClassSpecification:
+ * Fully Textured 2D GUI.
+ * Basic special move support.
+ * Basic status effects support.
+ * Basic XML specification support.
+ * Offline 2 player.
+ * Basic AI.
+ * Campaign process/statistics saving.
+ * Windows Support
+ * Basic sound effects.
 
-  * Board.xml
-  * Pieces.xml
-  * Rules.xml
+
+=== RPChess 2.0 Milestone Release ===
+
+This will be the second official release of RPChess.  This will include major fun factor and impressive features.
+
+*Major New Features:*
+
+ * Full 3D Battle.
+ * Full special move support.
+ * Full status effects support.
+ * Support for up to 4 players.
+ * Xbox Live multi-player.
+ * Variable Difficulty AI.
+ * Xbox 360 Support
+ * Music customization support.
+
+
+=== RPChess 3.0 Milestone Release ===
+
+This will be the multi-platform release.  Supporting all known attainable mono or XNA targets and introducing localization.
+
+* Major New Features *
+
+ * Zune support.
+ * Windows - Zune cross-platform play.
+ * Xbox - Zune cross-platform play.
+ * Mono compile.
+ * XNA.Graphics to mono.OpenGL port.
+ * XNA.Audio to mono.OpenAL port.
+ * Linux 32bit support.
+ * Linux 64bit support.
+ * Mac OS X support.
+ * Linux - OS X cross-platform play.
+ * Windows - Linux cross-platform play.
+ * Windows - OS X cross-platform play.
+ * Localization - French, Japanese, German, Spanish and whatever languages the community will help with.
