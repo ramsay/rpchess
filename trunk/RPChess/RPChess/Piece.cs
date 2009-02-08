@@ -195,6 +195,28 @@ namespace RPChess
             }
         }
 
+        public string Symbol
+        {
+            get
+            {
+                switch (id)
+                {
+                    case Identifier.King:
+                        return "\u265A";
+                    case Identifier.Queen:
+                        return "\u265B";
+                    case Identifier.Bishop:
+                        return "\u265D";
+                    case Identifier.Knight:
+                        return "\u265E";
+                    case Identifier.Rook:
+                        return "\u265C";
+                    default: // Pawn
+                        return "\u265F";
+                }
+            }
+        }
+
         /// <summary>
         /// Gets name of this piece.
         /// </summary>

@@ -123,7 +123,7 @@ namespace RPChess
             menuList.Add("Exit");
         }
 
-        SpriteFont Font1;
+        SpriteFont ChessFont;
         Texture2D chessboard;
         Matrix SpriteScale;
         /// <summary>
@@ -134,7 +134,7 @@ namespace RPChess
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
-            Font1 = Content.Load<SpriteFont>("Kootenay");
+            ChessFont = Content.Load<SpriteFont>("ChessFont");
             chessboard = Content.Load<Texture2D>("chessboard");
 
             // Default resolution is 800x600; scale sprites up or down based on
@@ -284,21 +284,21 @@ namespace RPChess
                     Vector2 FontPos =
                         new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                         increment);
-                    Vector2 FontOrigin = Font1.MeasureString(gamename) / 2;
+                    Vector2 FontOrigin = ChessFont.MeasureString(gamename) / 2;
                     // Draw the string
-                    spriteBatch.DrawString(Font1, gamename, FontPos, Color.LightGreen,
+                    spriteBatch.DrawString(ChessFont, gamename, FontPos, Color.LightGreen,
                         0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
 
                     for (int i = 0; i < menuList.Count; i++)
                     {
                         // Find the center of the string
-                        FontOrigin = Font1.MeasureString(menuList[i]) / 2;
+                        FontOrigin = ChessFont.MeasureString(menuList[i]) / 2;
                         FontPos.Y += increment;
                         // Draw the string
                         if (i == menuSelection)
                         {
                             spriteBatch.DrawString(
-                                Font1,
+                                ChessFont,
                                 menuList[i],
                                 FontPos,
                                 Color.Red,
@@ -311,7 +311,7 @@ namespace RPChess
                         else
                         {
                             spriteBatch.DrawString(
-                                Font1,
+                                ChessFont,
                                 menuList[i],
                                 FontPos,
                                 Color.LightGreen,
@@ -355,8 +355,8 @@ namespace RPChess
                             {
                                 p.ToString();
                                 spriteBatch.DrawString(
-                                    Font1, 
-                                    ((Piece)p).Id.ToString().Substring(0,2), 
+                                    ChessFont, 
+                                    ((Piece)p).Symbol, 
                                     new Vector2( row * square, col * square),
                                     Color.White);
                                 // TODO: Determine color of piece

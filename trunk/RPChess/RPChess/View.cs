@@ -72,12 +72,14 @@ namespace RPChess
     {
         private long lastMove;
         private TimeSpan lastTime;
+        private Model modelRef;
 
         /// <summary>
         /// Instantiates a new instance of the TextView class.
         /// </summary>
-        public TextView()
+        public TextView(ref Model m)
         {
+            this.modelRef = m;
         }
 
         /// <summary>
@@ -136,7 +138,7 @@ namespace RPChess
         public void Draw(GameTime gameTime)
         {
             Console.Clear();
-            Console.Write(Board.Instance);
+            Console.Write(this.modelRef);
             Console.Write("Next Move>");
             this.lastTime = gameTime.TotalGameTime;
         }
@@ -178,9 +180,9 @@ namespace RPChess
             ref Model m,
             ref Log l)
         {
-            graphics = g;
-            model = m;
-            log = l;
+            this.graphics = g;
+            this.model = m;
+            this.log = l;
         }
 
         /// <summary>
@@ -232,16 +234,7 @@ namespace RPChess
         {
             // Draw chess board.
             // Draw each piece.
-            foreach (List<IBoardSpace> row in Board.Instance.BoardState)
-            {
-                foreach (IBoardSpace space in row)
-                {
-                    if (!space.IsEmpty)
-                    {
-                        // Draw physical object / piece.
-                    }
-                }
-            }
+            // copy from Game1.cs Draw
             ////lastMove = Log.Instance.Count();
             lastTime = gameTime.TotalGameTime;
         }
