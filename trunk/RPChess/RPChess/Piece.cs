@@ -14,19 +14,22 @@ namespace RPChess
     using System.Xml;
 
     /// <summary>
-    /// An Enum that gives names to all of the base types for Pieces.  One
-    /// might use it to index an array with descriptive keywords instead of
-    /// integers.
-    /// </summary>
-    public enum ChessPiece { King, Queen, Rook, Bishop, Knight, Pawn };
-
-    /// <summary>
     /// A class that holds the stats and other data for a
     /// Game Piece that is univeral.
     /// </summary>
     public class Piece : IBoardSpace
     {
-        private ChessPiece ChessPiece;
+        /// <summary>
+        /// An Enum that gives names to all of the base types for Pieces.  One
+        /// might use it to index an array with descriptive keywords instead of
+        /// integers.
+        /// </summary>
+        public enum Identifier {King, Queen, Rook, Bishop, Knight, Pawn };        
+
+        /// <summary>
+        /// The piece identifier.
+        /// </summary>
+        private Identifier id;
 
         /// <summary>
         /// Maximum number of this kind of units in army. The final army 
@@ -77,6 +80,7 @@ namespace RPChess
         /// </summary>
         public Piece()
         {
+            this.id = Identifier.Pawn;
             this.cost = 0;
             this.name = null;
             this.max = 0;
@@ -87,18 +91,18 @@ namespace RPChess
         }
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the Piece class.
         /// </summary>
-        /// <param name="ChessPiece"></param>
-        /// <param name="name"></param>
-        /// <param name="max"></param>
-        /// <param name="cost"></param>
+        /// <param name="id">The Identifier value of the piece.</param>
+        /// <param name="name">A descriptive string</param>
+        /// <param name="max">The maximum number of this piece per team</param>
+        /// <param name="cost">The cost.</param>
         /// <param name="move"></param>
         /// <param name="save"></param>
         /// <param name="melee"></param>
         /// <param name="specials"></param>
         public Piece(
-            ChessPiece ChessPiece,
+            Identifier id,
             string name,
             uint max,
             uint cost,
@@ -107,7 +111,7 @@ namespace RPChess
             int melee,
             List<IMove> specials)
         {
-            this.ChessPiece = ChessPiece;
+            this.id = id;
             this.name = name;
             this.max = max;
             this.cost = cost;
@@ -180,6 +184,14 @@ namespace RPChess
             get
             {
                 return false;
+            }
+        }
+
+        public Identifier Id
+        {
+            get
+            {
+                return this.id;
             }
         }
 
@@ -320,7 +332,7 @@ namespace RPChess
         public XmlDocument ToXmlDocument()
         {
             StringBuilder repr = new StringBuilder();
-            repr.AppendLine("<piece type=\"" + this.ChessPiece + "\">");
+            repr.AppendLine("<piece type=\"" + this.id + "\">");
             repr.AppendLine("<max>" + this.max + "</max>");
             repr.AppendLine("<cost>" + this.cost + "</cost>");
             repr.AppendLine("<move>" + this.move + "</move>");

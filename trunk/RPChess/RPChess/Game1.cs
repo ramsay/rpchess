@@ -343,14 +343,23 @@ namespace RPChess
                         0.0f);
 
                     // Draw each piece.
-                    foreach (List<IBoardSpace> row in Board.Instance.BoardState)
+                    IBoardSpace p;
+                    int square = graphics.GraphicsDevice.Viewport.Height / 10;
+                    for (int row = 0; row < 10; row++)
                     {
-                        foreach (IBoardSpace space in row)
+                        for (int col = 0; col < 10; col++)
                         {
-                            if (!space.IsEmpty)
-                            {
-                                // Draw physical object / piece.
 
+                            p = model[row, col];
+                            if (!p.IsEmpty)
+                            {
+                                p.ToString();
+                                spriteBatch.DrawString(
+                                    Font1, 
+                                    ((Piece)p).Id.ToString().Substring(0,2), 
+                                    new Vector2( row * square, col * square),
+                                    Color.White);
+                                // TODO: Determine color of piece
                             }
                         }
                     }

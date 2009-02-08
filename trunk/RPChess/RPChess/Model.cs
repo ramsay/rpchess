@@ -434,6 +434,18 @@ namespace RPChess
     /// </summary>
     public class Model : IRPChessObject
     {
+        struct pid
+        {
+            public bool white;
+            public int index;
+
+            public pid(bool IsWhite, int Index)
+            {
+                this.white = IsWhite;
+                this.index = Index;
+            }
+        }
+
         /// <summary>
         /// It's the whiteRoster.
         /// </summary>
@@ -445,6 +457,7 @@ namespace RPChess
         private List<Piece> blackRoster;
         public ReadOnlyCollection<Piece> BlackRoster;
 
+        private pid[,] board;
         ////private Board board; // Superflous for now.
 
         /// <summary>
@@ -469,11 +482,10 @@ namespace RPChess
             this.whiteRoster = new List<Piece>(8);
             this.blackRoster = new List<Piece>(8);
             this.whiteRoster.Add(new Piece());
-            WhiteRoster = new ReadOnlyCollection<Piece>(whiteRoster);
+            this.WhiteRoster = new ReadOnlyCollection<Piece>(this.whiteRoster);
             this.blackRoster.Add(new Piece());
-            BlackRoster = new ReadOnlyCollection<Piece>(blackRoster);
-
-            // TODO: Add all pieces (built-ins) to each team.
+            this.BlackRoster = new ReadOnlyCollection<Piece>(this.blackRoster);
+            this.board = new pid[10,10];
         }
 
         /// <summary>
@@ -484,14 +496,21 @@ namespace RPChess
         /// </param>
         /// <param name="blackRoster">
         /// A List of pieces that will be used by player black.</param>
-        /// <param name="board">
-        /// A reference to the Board.
+        /// <param name="Rows">
+        /// The number of Rows on the board.
+        /// </param>
+        /// <param name="Columns">
+        /// The number of clumns on the board.\
         /// </param>
         public Model(
             List<Piece> whiteRoster,
             List<Piece> blackRoster,
-            Board board)
+            int Rows,
+            int Columns)
         {
+            this.whiteRoster = whiteRoster;
+            this.blackRoster = blackRoster;
+            this.board = new pid[Rows, Columns];
         }
 
         /// <summary>
@@ -508,6 +527,53 @@ namespace RPChess
             foreach (Piece p in blackRoster)
             {
                 p.Initialize();
+            }
+
+            for (int i = board.GetLowerBound(0); i <= board.GetUpperBound(0); i++)
+            {
+                for (int j = board.GetLowerBound(1); j <= board.GetUpperBound(1); j++)
+                {
+                    board[i, j].index = -1;
+                }
+            }
+        }
+
+        public IBoardSpace this[int row, int col]
+        {
+            get
+            {
+                try
+                {
+                    pid i = board[row, col];
+                    if (i.white)
+                    {
+                        return WhiteRoster[i.index];
+                    }
+                    else
+                    {
+                        return BlackRoster[i.index];
+                    }
+                }
+                catch
+                {
+                    return EmptySpace.Instance;
+                }
+            }
+        }
+
+        public int Columns
+        {
+            get
+            {
+                return board.GetUpperBound(1);
+            }
+        }
+
+        public int Rows
+        {
+            get
+            {
+                return board.GetUpperBound(0);
             }
         }
 
