@@ -135,7 +135,7 @@ namespace RPChess
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
             ChessFont = Content.Load<SpriteFont>("ChessFont");
-            chessboard = Content.Load<Texture2D>("chessboard");
+            chessboard = Content.Load<Texture2D>("chessboard2");
 
             // Default resolution is 800x600; scale sprites up or down based on
             // current viewport
