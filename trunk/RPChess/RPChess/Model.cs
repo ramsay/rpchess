@@ -330,68 +330,6 @@ namespace RPChess
     }
 
     /// <summary>
-    /// An EmptySpace placeholder. Returns true to IsEmpty... always.
-    /// </summary>
-    public sealed class EmptySpace : IBoardSpace
-    {
-        /// <summary>
-        /// The Real EmptySpace, ta da!
-        /// </summary>
-        private static EmptySpace instance = new EmptySpace();
-
-        /// <summary>
-        /// Gets the EmptySpace Instance.
-        /// </summary>
-        public static EmptySpace Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this is an EmptySpace
-        /// Why, yes... yes, it is! Always true.
-        /// </summary>
-        public bool IsEmpty
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Does nothing, here for completeness.
-        /// </summary>
-        public void Initialize()
-        {
-        }
-
-        /// <summary>
-        /// Checks to see if XmlDocument is blank.
-        /// </summary>
-        /// <param name="xml">
-        /// An XmlDocument possibly containing an EmptySpace
-        /// </param>
-        /// <returns>An EmptySpace reference.</returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xml)
-        {
-            return (IRPChessObject)new EmptySpace();
-        }
-
-        /// <summary>
-        /// Serializes an EmptySpace, wtf?
-        /// </summary>
-        /// <returns>Blank XmlDocument</returns>
-        public XmlDocument ToXmlDocument()
-        {
-            return new XmlDocument();
-        }
-    }
-
-    /// <summary>
     /// I don't know anymore.
     /// Model-View-Controller design.
     /// </summary>
@@ -518,7 +456,7 @@ namespace RPChess
                 }
                 catch
                 {
-                    return EmptySpace.Instance;
+                    return null;
                 }
             }
         }

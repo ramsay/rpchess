@@ -351,7 +351,7 @@ namespace RPChess
                         {
 
                             p = model[row, col];
-                            if (!p.IsEmpty)
+                            if (p != null)
                             {
                                 p.ToString();
                                 spriteBatch.DrawString(

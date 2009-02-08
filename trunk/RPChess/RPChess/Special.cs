@@ -21,7 +21,7 @@ namespace RPChess
     /// A base class for attacks.
     /// <Implements>Move</Implements>
     /// </summary>
-    public class Attack : IMove
+    public abstract class Attack : IMove
     {
         /// <summary>
         /// The name of the attack, user customizable.
@@ -186,20 +186,7 @@ namespace RPChess
         /// An xml document containing all of the member data of an attack.
         /// </param>
         /// <returns>An Attack Type-Casted as an IRPChessObject.</returns>
-        public virtual IRPChessObject FromXmlDocument(XmlDocument xml)
-        {
-            this.Initialize();
-            if (xml.FirstChild.Name == "Attack")
-            {
-                // TODO
-            }
-            else
-            {
-                Console.Error.WriteLine("xmlDocument is not an Attack");
-            }
-
-            return (IRPChessObject)new Attack();
-        }
+        public abstract IRPChessObject FromXmlDocument(XmlDocument xml);
     }
 
     /// <summary>
@@ -272,7 +259,7 @@ namespace RPChess
                 Console.Error.WriteLine("xmlDocument is not an AreaOfEffectAbility");
             }
 
-            return (IRPChessObject)new Attack();
+            return (IRPChessObject)new AreaOfEffectAbility(string.Empty,0,null);
         }
     }
 
@@ -381,7 +368,7 @@ namespace RPChess
         /// <returns>A Directional Ability Type-Casted as an IRPChessObject</returns>
         public override IRPChessObject FromXmlDocument(XmlDocument xml)
         {
-            return (IRPChessObject)new Attack();
+            return (IRPChessObject)new DirectionalAbility(string.Empty,0,new BoardVector(),0);
         }
 
         /// <summary>
