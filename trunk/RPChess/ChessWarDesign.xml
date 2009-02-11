@@ -1,0 +1,2619 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<gamedesign>
+  <HEAD>
+    <TITLE>ChessWar</TITLE>
+    <link rel="stylesheet" type="text/css" href="chesswar.css"/>
+  </HEAD>
+  <GameName>ChessWar</GameName>
+  <license>
+    <author>Kalle Marjola</author>
+    <year>1991, 1994, 1997, 2002</year>
+  </license>
+  <license>
+    <author>Robert Ramsay</author>
+    <type>
+      <a href="http://creativecommons.org/licenses/by-sa/3.0/">
+        Attribution-Share Alike 3.0 Unported
+      </a>
+    </type>
+    <year>2009</year>
+  </license>
+  <history>
+    This is a revised version of original <dt>ChessWar</dt> board game.
+    Special thanks to Rami Laaksonen (the original playtester),
+    J.C. Klice (most valuable help for the new version), and other
+    playtesters and people at Alter Ego. Not for commercial use, all
+    rights reserved by the author.
+  </history>
+  <summary>
+    <div class="image">
+      <img src="figs/pic_battle.jpg" width="300" height="275"
+        alt="Two fully assembled armies set on the battle field"/>
+      <caption>
+        A small but sturdy dwarf army is confronted by a huge ratmen
+        horde.
+      </caption>
+    </div>
+    ChessWar is a strategic game for two players. It is meant to be played
+    on a standard chessboard with standard chess pieces although it can also
+    be used on any kind of battlefield made of squares. It is NOT chess with
+    dice and some extra rules! Instead, it is strategic game played with chess
+    pieces. So, pieces are not automatically captured, some pieces (units)
+    have ranged attacks and all your pieces (units) may move during your
+    turn.
+    Required Components:
+    <ul>
+      <li>Chess board or similar squared board</li>
+      <li>Chess pieces, preferably two sets</li>
+      <li>One or more six-sided dice (referred as d6 from now on)</li>
+    </ul>
+    Object in ChessWar is similar to standard chess: Defeat enemy king,
+    called general or warlord etc. in ChessWar. The main difference is
+    that in this game, all units of each army can move each time the
+    player has his turn.
+
+
+    <I>
+      Note: For simplicity all references to players are made with 'he'.
+      Readers may substitute she instead of he in all places.
+    </I>
+
+  </summary>
+  <units>
+    <summary>
+      All chess pieces are used to represent some kind of unit of your army.
+      This unit type depends on the selected army, as in ChessWar, you can
+      choose to play elf, dwarf or even scary undead army!
+    </summary>
+    <unit>
+      <dt>King</dt>
+      <dd>
+        The king represents your king, warlord or general and his
+        heartguards.
+      </dd>
+    </unit>
+    <unit>
+      <dt>Queen</dt>
+      <dd>
+        Queen represents mighty wizard or similar magician of your
+        army.
+      </dd>
+    </unit>
+    <unit>
+      <dt>Rooks</dt>
+      <dd>
+        represent your catapults, siege engines or giant
+        troops. Rooks usually have long range support attacks.
+      </dd>
+    </unit>
+    <unit>
+      <dt>Bishop</dt>
+      <dd>
+        Bishop represents your archers or other similar ranged
+        units.
+      </dd>
+    </unit>
+    <unit>
+      <dt>Knights</dt>
+      <desceription>
+        represent your cavalry, was it 20 knightmen with war
+        horses or two dozen wolf riders. Some armies do not have knights at
+        all.
+      </desceription>
+    </unit>
+    <unit>
+      <dt>Pawns</dt>
+      <dd>
+        Pawns represent your core army, is it 50 pikemen, beastmen or
+        fearsome zombies and skeletons.
+      </dd>
+    </unit>
+  </units>
+  <attributes>
+    <summary>
+      Each unit has certain attributes which are used to represents its
+      combat abilities:
+    </summary>
+    <attribute>
+      <dt>Move</dt> is speed of the unit. Unit may move up to this number
+      of squares each round in normal conditions. Movement can be done
+      laterally or diagonally.
+    </attribute>
+    <attribute>
+      <dt>Save</dt> represents the toughness and morale of the unit. In many
+      situations, a <dt>save roll</dt> is called. The unit must then roll this
+      number or greater with d6. Sometimes this roll is modified by
+      some number, but in any case, <dt>roll 1 always fails</dt>. Note that if
+      the modified save roll requires you to roll 7 or more, it simply
+      cannot succeed.
+    </attribute>
+    <attribute>
+      <dt>Melee</dt> is unit close-combat skill and is used to modify melee
+      combat rolls.
+    </attribute>
+    <note>
+      In addition to these basic attributes, some units have special
+      abilities like bows or spells. These are explained later on.
+    </note>
+  </attributes>
+  <armies>
+    <summary>
+      Following armies are currently available in ChessWar. Exact
+      composition of each army is provided at the end of the rules.
+    </summary>
+    <dt>Chaos</dt>
+    <dd>
+      the dreadful and evil army of Chaos Lords come from the
+      Chaos Wastes far beyond any civilization. The army includes lots of
+      potent close combat units but is usually few in numbers. like the
+      army, their foul chaos magic is aimed for destruction and attack, not
+      defense.
+    </dd>
+    <dt>Dwarves</dt>
+    <dd>
+      slow but tough, all dwarf units are heavily armored
+      and powerful in close combat. Their real weakness is in speed as they
+      have no cavalry and all units are very slow because of their small
+      feet.
+    </dd>
+    <dt>Elfs</dt>
+    <dd>
+      from the deep forest come the race of pointy-eared
+      fellows. Unlike other armies their basic infantry are all armed with
+      bows, filling the sky with long arrows. And when the enemy army
+      closes, the excellent cavalry and mighty treemen can stop it in tracks.
+    </dd>
+    <dt>Humans</dt>
+    <dd>
+      the armies of the human kingdoms and empires has
+      perhaps the most versatile army, with possibility to yield lots of
+      cavalry, bows, catapults or plain infantry, backed with wide variety
+      of spells.
+    </dd>
+    <dt>Orcs</dt>
+    <dd>
+      the green-skinned big and tough but a bit slow and stupid
+      warriors of the barren lands are fierce opponent, coming in great
+      numbers and taking lots of punishment. Along their army come
+      regenerating, acid-womiting trolls and the fastest cavalry of the
+      world, Wolf Riders.
+    </dd>
+    <dt>Ratmen</dt>
+    <dd>
+      from underground caves and tunnels arrive a race of
+      human-like big rats with long legs and many relatives. Rats come in
+      vast hordes, but have no real artillery nor cavalry. However, even the
+      basic infantry is far faster than melee infantry of the other armies,
+      except for the long-legged elfs with their bows.
+    </dd>
+    <dt>Undead</dt>
+    <dd>
+      Last but not least, the scary undead army led by an
+      undying liche lord arrives from the lost cities and cemetaries.
+      Only the bravest can stand the unnatural horrors of the living dead
+      who walk the earth again. But if the opponent can overcome the fear of
+      the dead, they find that normal zombies and other undead units are
+      very weak and slow in combat.
+    </dd>
+  </armies>
+  <gameplay>
+    <ol>
+      <h2>Starting the Game</h2>
+      <li>Choose race</li>
+      <dd>
+        Both players must select which race they will use (Human, Elf, Dwarf..).
+        Choice could be made secretly or openly, as players like and players
+        may have army of same race as opponent's (but this is not
+        recommended). It is also recommended that players reveal their choice
+        before proceeding to next step.
+      </dd>
+      <li>Choose army</li>
+      <dd>
+        After player has chosen which army he will be using, player selects
+        the composition of the army he is using. Each army always has one
+        general and then pre-determined amount of points, which are used to
+        pick various units for the army. Players are encouraged to use all
+        points they have, any remaining ones are simply lost.  Army
+        composition is not revealed to other player until set-up is
+        over. Practically phases 2 and 3 can be done at the same time.
+      </dd>
+      <li>Set-Up</li>
+      <dd>
+        Both players deploy their army in first three rows in board on their
+        half. Some kind of cardboard is recommended to 'split' the board so
+        neither player can see where his opponent deploys.
+        After the deploy is done, the cardboard is removed.
+      </dd>
+      <li>Determine starter</li>
+      <dd>
+        The game is started by the army with smaller initiative number (order
+        is: elf, human, dwarf, chaos, orcs, ratmen, undead). If both players
+        have selected the same race, both players roll a d6 and higher one
+        (reroll ties) decides which one goes first. The player not starting
+        the game can then re-arrange his entire set-up any way he chooses,
+        staying in first three rows, before the other player takes the first
+        turn.
+      </dd>
+    </ol>
+  </gameplay>
+  <div class="h2">
+    <div class="pic300">
+      <img src="figs/pic_lord.jpg"  width="300" height="250"
+        alt="Nice miniatures"/>
+      <i>
+        The chaos lord has lost all its retainers and now makes the last
+        desperate charge against human army.
+      </i>
+    </div>
+    <h2>Playing the Game</h2>
+    <p>
+      Gameplay in ChessWar is played in <I>rounds</I>. During each round,
+      each player takes his turn, moving all his troops and attacking with
+      them, in turn order described below. After each player
+      has taken their turn, a new round starts. The game lasts
+      until either general is dead.
+    </p>
+    <h3>Turn Sequence</h3>
+    <p>Each turn is divided into 3 separate parts that cannot be mixed.</p>
+    <ol>
+      <li>Movement phase</li>
+      <li>Shooting phase</li>
+      <li>Melee phase</li>
+    </ol>
+
+
+    In movement phase all units able to move in player's army may be
+    moved. In shooting phase all units armed with some kind of ranged attacks
+    may fire them at enemy, and in melee phase all units in hand-to-hand
+    combat can attack enemy troops in same melee combat.
+
+
+    Order in each phase is not fixed nor simultaneous. Player may do his
+    actions one at the time, for example choose target by result of previous
+    shot done by his other unit.
+
+
+    Spells can break the normal flow of the game, but otherwise player
+    cannot react on the turn of the other player.
+
+
+  </div>
+  <div class="h2">
+
+
+    <h2>
+      <a name="movement">Movement phase</a>
+    </h2>
+
+
+    Each turn, player is allowed to move every unit in his army which is
+    <dt>not</dt> currently in melee. Each unit may move up to number of
+    squares equal to its <dt>move</dt> characteristic and is allowed to
+    make a special charge-move after that. If the unit has move of 0,
+    it cannot move at all, but can charge enemy units which are next to
+    it.
+
+
+    Each move is to any adjacent square (including diagonally), but the unit
+    cannot move from square adjacent to particular enemy to other square
+    adjacent to that same enemy. However, the unit can first move away
+    and then return to be next to the same enemy.
+
+
+    <table>
+      <tr valign="bottom">
+        <td>
+          <IMG src="figs/cw_f1.png" width="77" height="77"
+           alt="movement diagram"/>
+        </td>
+        <td>
+          <I>
+            An unit cannot move from one square next to enemy to any square
+            next to same enemy.
+          </I>
+        </td>
+        <td>
+          <IMG src="figs/cw_f2.png" width="77" height="77"
+           alt="movement diagram"/>
+        </td>
+        <td>
+          <I>
+            The same applies to enemy situated diagonally to
+            unit.
+          </I>
+        </td>
+        <td>
+          <IMG src="figs/cw_f3.png" width="77" height="77"
+          alt="movement diagram"/>
+        </td>
+        <td>
+          <I>
+            However, the unit can first move away and then return to
+            different square next to same enemy.
+          </I>
+        </td>
+      </tr>
+    </table>
+    <h3>
+      <a name="charge">Charge</a>
+    </h3>
+    <p>
+      After the unit has moved it is free to charge any one opponent
+      adjacent to it. Following rules apply:
+    </p>
+    <ul>
+      <li>
+        Charge can be a diagonal one only if squares on both sides are
+        either empty or occupied by own units.
+      </li>
+      <li>
+        Unit which is not <dt>brave</dt> can only charge <dt>scary</dt>
+        unit if it first succeeds in <I>save roll</I>. If the save fails,
+        the unit is stopped in its tracks and cannot move anymore this
+        turn. See special attributes for further details.
+      </li>
+    </ul>
+
+
+    If the charge is successful, place the unit on edge of its square
+    toward the enemy, and do likewise with the enemy. Both units are now
+    in melee and neither can leave it until either side is destroyed.
+
+
+    If the target is already in melee with other unit this does not stop another
+    unit attacking it, just place the unit on the edge of square. Now
+    target must destroy all its opponents before it is free to move.
+
+
+    <table>
+      <tr valign="bottom">
+        <td>
+          <IMG src="figs/cw_f6.png" width="77" height="77"
+            alt="charge diagram"/>
+        </td>
+        <td>
+          <I>
+            An unit can charge any enemies laterally, or even diagonally
+            if side squares next to both units are empty.
+          </I>
+        </td>
+        <td>
+          <IMG src="figs/cw_f7.png" width="77" height="77"
+            alt="charge diagram"/>
+        </td>
+        <td>
+          <I>
+            An unit cannot charge diagonally if either side square has
+            an enemy unit. The unit can always charge laterally.
+          </I>
+        </td>
+        <td>
+          <IMG src="figs/cw_f8.png" width="77" height="77"
+            alt="charge diagram"/>
+        </td>
+        <td>
+          <I>
+            Own units do not prevent the unit from charging
+            diagonally.
+          </I>
+        </td>
+      </tr>
+    </table>
+
+
+  </div>
+  <div class="h2">
+
+
+    <h2>
+      <a name="shooting">Shooting Phase</a>
+    </h2>
+
+    <div class="right">
+
+
+      <!-- <object data="figs/cw_f4.eps" type="application/postscript">
+     <object data="figs/cw_f4.png" type="image/png">
+   Apparently this does NOT work, at least with mozilla. *sigh*
+   Maybe I will find some day other way to go around this.
+-->
+
+      <img src="figs/cw_f4.png" width="128" height="128"
+           alt="shooting diagram"/>
+
+    </div>
+    <p>
+      Some units are armed with some kind of ranged attack like bows,
+      catapults or large boulders. They are allowed to fire at one enemy
+      unit in this phase with their weapons unless they are in melee.
+    </p>
+    <p>
+      Shooting is started by selecting the target unit to attack.
+      Target for attack must be within range of weapons and
+      visible by firer or other unit in their army if weapon can be fired
+      <EM>indirectly.</EM> Visibility is determined from
+      center of firer's square to center of target's square; any square that
+      is crossed by this line blocks the visibility if any unit is in that square.
+      If this line crosses exactly between two squares, firer is free
+      to choose which one of these two squares is crossed.
+    </p>
+    <I>
+      The black unit marked with A can clearly see white unit 1. It
+      can also see unit 2 as the line of sight crosses two
+      squares and the empty one can be selected. It cannot see
+      unit 3 as other black unit blocks the line of
+      sight. However, as another black unit sees unit 3,
+      indirect fire can be used. White unit 4 is not seen by
+      any black unit and cannot be targeted even indirectly.
+    </I>
+    <h3>
+      <a name="shotintomelee">Shots into Melee</a>
+    </h3>
+    <p>
+      It is dangerous to attack melee combat as units are completely mixed
+      up. Thus, whenever a ranged attack (bows, catapult, spell) hits
+      an unit in melee combat, roll a d6:
+    </p>
+    <div class="simpletable">
+      <span class="value">5-6:</span> the original target is hit<BR/>
+      <span class="value">3-4:</span> the original target and one random
+      opponent is hit<BR/>
+      <span class="value">1-2:</span> one random opponent is hit!<BR/>
+    </div>
+    <p>
+      If any unit in the melee is destroyed, other combatants do not get a
+      free follow-up move.
+    </p>
+    <h3>
+      <a name="bows">Bows</a>
+    </h3>
+    <p>
+      Bows are basic ranged weapon for troops. When fired, select any target
+      unit within <dt>4</dt> squares seen by firer or any other friendly unit,
+      and roll to-hit. The basic target number to be rolled on a d6
+      depends on the shooting unit and is marked in unit statistics. Following
+      modifiers apply:
+    </p>
+    <div class="simpletable">
+      <span class="value">-1</span> the firer moved during movement phase<BR/>
+      <span class="value">-1</span> the range is 3 or more squares<BR/>
+      <span class="value">-2</span> the target is not visible to firer (i.e. indirect fire)
+    </div>
+    <p>
+      If target is hit, it must make its <dt>save</dt> or it is destroyed.
+      Note that the roll 6 does not always hit. Remember that if the target
+      was in melee and was hit, you must roll if you hit your own
+      unit!
+    </p>
+    <h3>
+      <a name="catapults">Catapults</a>
+    </h3>
+    <p>
+      Catapults are heavy siege engines which have unlimited range and can be
+      fired indirectly, althought the target square must be seen by at least
+      one unit of the same army. However, catapults have minimum range of 2
+      squares, they cannot be aimed to square next to catapult
+      itself!
+    </p>
+    <div class="right">
+      <table class="box">
+        <tr>
+          <td align="center">1</td>
+          <td>1 square over</td>
+        </tr>
+        <tr>
+          <td align="center">2</td>
+          <td>1 square right</td>
+        </tr>
+        <tr>
+          <td align="center">3</td>
+          <td>1 square short</td>
+        </tr>
+        <tr>
+          <td align="center">4</td>
+          <td>1 square left</td>
+        </tr>
+        <tr>
+          <td align="center">5-6</td>
+          <td>no scatter</td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      To fire a catapult, select a target square seen at least by one own
+      unit, and then roll 2 (direct) or 3 (indirect) <I>scatter</I> rolls,
+      checking the table on right.
+    </p>
+    <p>
+      The direction is aligned according to the shooting player and the board,
+      i.e. number 1 is one square toward the other end of the board.
+      The order of the dice is not important, just handle all scatter rolls.
+      So if you roll 2 and 5, the final result is one square right of target
+      square. Or if you roll 1 and 3, it hits the original
+      square.
+    </p>
+    <p>
+      The scatter rolls <dt>can</dt> make the shot to fall short or even on
+      the top of the catapult itself! However, if the shot
+      falls in the catapult square, it is just a miss.
+      If the shot ends out of the gaming board, it is a complete miss.
+    </p>
+    <p>
+      Any unit in the target square is hit and must make its save or
+      it is destroyed. If the target hit was in melee, you must
+      roll if the catapults hits the other side of the melee as described
+      above.
+    </p>
+    <p>
+      <dt>Rocks</dt> and <dt>plaguebombs</dt>: these special catapults have
+      maximum range of 2 but no minimum range and always
+      scatter just once (except in <I>storm</I>), even when
+      used indirectly. The unit can move before making the
+      attack and it does not affect the accuracy.
+    </p>
+  </div>
+  <div class="h2">
+    <h2>
+      <a name="melee">Melee Phase</a>
+    </h2>
+    <p>
+      Any own unit in melee can now attack one enemy unit in same melee.
+      Each attack is done one by one and the unit may opt not to attack.
+      To make an attack, roll a d6 and add attacker melee modifiers and
+      deduct defender melee. Then look at melee result table:
+    </p>
+    <table class="box">
+      <tr>
+        <td align="center">6 or more*</td>
+        <td>Defender is destroyed.</td>
+      </tr>
+      <tr>
+        <td align="center">
+          5
+        </td>
+        <td>
+          Defender must make 2 saves or it is
+          destroyed. <dt>Brave</dt> defender must only save once.
+        </td>
+      </tr>
+      <tr>
+        <td align="center">4</td>
+        <td>Defender must make its save or it is destroyed.</td>
+      </tr>
+      <tr>
+        <td align="center">2-3</td>
+        <td>Stand-off, the melee continues</td>
+      </tr>
+      <tr>
+        <td align="center">1 or less</td>
+        <td>
+          Attacker destroyed unless save is made.<BR/>
+          <dt>Scary</dt> attacker must only save if the defender is <dt>brave</dt>
+        </td>
+      </tr>
+    </table>
+
+
+    * a natural roll 6 always causes this result regardless of any
+    modifiers. However, if the defender is <dt>scary</dt> and the attacker
+    is not <dt>brave</dt>, refer to result 5.
+
+
+    If the defender is destroyed, the attacker can then make a follow-up
+    move providing it is no longer in melee. This follow-up move is
+    either:
+    <ul>
+      <li>
+        Move to square originally occupied by the enemy just
+        destroyed. Lateral move is only possible if neither side
+        square contains enemy unit, <I>or</I>
+      </li>
+      <li>
+        Perform one <a href="#charge">charge move</a>, using the normal rules (must save if
+        charges <dt>scary</dt> unit etc.)
+      </li>
+    </ul>
+    <p>
+      The follow-up move is done after all other effects are handled, like
+      <I>Plague</I> or <I>Heal spell</I>. Units with move of 0 can only
+      make follow-up charge, not move.
+    </p>
+    <p>
+      On a result 1 or less the defender cannot make the follow-up move, nor
+      can follow-up move be made if the melee combatant is destroyed in
+      the shooting phase or by other unit.
+    </p>
+  </div>
+  <div class="h2">
+    <div class="pic300">
+      <img src="figs/pic_catapult.jpg" width="300" height="250"
+       alt="Battle in action"/>
+      <i>The human catapult is surrounded by advancing dwarven warriors.</i>
+    </div>
+    <h2>
+      <a name="special">Special attributes</a>
+    </h2>
+    Units can have various special attributes, marked in their statistics.
+    <dl>
+      <dt>Assault</dt>
+      <dd>
+        When this units charges into melee during movement phase
+        it gains +1 to its Melee value for
+        this turn. Thus, if the unit normally has Melee -1 it has Melee +0
+        when it charges. If the unit itself is charged, the unit makes
+        follow-up move or the melee continues, this bonus does not apply.
+      </dd>
+      <dt>Bows</dt>
+      <dd>
+        The unit is armed with bows and can use them to shoot in
+        the shooting phase. Refer to shooting rules. The to-hit number
+        is given for each unit with bows.
+      </dd>
+      <dt>
+        <a name="sa_brave">Brave</a>
+      </dt>
+      <dd>
+        The unit is very brave (or just stupid) and ignores special attribute
+        <dt>scary</dt>. In addition, brave units perform better in melee combat
+        (result 5).
+      </dd>
+      <dt>
+        <a name="sa_catapults">Catapults</a>
+      </dt>
+      <dd>
+        The unit has catapults (or similar siege weapons) and can fire
+        them in shooting phase as explained in main rules.
+      </dd>
+      <dt>
+        <a name="sa_crossbows">Crossbows</a>
+      </dt>
+      <dd>
+        Crossbows are like <dt>bows</dt> but are limited so that they
+        cannot be fired indirectly nor cannot be fired if the unit moved
+        in movement phase.
+      </dd>
+      <dt>
+        <a name="sa_longbows">Longbows</a>
+      </dt>
+      <dd>
+        As bows, but refer to elite elven archers with maximum range of 5
+        squares instead of normal 4 squares.
+      </dd>
+      <dt>
+        <a name="sa_plague">Plague</a>
+      </dt>
+      <dd>
+        Unit is infected with plague; if it is destroyed while in melee all
+        units in melee with it may have caught the plague and must make
+        their save at +1 or are destroyed. This unit is also immune to
+        any kind of plague.
+      </dd>
+      <dt>
+        <a name="sa_plaguebombs">Plaguebombs</a>
+      </dt>
+      <dd>
+        The unit has poisoned bombs. These are used as catapults, but have
+        maximum range of 2 squares, can be thrown to square next to attacker,
+        and always rolls just one scatter die (even if used indirectly).
+        Any unit in target square must
+        make save at +1 unless is immune to <dt>plague</dt>. If target was
+        in melee, it and all its opponents are hit!
+      </dd>
+      <dt>
+        <a name="sa_regenerate">Regenerate</a>
+      </dt>
+      <dd>
+        When the unit is destroyed, just topple it over. If any unit moves to
+        its square, remove it from the game, but otherwise at the
+        end of the turn, the unit regenerates on a d6 roll 3+ and is bought
+        back to battle. If the roll fails, remove the unit from
+        the game. This unit can never be raised as zombies, but it spreads
+        plague normally. Any new hits to unit are ignored when it is
+        lying on the ground.
+      </dd>
+      <dt>
+        <a name="sa_rocks">Rocks</a>
+      </dt>
+      <dd>
+        Giant boulders hurled by trolls or giants are counted as
+        special catapult attack, with no minimum range but max range of 2
+        squares and 1 scatter always (even indirectly).
+      </dd>
+      <dt>
+        <a name="sa_scary">Scary</a>
+      </dt>
+      <dd>
+        This unit is very frightening. Any unit (which is not <dt>brave</dt>)
+        wishing to charge this unit must make its save or its movement
+        ends and it cannot enter melee this turn (but it may fire normally).
+        In addition, <dt>scary</dt> affects melee combat table unless the other
+        side is <dt>brave</dt> (results um 6 and 1)
+      </dd>
+      <dt>
+        <a name="sa_spells">Spells</a>
+      </dt>
+      <dd>
+        The unit can cast spells. Refer to <a href="#magic">magic section</a>.
+      </dd>
+      <dt>
+        <a name="sa_teleport">Teleport</a>
+      </dt>
+      <dd>
+        The unit moves via teleporting. Just move the unit up to its maximum
+        move squares, ignoring any intervening units. The unit can
+        move away from melee combat this way. Any charge move is
+        done after the teleport move.
+      </dd>
+      <dt>
+        <a name="sa_terrorpults">Terrorpults</a>
+      </dt>
+      <dd>
+        These units have normal catapults except that they fire ammunition
+        with shrieks and screams, causing supernatural terror. Target hit
+        is automatically destroyed unless it is <dt>brave</dt>. Brave targets
+        must make a normal save to survive.
+      </dd>
+      <dt>
+        <a name="sa_undead">Undead</a>
+      </dt>
+      <dd>
+        These units are really dead. They are automatically <dt>brave</dt> and
+        <dt>scary</dt>. In addition, <dt>plague</dt> does not affect
+        them and they get +1 at any saves against bows (including Longbows and
+        Crossbows)
+      </dd>
+    </dl>
+  </div>
+  <h2>
+    <a name="magic">Magic</a>
+  </h2>
+  <p>
+    Most armies can include some kind of wizard in their force which is
+    capable of launching devastating spells.
+    Each wizard can cast <dt>one</dt> spell each turn. The spell is normally
+    cast on own turn, but the wizard can cast an <I>instant</I>
+    spell on enemy's turn - if it does so, it cannot cast a spell in
+    players's next turn.
+  </p>
+  <p>
+    Most spells are always successful, unless the other side tries to
+    <I>counterspell</I> them, but some require a success roll.
+    The wizard can cast same spell again and again, but choice of spells
+    is limited by actual type of wizard (see <a href="#lists">army lists</a>).
+    In addition, each spell has its own restrictions about when it can be
+    cast:
+  </p>
+  <dt>Instant</dt> spells can be cast anytime, even on enemy's
+  turn! Any action currently being done is interrupted by the spell.
+  However, if the dice is already rolled, its effect happens.
+  <dt>Move</dt> spell is cast immediately after the wizard has moved.
+  It cannot be cast if the wizard is in melee (exception: flight on
+  himself).
+
+  <dt>Shoot</dt> and <dt>melee</dt> is cast in appropriate phase, when the
+  wizard is about to attack. Note that wizard in melee combat
+  cannot cast a shoot spell.
+  <p>
+    In addition, some spells are classified as <dt>temporal</dt> and
+    after being cast, they last until start of the wizard's next turn.
+    If the wizard is killed, however, the effect immediately ends.
+    Note that cumulative temporal spells have no extra effect, except that
+    they are harder to dispel (several dispels are needed). Thus, it is
+    not harder to shoot while 2 <I>storm</I> spells are in effect but both
+    need to be dispelled before the shooting can be done unhindered.
+  </p>
+  <dl>
+    <dt>
+      <a name="s_contagion">Contagion</a>
+    </dt> (move, temporal)
+    <dd>
+      This unit makes all own units carriers of powerful plague. All own
+      units have special ability <dt>plague</dt> until start of wizard
+      player's next turn unless effect is dispelled. Consult
+      <a href="#special">
+        special attributes
+      </a>.
+    </dd>
+    <dt>
+      <a name="s_counterspell">Counterspell</a>
+    </dt> (instant)
+    <dd>
+      This spell can be cast at any time when another spell is just cast,
+      including another Counterspell. The target spell is dispelled on a d6
+      roll 4+ and has no effect. Note that if Counterspell is countered,
+      the original spell works. The counterspell is rolled after any spell
+      working rolls are made (Heal, Counterspell) but before any derivated
+      rolls are made (Strike and Zap! effects)
+    </dd>
+    <dt>
+      <a name="s_dispel">Dispel</a>
+    </dt> (move)
+    <dd>
+      This spell dispels any temporal magic spell
+      (Contagion, Fear, Protection or Storm). If several temporal spells
+      are in effect, this spell only dispels one of them.
+
+    </dd>
+    <dt>
+      <a name="s_fear">Fear</a>
+    </dt> (move, temporal)
+    <dd>
+      All own units are <dt>scary</dt> until start of the wizard player's
+      next turn. Consult <a href="#special">special attributes</a> for
+      effects of scary. Note that this spell does not make them <dt>brave</dt>.
+    </dd>
+    <dt>
+      <a name="s_flight">Flight</a>
+    </dt> (move)
+    <dd>
+      This spell can be targeted on any unit visible to wizard.
+      The unit is counted as having special attribute <dt>teleport</dt>
+      and <dt>brave</dt> until end of the movement phase and move of 4.
+      However, the unit can only move to a square visible to the wizard
+      when casting this spell. Note that the wizard can use this spell
+      on himself, and as (<dt>exception</dt> to normal rules) can cast
+      it to itself even when in melee.
+    </dd>
+    <dt>
+      <a name="s_heal">Heal</a>
+    </dt> (instant)
+    <dd>
+      <p>
+        This spell can be cast at any time on unit within 2 squares
+        of the wizard, even not in sight, which was just destroyed.
+        On a d6 roll of 4+ the unit is healed and it can continue on
+        fighting. If used in melee, the attacker cannot naturally advance to
+        square of the healed target.
+      </p>
+      <p>
+        This spell can be cast on the wizard itself if the wizard is
+        destroyed. If target had <dt>plague</dt> and is saved, other combatants
+        do not need to save against it.
+      </p>
+    </dd>
+    <dt>
+      <a name="s_protection">Protection</a>
+    </dt> (move, temporal)
+    <dd>
+      This spell creates force field around wizard and all 8 adjacent
+      squares. All <dt>own</dt> units within that area gain +1 to their
+      saves, become <dt>brave</dt> and are immune to <dt>plague</dt> as
+      long as they remain in area (or arrive to it). Effects for
+      multiple <I>protections</I>  are not cumulative.
+    </dd>
+    <dt>
+      <a name="s_raisedead">Raise Dead</a>
+    </dt> (instant)
+    <dd>
+      <p>
+        This spell has range of 4 and can be targeted at any non-undead
+        unit which just has been destroyed (it does not need to be visible).
+        The target unit is immediately raised as new zombie unit and joins the
+        Undead army, but cannot move or shoot until player's next turn.
+      </p>
+      <p>
+        The raised unit is a normal zombie unit except if the destroyed unit
+        has <dt>assault</dt> in which case undead cavalry is raised, or if
+        the unit had <dt>bows</dt> (or longbows but not crossbows) an undead
+        bowmen are raised, or if the unit had <dt>catapults</dt>, an undead
+        catapults are raised. If Undead is already using maximum number of
+        special Undead units, normal zombies are raised.
+      </p>
+      <p>
+        Any heal spell is tried before this spell can be used. Regenerating
+        unit cannot be raised. If own unit destroyed in melee is raised,
+        any enemy unit in melee with old unit stay in melee with the new
+        one.
+      </p>
+    </dd>
+    <dt>
+      <a name="s_storm">Storm</a>
+    </dt> (move, temporal)
+    <dd>
+      <p>
+        Wizard summons a powerful storm which hinders all ranged attack
+        until start of wizard player's next turn.
+      </p>
+      <p>
+        Any bow attacks, including crossbows but excluding rocks, are
+        at -1 to-hit per each square of range instead of normal range modifiers.
+        Catapults (including plaguebombs) are at extra scatter die for each 2
+        squares of range.
+      </p>
+    </dd>
+    <dt>
+      <a name="s_strike">Strike</a>
+    </dt> (melee)
+    <dd>
+      Instead of attacking a melee target in the melee phase the wizard
+      may cast this spell and force one opponent to make its save at
+      -2 or it is destroyed.
+    </dd>
+    <dt>
+      <a name="s_zap">Zap!</a>
+    </dt> (shoot)
+    <dd>
+      <p>
+        This spell can be cast by wizard exactly like ranged attack
+        (so wizard may not be in melee). It has range of 4, it cannot
+        be targeted indirectly and it strikes target automatically,
+        which must make its <dt>save</dt> or it is destroyed. If targeted
+        at melee, remember <a href="#shotintomelee">
+          to roll
+        </a> which target
+        is hit, after all.
+      </p>
+      <p>
+        Appearance of this spell is always different: Human wizards
+        prefer fireballs and lightning bolts, elves like thorn sprays
+        while orc shamans cause a gigantic foot of their god to trample
+        on enemy.
+      </p>
+    </dd>
+  </dl>
+  <div class="pic250">
+    <img src="figs/pic_zombies.jpg"  width="250" height="200"
+     alt="Fierce melee"/>
+    <i>Elven cavalry has been attacked by scary zombies.</i>
+  </div>
+  <h2>Extra Rules</h2>
+  <dt>ChessWar</dt>
+  <dd>
+    can be expanded beyond normal chessboard and
+    pieces. This section gives possible ideas on how to expand the
+    game. Note that these ideas and rules have not been tested out.
+  </dd>
+  <h3>Custom Gameboard</h3>
+  <dt>ChessWar</dt>
+  <dd>
+    can be played on any square-based game board, it needs
+    not to be a standard 8x8 chess board. If using a larger game
+    board, catapult (including Terrropult) range should be limited
+    to 8 squares.
+  </dd>
+  <p>
+    The non-standard game board can also include terrain like forest or
+    hills. Any extra terrain can be added as agreed by the players.
+  </p>
+  <div class="simpletable">
+    <dt>Forest</dt> blocks visiblity like an unit but can be
+    moved into. The unit in forest is visible normally but
+    has +1 saves against ranged attacks and if charged, attacker
+    loses any <dt>assault</dt> bonus.
+
+    <dt>Hill</dt> blocks visiblity like units or forest. However, any unit
+    on the hill can see over any units (but not forest or
+    hills), and can likewise be seen.
+  </div>
+
+  <h3>Total Massacre</h3>
+
+
+  <dt>ChessWar</dt> is normally played until either general (king) is
+  dead. With these rules the game lasts until either side is wiped
+  out. However, following rules apply as soon as own general is
+  lost:
+  <ul>
+    <li>
+      All enemy units are counted as being <dt>scary</dt>
+    </li>
+    <li>
+      Melee units cannot make the free follow-up move
+    </li>
+    <li>
+      Indirect fire cannot be used
+    </li>
+  </ul>
+
+  With <dt>Undead</dt> army, in addition to the above rules (well, first
+  one really does not affect them)
+  they also lose one <dt>undead</dt> unit of their choice at the start of
+  their turn until has none left.
+
+  <h3>Multi-Side Fights</h3>
+
+
+  When playing with custom gameboard, there could be enough room to
+  handle multiple armies. In such a case, each army acts one by
+  one as using normal rules. Total massacre rules should be used
+  so that not any army just disappears.
+
+
+  The game can also be played like 2 armies versus other two. In  such a
+  case, both armies of the same side should act at the same
+  time. Total massacre rules should be used, but the side which
+  first kills both generals of the other side is immediate winner.
+
+  <h3>Extended Armies</h3>
+
+
+  The game can be played with larger armies. Use whatever method agreed
+  by the players, but remember that point costs are not comparable, even
+  when the armies have same number of build points as generals are worth
+  different points. Thus, the fairest way to extend armies is to double
+  the points (and maximum number of units of each type) and give each
+  player 2 generals.
+
+
+  When an army has 2 (or more) generals, all of them must be defeated
+  before the army is defeated. It is assumed that one of the generals is
+  the supreme commander and the rest are second-in-command who take
+  control if the first one is slain.
+
+  <h2>Army lists</h2>
+
+
+  Each army has given initiative rating (the lowest goes first) and points
+  to select other pieces than the general which is always taken.
+  All units in each army are in standard order; king first (K), then queen (Q),
+  rook (R), bishop (B), knight (N) and finally pawns. Dwarf and Ratmen
+  armies do not have knights at all. Attributes for each unit are:
+
+  <dl>
+    <dt>Max:</dt>
+    <dd>
+      maximum number of this kind of units
+      in army. The final army before set-up may not have more units of
+      this type
+    </dd>
+    <dt>Cost:</dt>
+    <dd> cost in points per unit of this type</dd>
+    <dt>
+      Move:
+    </dt>
+    <dd>
+      maximum squares that unit can be
+      move per movement phase (excluding charge)
+    </dd>
+    <dt>Save:</dt>
+    <dd>
+      saving throw. A d6 roll which must be
+      made for unit to survive most hits or to charge scary target
+    </dd>
+    <dt>Melee:</dt>
+    <dd> modifier to melee rolls</dd>
+    <dt>Special:</dt>
+    <dd> any special abilities</dd>
+  </dl>
+  <div class="tophalf">
+    <table class="army">
+
+      <tr>
+        <th colspan="7" class="chaos army">
+          Chaos (initiative 4, 12 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee
+        </th>
+        <th align="left">Special</th>
+      </tr>
+      <tr align="center">
+        <td align="left">
+          Chaos Lord (K)
+        </td>
+        <td>
+          1
+        </td>
+        <td>
+          -
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          2+
+        </td>
+        <td>
+          +2
+        </td>
+        <td align="left">Brave, Scary</td>
+      </tr>
+      <tr align="center">
+        <td align="left">
+          Sorcerer (Q)
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          3+
+        </td>
+        <td>
+          -1
+        </td>
+        <td align="left">Spells: Contagion, Counterspell, Dispel, Fear, Storm, Zap!</td>
+      </tr>
+      <tr align="center">
+        <td align="left">
+          Giants (R)
+        </td>
+        <td>
+          <dt>2</dt>
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          2+
+        </td>
+        <td>
+          +1
+        </td>
+        <td align="left">Rocks</td>
+      </tr>
+      <tr align="center">
+        <td align="left">
+          Chaos Bowmen (B)
+        </td>
+        <td>
+          4
+        </td>
+        <td>
+          1
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          5+
+        </td>
+        <td>
+          +0
+        </td>
+        <td align="left">Bows (3+)</td>
+      </tr>
+      <tr align="center">
+        <td align="left">
+          Chaos Knights (N)
+        </td>
+        <td>
+          4
+        </td>
+        <td>
+          2
+        </td>
+        <td>
+          3
+        </td>
+        <td>
+          3+
+        </td>
+        <td>
+          +1
+        </td>
+        <td align="left">Assault, Brave</td>
+      </tr>
+      <tr align="center">
+        <td align="left">
+          Beastmen
+        </td>
+        <td>
+          12
+        </td>
+        <td>
+          1
+        </td>
+        <td>
+          1
+        </td>
+        <td>
+          4+
+        </td>
+        <td>
+          +0
+        </td>
+        <td align="left">Plague</td>
+      </tr>
+      <tr>
+        <td colspan="7">
+          <dt>Brave:</dt>
+          <dd>
+            cancels scary, modifies melee result 5
+          </dd>
+          <dt>Scary:</dt>
+          <dd>
+            opponent must save to charge, modifies melee result um 6
+            and 1
+          </dd>
+          <dt>Spells:</dt>
+          <dd> one spell each turn, see below</dd>
+          <dt>Rocks:</dt>
+          <dd> special catapult (range 2, 1 scatter, save +0)</dd>
+          <dt>Bows:</dt>
+          <dd> basic bows (range 4, save +0)</dd>
+          <dt>Assault:</dt>
+          <dd> melee +1 when charges into melee (effectually +2)</dd>
+          <dt>Plague:</dt>
+          <dd>
+            if destroyed in melee, opponents must make save at +1
+            or destroyed. Immune to plague.
+          </dd>
+          <dt>Contagion (move, temporal):</dt>
+          <dd> all own units have plague</dd>
+          <dt>Counterspell (instant):</dt>
+          <dd> counter just cast spell on 4+</dd>
+          <dt>Dispel (move):</dt>
+          <dd> dispel one temporal magic effect</dd>
+          <dt>Fear (move, temporal):</dt>
+          <dd> all own units become scary</dd>
+          <dt>Storm (move, temporal):</dt>
+          <dd>
+            bows are at -1 to-hit per square of range,
+            catapults scatter one extra per 2 squares
+          </dd>
+          <dt>Zap! (shoot):</dt>
+          <dd> visible enemy within 4 squares must save or is destroyed</dd>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="bottomhalf">
+    <table class="army">
+      <tr>
+        <th colspan="7" class="dwarf army">
+          Dwarves (initiative 3, 12 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee<th align="left">Special</tr>
+
+      <tr align="center">
+        </td>
+        <td align="left">
+          Warlord (K)<td>
+            1<td>
+              -<td>
+                1<td>
+                  2+
+                  <td>
+                    +2
+                  </td><td align="left">Brave, Crossbows (3+)
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Rune Lord (Q)<td>
+            <dt>1</dt>
+            <td>
+              3<td>
+                1<td>
+                  2+
+                  <td>
+                    +2
+                  </td><td align="left">Brave, Crossbows (3+), Spells: Counterspell, Dispel, Protection, Storm
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Catapults (R)<td>
+            4<td>
+              1<td>
+                0<td>
+                  3+
+                  <td>
+                    +0
+                  </td><td align="left">Catapults
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Crossbowers (B)<td>
+            4<td>
+              1<td>
+                1<td>
+                  3+
+                  <td>
+                    +0
+                  </td><td align="left">Crossbows (3+)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Infantry<td>
+            12<td>
+              1<td>
+                1<td>
+                  3+
+                  <td>
+                    +1
+                  </td><td align="left">-
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+
+      <tr>
+        <td colspan="7">
+
+          <dt>Note:</dt> Dwarves have no cavalry (knights).</p>
+          </p>
+          <dt>Brave:</dt> cancels <dt>scary</dt>, modifies melee result 5</p>
+          <dt>Crossbows:</dt> special bows (range 4, no move and fire, no indirect, save +0)</p>
+          <dt>Spells:</dt> one spell each turn, see below</p>
+          <dt>Catapults:</dt> basic catapult (ul range, 2/3 scatter, save +0)</p>
+
+          Counterspell (instant): counter just cast spell on 4+</p>
+          Dispel (move): dispel one temporal magic effect</p>
+          Protection (move, temporal): wizard and all own units next to wizard gain +1
+          saves, are brave, and immune to plague</p>
+          Storm (move, temporal): bows are at -1 to-hit per square of range,
+          catapults scatter one extra per 2 squares</p>
+
+        </td>
+      </tr>
+    </table>
+
+
+  </div>
+  <div class="tophalf">
+
+
+    <table class="army">
+
+      <tr>
+        <th colspan="7" class="elf army">
+          Elfs (initiative 1, 18 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee<th align="left">Special</tr>
+
+      <tr align="center">
+        </td>
+        <td align="left">
+          General (K)<td>
+            1<td>
+              -<td>
+                3<td>
+                  2+
+                  <td>
+                    +1
+                  </td><td align="left">Brave, Assault
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Wizard (Q)<td>
+            2<td>
+              4<td>
+                3<td>
+                  3+
+                  <td>
+                    -1
+                  </td><td align="left">Assault, Spells:  Counterspell, Dispel, Fear, Heal, Protection, 
+Zap!
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          treemen (R)<td>
+            <dt>2</dt>
+            <td>
+              2<td>
+                1<td>
+                  2+
+                  <td>
+                    +1
+                  </td><td align="left">-
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Elite Archers (B)<td>
+            4<td>
+              2<td>
+                2<td>
+                  4+
+                  <td>
+                    +0
+                  </td><td align="left">Long Bows (2+)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Cavalry (N)<td>
+            <dt>2</dt>
+            <td>
+              2<td>
+                3<td>
+                  3+
+                  <td>
+                    +0
+                  </td><td align="left">Assault
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Archers<td>
+            16<td>
+              1<td>
+                2<td>
+                  5+
+                  <td>
+                    -1
+                  </td><td align="left">Bows (3+)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+
+      <tr>
+        <td colspan="7">
+
+          <dt>Brave:</dt> cancels <dt>scary</dt>, modifies melee result 5</p>
+          <dt>Assault:</dt> melee +1 when charges into melee</p>
+          <dt>Spells:</dt> one spell each turn, see below</p>
+          <dt>Bows:</dt> basic bows (range 4, save +0)</p>
+          <dt>Long Bows:</dt> special bows (range 5, save +0)</p>
+          <dt>Scary:</dt> opponent must save to charge, modifies melee result um 6
+          and 1</p>
+
+          Counterspell (instant): counter just cast spell on 4+</p>
+          Dispel (move): dispel one temporal magic effect</p>
+          Fear (move, temporal): all own units become scary</p>
+          Heal (instant): save one destroyed unit within 2 squares on a d6 roll
+          4+</p>
+          Protection (move, temporal): wizard and all own units next to wizard gain +1
+          saves, are brave, and immune to plague</p>
+          Zap! (shoot): visible enemy within 4 squares must save or is destroyed</p>
+
+        </td>
+      </tr>
+    </table>
+
+
+  </div>
+  <div class="bottomhalf">
+
+
+    <table class="army">
+
+      <tr>
+        <th colspan="7" class="human army">
+          Humans (initiative 2, 19 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee<th align="left">Special</tr>
+
+      <tr align="center">
+        </td>
+        <td align="left">
+          General (K)<td>
+            1<td>
+              -<td>
+                2<td>
+                  2+
+                  <td>
+                    +1
+                  </td><td align="left">Brave
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Wizard (Q)<td>
+            2<td>
+              3<td>
+                2<td>
+                  3+
+                  <td>
+                    -1
+                  </td><td align="left">Spells: Counterspell, Dispel, Heal, Protection, Storm, Zap!
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Catapults (R)<td>
+            4<td>
+              1<td>
+                0<td>
+                  4+
+                  <td>
+                    -1
+                  </td><td align="left">Catapults
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Archers (B)<td>
+            4<td>
+              1<td>
+                2<td>
+                  5+
+                  <td>
+                    -1
+                  </td><td align="left">Bows (3+)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Knights (N)<td>
+            4<td>
+              2<td>
+                3<td>
+                  3+
+                  <td>
+                    +0
+                  </td><td align="left">Assault
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Infantry<td>
+            16<td>
+              1<td>
+                1<td>
+                  4+
+                  <td>
+                    +0
+                  </td><td align="left">-
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+
+      <tr>
+        <td colspan="7">
+
+          <dt>Brave:</dt> cancels <dt>scary</dt>, modifies melee result 5</p>
+          <dt>Spells:</dt> one spell each turn, see below</p>
+          <dt>Catapults:</dt> basic catapult (ul range, 2/3 scatter, save +0)</p>
+          <dt>Bows:</dt> basic bows (range 4, save +0)</p>
+          <dt>Assault:</dt> melee +1 when charges into melee</p>
+
+          Counterspell (instant): counter just cast spell on 4+</p>
+          Dispel (move): dispel one temporal magic effect</p>
+          Heal (instant): save one destroyed unit within 2 squares on a d6 roll
+          4+</p>
+          Protection (move, temporal): wizard and all own units next to wizard gain +1
+          saves, are brave, and immune to plague</p>
+          Storm (move, temporal): bows are at -1 to-hit per square of range,
+          catapults scatter one extra per 2 squares</p>
+          Zap! (shoot): visible enemy within 4 squares must save or is destroyed</p>
+
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  <div class="tophalf">
+
+
+    <table class="army">
+
+      <tr>
+        <th colspan="7" class="orc army">
+          Orcs (initiative 5, 16 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee<th align="left">Special</tr>
+
+      <tr align="center">
+        </td>
+        <td align="left">
+          Warlord (K)<td>
+            1<td>
+              -<td>
+                2<td>
+                  2+
+                  <td>
+                    +1
+                  </td><td align="left">Brave
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Shaman (Q)<td>
+            2<td>
+              3<td>
+                2<td>
+                  3+
+                  <td>
+                    +0
+                  </td><td align="left">Spells: Counterspell, Dispel, Flight, Protection, Strike, Zap!
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          trolls (R)<td>
+            4<td>
+              2<td>
+                1<td>
+                  3+
+                  <td>
+                    +1
+                  </td><td align="left">Rocks, Plague, Regenerate
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Archers (B)<td>
+            4<td>
+              1<td>
+                1<td>
+                  4+
+                  <td>
+                    +0
+                  </td><td align="left">Bows (3+)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Wolf Riders (N)<td>
+            4<td>
+              1<td>
+                4<td>
+                  4+
+                  <td>
+                    -1
+                  </td><td align="left">Assault
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Orcs<td>
+            16<td>
+              1<td>
+                1<td>
+                  3+
+                  <td>
+                    +0
+                  </td><td align="left">&nbsp;
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+
+      <tr>
+        <td colspan="7">
+
+          <dt>Brave:</dt> cancels <dt>scary</dt>, modifies melee result 5</p>
+          <dt>Spells:</dt> one spell each turn, see below</p>
+          <dt>Rocks:</dt> special catapult (range 2, 1 scatter, save +0)</p>
+          <dt>Plague:</dt> if destroyed in melee, opponents must make save at +1
+          or destroyed. Immune to plague.</p>
+          <dt>Regenerate:</dt> Returns to battle on a d6 roll 3+ at the end of the
+          turn unless the square occupied. Cannot be raised.</p>
+          <dt>Bows:</dt> basic bows (range 4, save +0)</p>
+          <dt>Assault:</dt> melee +1 when charges into melee (effectually +0)</p>
+          <dt>Teleport:</dt> move ignores other units</p>
+
+          Counterspell (instant): counter just cast spell on 4+</p>
+          Dispel (move): dispel one temporal magic effect</p>
+          Flight (move): target visible unit has move 4, teleport and brave
+          in movement phase, but can only move to a square
+          visible to the wizard. Can be used to move wizard
+          itself even when in melee combat.</p>
+          Protection (move, temporal): wizard and all own units next to wizard gain +1
+          saves, are brave, and immune to plague</p>
+          Strike (melee): instead of melee attack force target to save -2 or be
+          destroyed</p>
+          Zap! (shoot): visible enemy within 4 squares must save or is destroyed</p>
+
+        </td>
+      </tr>
+    </table>
+
+
+  </div>
+  <div class="bottomhalf">
+
+
+    <table class="army">
+
+      <tr>
+        <th colspan="7" class="ratman army">
+          Ratmen (initiative 6, 20 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee<th align="left">Special</tr>
+
+      <tr align="center">
+        </td>
+        <td align="left">
+          Rat Lord (K)<td>
+            1<td>
+              -<td>
+                2<td>
+                  2+
+                  <td>
+                    +1
+                  </td><td align="left">Brave
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Seer (Q)<td>
+            2<td>
+              3<td>
+                2<td>
+                  3+
+                  <td>
+                    -1
+                  </td><td align="left">Spells: Contagion, Counterspell, Dispel, Protection, Storm, Zap!
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Rat Ogres (R)<td>
+            4<td>
+              2<td>
+                2<td>
+                  3+
+                  <td>
+                    +1
+                  </td><td align="left">&nbsp;
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Plague Monks (B)<td>
+            4<td>
+              2<td>
+                2<td>
+                  4+
+                  <td>
+                    +0
+                  </td><td align="left">Brave, Plague, Plaguebombs
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Clanrats<td>
+            16<td>
+              1<td>
+                2<td>
+                  5+
+                  <td>
+                    +0
+                  </td><td align="left">&nbsp;
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+
+      <tr>
+        <td colspan="7">
+          <dt>Note:</dt> Ratmen have no cavalry (knights).</p>
+          </p>
+          <dt>Brave:</dt> cancels <dt>scary</dt>, modifies melee result 5</p>
+          <dt>Spells:</dt> one spell each turn, see below</p>
+          <dt>Plague:</dt> if destroyed in melee, others must make save at +1
+          or destroyed. Immune to plague.</p>
+          <dt>Plaguebombs:</dt> special catapult (range 2, 1 scatter, plague save
+          +1, hit all in same melee)</p>
+
+          Contagion (move, temporal): all own units have plague</p>
+          Counterspell (instant): counter just cast spell on 4+</p>
+          Dispel (move): dispel one temporal magic effect</p>
+          Protection (move, temporal): wizard and all own units next to wizard gain +1
+          saves, are brave, and immune to plague</p>
+          Storm (move, temporal): bows are at -1 to-hit per square of range,
+          catapults scatter one extra per 2 squares</p>
+          Zap! (shoot): visible enemy within 4 squares must save or is destroyed</p>
+
+        </td>
+      </tr>
+    </table>
+
+
+
+  </div>
+  <div class="tophalf">
+
+
+    <table class="army">
+
+      <tr>
+        <th colspan="7" class="undead army">
+          Undead (initiative 7, 16 points)
+        </th>
+      </tr>
+
+      <tr>
+        <th align="left">
+          Unit
+        </th>
+        <th>
+          Max
+        </th>
+        <th>
+          Cost
+        </th>
+        <th>
+          Move
+        </th>
+        <th>
+          Save
+        </th>
+        <th>
+          Melee<th align="left">Special</tr>
+
+      <tr align="center">
+        </td>
+        <td align="left">
+          liche (K)<td>
+            1<td>
+              -<td>
+                2<td>
+                  2+
+                  <td>
+                    +1
+                  </td><td align="left">Undead, Teleport, Spells: Counterspell, Dispel,
+Heal, Raise Dead, Storm, Strike
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Necromancer (Q)<td>
+            2<td>
+              3<td>
+                2<td>
+                  3+
+                  <td>
+                    -1
+                  </td><td align="left">Brave, Spells: Counterspell, Dispel, Heal, Raise Dead, Storm, Strike
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Undead Catapults (R)<td>
+            4<td>
+              2<td>
+                0<td>
+                  4+
+                  <td>
+                    -1
+                  </td><td align="left">Undead, Terrorpults
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Undead Archers (B)<td>
+            4<td>
+              1<td>
+                1<td>
+                  5+
+                  <td>
+                    -1
+                  </td><td align="left">Undead, Bows (4+)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Undead Cavalry (N)<td>
+            4<td>
+              2<td>
+                3<td>
+                  3+
+                  <td>
+                    -1
+                  </td><td align="left">Undead, Assault
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+      <tr align="center">
+        </td>
+        <td align="left">
+          Zombies<td>
+            16<td>
+              1<td>
+                1<td>
+                  4+
+                  <td>
+                    -1
+                  </td><td align="left">Undead
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    
+      </tr>
+
+      <tr>
+        <td colspan="7">
+
+          <dt>Undead:</dt> brave, scary, immune to plague, +1 saves vs. bows</p>
+          <dt>Brave:</dt> cancels <dt>scary</dt>, modifies melee result 5</p>
+          <dt>Scary:</dt> opponent must save to charge, modifies melee result um 6
+          and 1</p>
+          <dt>Teleport:</dt> move ignores other units</p>
+          <dt>Spells:</dt> one spell each turn, see below</p>
+          <dt>Terrorpults:</dt> special catapult (ul range, 2/3 scatter, auto-destroy
+          non-brave, braves save +0)</p>
+          <dt>Bows:</dt> basic bows (range 4, save +0)</p>
+          <dt>Assault:</dt> melee +1 when charges into melee (effectually +0)</p>
+
+          Counterspell (instant): counter just cast spell on 4+</p>
+          Dispel (move): dispel one temporal magic effect</p>
+          Heal (instant): save one destroyed unit within 2 squares on a d6 roll
+          4+</p>
+          Raise Dead (instant): raise destroyed non-undead unit within 4 squares
+          as undead unit</p>
+          Storm (move, temporal): bows are at -1 to-hit per square of range,
+          catapults scatter one extra per 2 squares</p>
+          Strike (melee): instead of melee attack force target to save -2 or be
+          destroyed</p>
+
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  <div class="bottomhalf printonly">
+
+
+    <h2>ChessWar Game Summary</h2>
+
+
+    <table>
+      <tr valign="top">
+        <td width="40%">
+
+          <div class="summary">
+
+            <h3>Turn sequence</h3>
+
+            <OL>
+              <li>
+                Movement phase
+                <li>
+                  Shooting phase
+                  <li>Melee phase
+</OL>
+
+
+            <h3>Charge move</h3>
+
+            <ul>
+              <li>
+                Diagonal charge is only possible if both side squares are empty or
+                have own units
+                <li>
+                  If target is <dt>scary</dt>, non-<dt>brave</dt> must first make its save
+                </ul>
+
+
+
+
+            <h3>Shot into Melee</h3>
+
+
+            Whenever a ranged attack, including a spell, hits an unit in melee
+            combat, roll a d6:
+
+            <div class="simpletable">
+
+              <span class="value">5-6:</span> the original target is hit</p>
+              <span class="value">3-4:</span> the original target and one random
+              opponent is hit</p>
+              <span class="value">1-2:</span> one random opponent is hit!</p>
+            </div>
+
+
+
+            <h3>Bows</h3>
+
+
+            Select target unit and roll to-hit against unit skill. Any unit
+            hit must save or is destroyed. Modifiers to to-hit roll are:
+
+            <div class="simpletable">
+
+              <span class="value">-1</span> the firer moved during movement phase</p>
+              <span class="value">-1</span> the range is 3 or more squares</p>
+              <span class="value">-2</span> the target is not visible to firer (i.e. indirect fire)
+            </div>
+
+
+
+
+          </div>
+
+        </td>
+
+        <td width="60%">
+
+          <div class="summary">
+
+
+
+            <div class="right">
+
+
+              <table class="box">
+                <colgroup>
+                  <col align="center">
+                    <col>
+                      <!-- stupid mozilla ignores these... -->
+                      <tr>
+                        <td align="center">
+                          1<td>
+                            1 square over
+                            <tr>
+                              <td align="center">
+                                2<td>
+                                  1 square right
+                                  <tr>
+                                    <td align="center">
+                                      3<td>
+                                        1 square short
+                                        <tr>
+                                          <td align="center">
+                                            4<td>
+                                              1 square left
+                                              <tr>
+                                                <td align="center">
+                                                  5-6<td>no scatter
+</table>
+
+            </div>
+
+            <h3>Catapult</h3>
+
+
+            Select target square and roll 2 scatter rolls. If shooting indirectly,
+            roll 3 scatter rolls. Any unit in target square must make its save or
+            is destroyed. Scatter table:
+
+
+
+            <h3>Melee</h3>
+
+
+
+            Roll a d6, adding attacker melee skill and substracting defender
+            melee skill.
+
+            <br clear="all">
+
+
+
+              <table class="box">
+                <colgroup>
+                  <col align="center">
+                    <col>
+                      <tr>
+                        <td align="center">
+                          6 or more*<td>
+                            Defender is destroyed.
+                            <tr>
+                              <td align="center">
+                                5<td>
+                                  Defender must make 2 saves or it is
+                                  destroyed. <dt>Brave</dt> defender must only save once.
+                                  <tr>
+                                    <td align="center">
+                                      4<td>
+                                        Defender must make its save or it is destroyed.
+                                        <tr>
+                                          <td align="center">
+                                            2-3<td>
+                                              Stand-off, the melee continues
+                                              <tr>
+                                                <td align="center">
+                                                  1 or less<td>
+                                                    Attacker destroyed unless save is made.</p>
+                                                    <dt>Scary</dt> attacker must only save if the defender is <dt>brave</dt>
+                                                  </table>
+
+
+              * a natural roll 6 always causes this result regardless of any
+              modifiers. However, if the defender is <dt>scary</dt> and the attacker
+              is not <dt>brave</dt>, refer to result 5.
+
+
+              If all opponents are destroyed, attacker can then make a follow-up
+              move, as either advance to square just emptied (if
+              diagonally, only if no enemies in side squares) or make
+              a new charge move.
+            </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+  <div class="noprint">
+
+
+    <address>
+      <a href="http://www.iki.fi/marjola/">
+        Homepage of the
+        Author
+      </a>
+    </address>
+  </div>
+</gamedesign>
