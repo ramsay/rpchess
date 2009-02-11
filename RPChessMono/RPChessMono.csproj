@@ -1,0 +1,84 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{06A74C41-B62E-4FBA-BB83-15F29210EC31}</ProjectGuid>
+    <RootNamespace>RPChess</RootNamespace>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputType>Exe</OutputType>
+    <AssemblyName>RPChessMono</AssemblyName>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <RootNamespace>RPChess</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>.</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputType>Exe</OutputType>
+    <AssemblyName>RPChessMono</AssemblyName>
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>false</DebugSymbols>
+    <RootNamespace>RPChess</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DefineConstants>
+    </DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>.</ApplicationIcon>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Content Include="app.desktop">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RPChess\Army.cs">
+      <Link>Army.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Controller.cs">
+      <Link>Controller.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Dice.cs">
+      <Link>Dice.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Game1.cs">
+      <Link>Game1.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\IMove.cs">
+      <Link>IMove.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\IRPChessObject.cs">
+      <Link>IRPChessObject.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Log.cs">
+      <Link>Log.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Model.cs">
+      <Link>Model.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Piece.cs">
+      <Link>Piece.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\Special.cs">
+      <Link>Special.cs</Link>
+    </Compile>
+    <Compile Include="..\RPChess\View.cs">
+      <Link>View.cs</Link>
+    </Compile>
+    <Compile Include="Game1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+</Project>
