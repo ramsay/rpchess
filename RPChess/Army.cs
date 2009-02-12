@@ -20,8 +20,8 @@ namespace RPChess
     {
         private string name;
         private uint initiative;
-        private Piece[] ranks;
-        public ReadOnlyCollection<Piece> Ranks;
+        private Piece[] staff;
+        public ReadOnlyCollection<Piece> Staff;
         private uint wealth;
         private string description;
 
@@ -32,10 +32,10 @@ namespace RPChess
         {
             this.name = null;
             this.initiative = 0;
-            this.ranks = null;
+            staff = null;
             this.wealth = 0;
             this.description = null;
-            this.Ranks = new ReadOnlyCollection<Piece>(this.ranks);
+            this.Staff = new ReadOnlyCollection<Piece>(this.staff);
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace RPChess
         /// <param name="initiative">
         /// The value that determines which player will go first.
         /// </param>
-        /// <param name="ranks">
+        /// <param name="staff">
         /// A list of Pieces that give the specifications for each of the 
-        /// chess pieces.
+        /// staff positions.
         /// </param>
         /// <param name="wealth">
         /// The amount of points per 100 squares that can be used to build a 
@@ -61,14 +61,14 @@ namespace RPChess
         public Army(
             string name,
             uint initiative,
-            Piece[] ranks,
+            Piece[] staff,
             uint wealth,
             string description)
         {
             this.name = name;
             this.initiative = initiative;
-            this.ranks = ranks;
-            this.Ranks = new ReadOnlyCollection<Piece>(ranks);
+            this.staff = staff;
+            this.Staff = new ReadOnlyCollection<Piece>(this.staff);
             this.wealth = wealth;
             this.description = description;
         }
@@ -83,7 +83,8 @@ namespace RPChess
         {
             this.name = null;
             this.initiative = 0;
-            this.ranks = null;
+            this.staff = null;
+            this.Staff = new ReadOnlyCollection<Piece>(this.staff);
             this.wealth = 0;
             this.description = null;
         }
@@ -141,13 +142,13 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Sums all of the Move attributes of the different Ranks.
+        /// Sums all of the Move attributes of the different Staff positions.
         /// </summary>
         /// <returns>A uint sum of all move attributes.</returns>
         public uint SumMove()
         {
             uint movesum = 0;
-            foreach (Piece p in Ranks)
+            foreach (Piece p in Staff)
             {
                 movesum += p.Move;
             }
@@ -155,14 +156,14 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Sums each of the Save attributes of the different Ranks.
+        /// Sums each of the Save attributes of the different Staff positions.
         /// Warning: May be negative.
         /// </summary>
         /// <returns>An integer Sum of the Save attributes.</returns>
         public int SumSave()
         {
             int savesum = 0;
-            foreach (Piece p in Ranks)
+            foreach (Piece p in this.Staff)
             {
                 savesum += p.Save;
             }
@@ -170,13 +171,13 @@ namespace RPChess
         }
 
         /// <summary>
-        /// Sums the Melee attributes of each Army Rank.
+        /// Sums the Melee attributes of each Army Staff position.
         /// </summary>
         /// <returns>An integer sum of the Melee attributes.</returns>
         public int SumMelee()
         {
             int meleesum = 0;
-            foreach (Piece p in Ranks)
+            foreach (Piece p in this.Staff)
             {
                 meleesum += p.Melee;
             }
@@ -195,12 +196,12 @@ namespace RPChess
             repr.AppendLine("\t<initiative>" + this.initiative + "<\\initiative>");
             repr.AppendLine("\t<wealth>" + this.wealth + "<\\wealth>");
             repr.AppendLine("\t<description>" + this.description + "<\\description>");
-            repr.AppendLine("\t<ranks>");
-            foreach (Piece p in Ranks)
+            repr.AppendLine("\t<this.Staff>");
+            foreach (Piece p in this.Staff)
             {
                 repr.AppendLine(p.ToXmlDocument().FirstChild.InnerXml);
             }
-            repr.AppendLine("\t<\\ranks>");
+            repr.AppendLine("\t<\\this.Staff>");
             repr.Append("<\\army>");
             xmldoc.InnerXml = repr.ToString();
             return xmldoc;
