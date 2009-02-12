@@ -148,7 +148,7 @@ namespace RPChess
         /// <summary>
         /// The maximum allowed distance across the board.
         /// </summary>
-        public const uint BoardLimit = 46340;
+        public const uint BoardLimit = 65536;
 
         /// <summary>
         /// The X value of the BoardLocation.
@@ -397,21 +397,21 @@ namespace RPChess
         /// </param>
         /// <param name="blackRoster">
         /// A List of pieces that will be used by player black.</param>
-        /// <param name="Rows">
-        /// The number of Rows on the board.
+        /// <param name="Ranks">
+        /// The number of rows on the board.
         /// </param>
-        /// <param name="Columns">
-        /// The number of clumns on the board.\
+        /// <param name="Files">
+        /// The number of columns on the board.\
         /// </param>
         public Model(
             List<Piece> whiteRoster,
             List<Piece> blackRoster,
-            int Rows,
-            int Columns)
+            int Ranks,
+            int Files)
         {
             this.whiteRoster = whiteRoster;
             this.blackRoster = blackRoster;
-            this.board = new pid[Rows, Columns];
+            this.board = new pid[Ranks, Files];
         }
 
         /// <summary>
@@ -461,7 +461,7 @@ namespace RPChess
             }
         }
 
-        public int Columns
+        public int Files
         {
             get
             {
@@ -469,7 +469,7 @@ namespace RPChess
             }
         }
 
-        public int Rows
+        public int Ranks
         {
             get
             {
