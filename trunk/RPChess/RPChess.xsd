@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="RPChess"
-targetNamespace="http://rpchess.googlecode.com/source/browse/trunk/RPChess/RPChess/RPChess.xsd"
+<xs:schema id="rpchess"
+targetNamespace="http://rpchess.googlecode.com"
 elementFormDefault="qualified"
-xmlns:rpchess="http://rpchess.googlecode.com/source/browse/trunk/RPChess/RPChess/RPChess.xsd"
+xmlns:rpchess="http://rpchess.googlecode.com/"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
   <xs:simpleType name ="chesspiece">
@@ -23,6 +23,9 @@ xmlns:xs="http://www.w3.org/2001/XMLSchema"
     <xs:complexType>
       <xs:sequence>
         <xs:element name="name"/>
+        <xs:element name="author" type="xs:string"/>
+        <xs:element name="email" type="xs:string"/>
+        <xs:element name="license" type="xs:anyURI"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -45,6 +48,9 @@ xmlns:xs="http://www.w3.org/2001/XMLSchema"
           </xs:complexType>
         </xs:element>
         <xs:element name="description" type="xs:string"/>
+        <xs:element name="author" type="xs:string"/>
+        <xs:element name="email" type="xs:string"/>
+        <xs:element name="license" type="xs:anyURI"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -55,28 +61,46 @@ xmlns:xs="http://www.w3.org/2001/XMLSchema"
         <xs:element name="description" type="xs:string"/>
         <xs:element name="initiative" type="xs:unsignedInt"/>
         <xs:element name="name" type="xs:string"/>
-        <xs:element name="ranks">
+        <xs:element name="staff">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="King" type="rpchess:piece"/>
-              <xs:element name="Queen" type="rpchess:piece"/>
-              <xs:element name="Bishop" type="rpchess:piece"/>
-              <xs:element name="Rook" type="rpchess:piece"/>
-              <xs:element name="Knight" type="rpchess:piece"/>
-              <xs:element name="Pawn" type="rpchess:piece"/>
+              <xs:element id="King" ref="rpchess:piece"/>
+              <xs:element id="Queen" ref="rpchess:piece"/>
+              <xs:element id="Bishop" ref="rpchess:piece"/>
+              <xs:element id="Rook" ref="rpchess:piece"/>
+              <xs:element id="Knight" ref="rpchess:piece"/>
+              <xs:element id="Pawn" ref="rpchess:piece"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="wealth" type="xs:unsignedInt"/>
+        <xs:element name="author" type="xs:string"/>
+        <xs:element name="email" type="xs:string"/>
+        <xs:element name="license" type="xs:anyURI"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="file">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="white" type="xs:boolean"/>
+        <xs:element name="index" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="rank">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="rpchess:file"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
   <xs:element name="model">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="columns" type="xs:unsignedInt"/>
-        <xs:element name="rows" type="xs:unsignedInt"/>
         <xs:element name="whiteroster">
           <xs:complexType>
             <xs:sequence>
@@ -91,7 +115,23 @@ xmlns:xs="http://www.w3.org/2001/XMLSchema"
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="boardstate">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="rpchess:rank"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  
+  <xs:element name="armylist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="rpchess:army"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
 </xs:schema>
