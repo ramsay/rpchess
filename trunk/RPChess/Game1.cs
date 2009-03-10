@@ -154,6 +154,8 @@ namespace RPChess
             // TODO: Unload any non ContentManager content here
         }
 
+        GamePadState previousState;
+        KeyboardState previousKeyboardState;
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -161,17 +163,22 @@ namespace RPChess
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
+            KeyboardState currentKeyboardState = Keyboard.GetState();
             switch (this.menuState)
             {
                 case MenuState.MainMenu:
                     // Allows the game to exit
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    if (currentState.Buttons.Back == ButtonState.Pressed &&
+                        previousState.Buttons.Back == ButtonState.Released)
                     {
                         this.Exit();
                     }
 
-                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Down) ||
-                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadDown))
+                    if (currentKeyboardState.IsKeyDown(Keys.Down) &&
+                        previousKeyboardState.IsKeyUp(Keys.Down) ||
+                        currentState.DPad.Down == ButtonState.Pressed &&
+                        previousState.DPad.Down == ButtonState.Released)
                     {
                         if (menuSelection < 4)
                         {
@@ -179,8 +186,10 @@ namespace RPChess
                         }
                     }
 
-                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Up) ||
-                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.DPadUp))
+                    if (currentKeyboardState.IsKeyDown(Keys.Up) &&
+                        previousKeyboardState.IsKeyUp(Keys.Up) ||
+                        currentState.DPad.Up == ButtonState.Pressed &&
+                        previousState.DPad.Up == ButtonState.Released)
                     {
                         if (menuSelection > 0)
                         {
@@ -188,8 +197,10 @@ namespace RPChess
                         }
                     }
 
-                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Enter) ||
-                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.A))
+                    if (currentKeyboardState.IsKeyDown(Keys.Enter) &&
+                        previousKeyboardState.IsKeyUp(Keys.Enter) ||
+                        currentState.Buttons.A == ButtonState.Pressed &&
+                        previousState.Buttons.A == ButtonState.Released)
                     {
                         if (menuSelection == menuList.Count - 1)
                         {
@@ -199,36 +210,50 @@ namespace RPChess
                         menuState = (MenuState)menuSelection;
                     }
 
-                    if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Back) ||
-                        GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back))
+                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
+                        previousKeyboardState.IsKeyUp(Keys.Back) ||
+                        currentState.Buttons.Back == ButtonState.Pressed &&
+                        previousState.Buttons.Back == ButtonState.Released)
                     {
                         this.Exit();
                     }
 
                     break;
                 case MenuState.Campaign:
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
+                        previousKeyboardState.IsKeyUp(Keys.Back) ||
+                        currentState.Buttons.Back == ButtonState.Pressed &&
+                        previousState.Buttons.Back == ButtonState.Released)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
 
                     break;
                 case MenuState.PartyEditor:
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
+                        previousKeyboardState.IsKeyUp(Keys.Back) ||
+                        currentState.Buttons.Back == ButtonState.Pressed &&
+                        previousState.Buttons.Back == ButtonState.Released)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
 
                     break;
                 case MenuState.Settings:
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
+                        previousKeyboardState.IsKeyUp(Keys.Back) ||
+                        currentState.Buttons.Back == ButtonState.Pressed &&
+                        previousState.Buttons.Back == ButtonState.Released)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
 
                     break;
                 case MenuState.Versus:
-                    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
+                        previousKeyboardState.IsKeyUp(Keys.Back) ||
+                        currentState.Buttons.Back == ButtonState.Pressed &&
+                        previousState.Buttons.Back == ButtonState.Released)
                     {
                         this.menuState = MenuState.MainMenu;
                     }
@@ -236,6 +261,8 @@ namespace RPChess
                     break;
             }
 
+            previousState = currentState;
+            previousKeyboardState = currentKeyboardState;
             base.Update(gameTime);
         }
 
