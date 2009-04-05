@@ -386,7 +386,7 @@ namespace RPChess
             this.WhiteRoster = new ReadOnlyCollection<Piece>(this.whiteRoster);
             this.blackRoster.Add(new Piece());
             this.BlackRoster = new ReadOnlyCollection<Piece>(this.blackRoster);
-            this.board = new pid[10,10];
+            this.board = new pid[8,8];
         }
 
         /// <summary>
