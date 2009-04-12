@@ -23,10 +23,6 @@ namespace RPChess
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        /// <summary>
-        /// Holds the value of the current menuState of the game.
-        /// </summary>
-        private MenuState menuState;
 
         /// <summary>
         /// The move log of the game.
@@ -59,45 +55,12 @@ namespace RPChess
         {
             this.graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            this.menuState = MenuState.MainMenu;
             this.moveLog = new Log();
 
             this.model = new Model();
             this.view = new View2D(ref this.graphics, ref this.model, ref 
                 this.moveLog);
             this.controller = new TextController();
-        }
-
-        /// <summary>
-        /// An enum of the different possible states of the game.
-        /// </summary>
-        public enum MenuState
-        {
-            /// <summary>
-            /// Campaign = 1, This is the first choice of the main menu, it
-            /// states the player is in the campaign mode.
-            /// </summary>
-            Campaign,
-
-            /// <summary>
-            /// Versus = 2, This is the local multiplayer mode.
-            /// </summary>
-            Versus,
-
-            /// <summary>
-            /// PartyEditor = 3, A customize mode that lets players create a team for campaign or versus.
-            /// </summary>
-            PartyEditor,
-
-            /// <summary>
-            /// Settings = 3, General game settings.
-            /// </summary>
-            Settings,
-
-            /// <summary>
-            /// MainMenu = 4, This value means the game is at the main menu.
-            /// </summary>
-            MainMenu
         }
 
         List<string> menuList;
@@ -114,13 +77,6 @@ namespace RPChess
             this.controller.Initialize();
             this.model.Initialize();
             base.Initialize();
-
-            menuList = new List<string>(5);
-            menuList.Add("Campaign");
-            menuList.Add("Versus");
-            menuList.Add("Settings");
-            menuList.Add("Party Editor");
-            menuList.Add("Exit");
         }
 
         SpriteFont ChessFont;
@@ -165,104 +121,6 @@ namespace RPChess
         {
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);
             KeyboardState currentKeyboardState = Keyboard.GetState();
-            switch (this.menuState)
-            {
-                case MenuState.MainMenu:
-                    // Allows the game to exit
-                    if (currentState.Buttons.Back == ButtonState.Pressed &&
-                        previousState.Buttons.Back == ButtonState.Released)
-                    {
-                        this.Exit();
-                    }
-
-                    if (currentKeyboardState.IsKeyDown(Keys.Down) &&
-                        previousKeyboardState.IsKeyUp(Keys.Down) ||
-                        currentState.DPad.Down == ButtonState.Pressed &&
-                        previousState.DPad.Down == ButtonState.Released)
-                    {
-                        if (menuSelection < 4)
-                        {
-                            menuSelection++;
-                        }
-                    }
-
-                    if (currentKeyboardState.IsKeyDown(Keys.Up) &&
-                        previousKeyboardState.IsKeyUp(Keys.Up) ||
-                        currentState.DPad.Up == ButtonState.Pressed &&
-                        previousState.DPad.Up == ButtonState.Released)
-                    {
-                        if (menuSelection > 0)
-                        {
-                            menuSelection--;
-                        }
-                    }
-
-                    if (currentKeyboardState.IsKeyDown(Keys.Enter) &&
-                        previousKeyboardState.IsKeyUp(Keys.Enter) ||
-                        currentState.Buttons.A == ButtonState.Pressed &&
-                        previousState.Buttons.A == ButtonState.Released)
-                    {
-                        if (menuSelection == menuList.Count - 1)
-                        {
-                            this.Exit();
-                        }
-
-                        menuState = (MenuState)menuSelection;
-                    }
-
-                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
-                        previousKeyboardState.IsKeyUp(Keys.Back) ||
-                        currentState.Buttons.Back == ButtonState.Pressed &&
-                        previousState.Buttons.Back == ButtonState.Released)
-                    {
-                        this.Exit();
-                    }
-
-                    break;
-                case MenuState.Campaign:
-                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
-                        previousKeyboardState.IsKeyUp(Keys.Back) ||
-                        currentState.Buttons.Back == ButtonState.Pressed &&
-                        previousState.Buttons.Back == ButtonState.Released)
-                    {
-                        this.menuState = MenuState.MainMenu;
-                    }
-
-                    break;
-                case MenuState.PartyEditor:
-                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
-                        previousKeyboardState.IsKeyUp(Keys.Back) ||
-                        currentState.Buttons.Back == ButtonState.Pressed &&
-                        previousState.Buttons.Back == ButtonState.Released)
-                    {
-                        this.menuState = MenuState.MainMenu;
-                    }
-
-                    break;
-                case MenuState.Settings:
-                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
-                        previousKeyboardState.IsKeyUp(Keys.Back) ||
-                        currentState.Buttons.Back == ButtonState.Pressed &&
-                        previousState.Buttons.Back == ButtonState.Released)
-                    {
-                        this.menuState = MenuState.MainMenu;
-                    }
-
-                    break;
-                case MenuState.Versus:
-                    if (currentKeyboardState.IsKeyDown(Keys.Back) &&
-                        previousKeyboardState.IsKeyUp(Keys.Back) ||
-                        currentState.Buttons.Back == ButtonState.Pressed &&
-                        previousState.Buttons.Back == ButtonState.Released)
-                    {
-                        this.menuState = MenuState.MainMenu;
-                    }
-
-                    break;
-            }
-
-            previousState = currentState;
-            previousKeyboardState = currentKeyboardState;
             base.Update(gameTime);
         }
 
@@ -299,104 +157,41 @@ namespace RPChess
         {
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Deferred,
                         SaveStateMode.None, SpriteScale);
-            switch (this.menuState)
+            this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            ////view.Draw(gameTime);
+            // Draw chess board.
+            spriteBatch.Draw(
+                chessboard,
+                Vector2.Zero,
+                null,
+                Color.White,
+                0.0f,
+                Vector2.Zero,
+                (float)graphics.GraphicsDevice.Viewport.Height /
+                (float)chessboard.Height,
+                SpriteEffects.None,
+                0.0f);
+
+            // Draw each piece.
+            IBoardSpace p;
+            int square = graphics.GraphicsDevice.Viewport.Height / 10;
+            for (int row = 0; row < 10; row++)
             {
-                case MenuState.MainMenu:
-                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    string gamename = "RPChess";
+                for (int col = 0; col < 10; col++)
+                {
 
-                    // Find the center of the string
-                    float increment = graphics.GraphicsDevice.Viewport.Height
-                        / (menuList.Count + 2);
-                    Vector2 FontPos =
-                        new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
-                        increment);
-                    Vector2 FontOrigin = ChessFont.MeasureString(gamename) / 2;
-                    // Draw the string
-                    spriteBatch.DrawString(ChessFont, gamename, FontPos, Color.LightGreen,
-                        0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
-
-                    for (int i = 0; i < menuList.Count; i++)
+                    p = model[row, col];
+                    if (p != null)
                     {
-                        // Find the center of the string
-                        FontOrigin = ChessFont.MeasureString(menuList[i]) / 2;
-                        FontPos.Y += increment;
-                        // Draw the string
-                        if (i == menuSelection)
-                        {
-                            spriteBatch.DrawString(
-                                ChessFont,
-                                menuList[i],
-                                FontPos,
-                                Color.Red,
-                                0,
-                                FontOrigin,
-                                0.7f,
-                                SpriteEffects.None,
-                                0.5f);
-                        }
-                        else
-                        {
-                            spriteBatch.DrawString(
-                                ChessFont,
-                                menuList[i],
-                                FontPos,
-                                Color.LightGreen,
-                                0,
-                                FontOrigin,
-                                0.5f,
-                                SpriteEffects.None,
-                                0.5f);
-                        }
+                        p.ToString();
+                        spriteBatch.DrawString(
+                            ChessFont, 
+                            ((Piece)p).Symbol, 
+                            new Vector2( row * square, col * square),
+                            Color.White);
+                        // TODO: Determine color of piece
                     }
-                    break;
-                case MenuState.Settings:
-                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    break;
-                case MenuState.Campaign:
-                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    ////view.Draw(gameTime);
-                    // Draw chess board.
-                    spriteBatch.Draw(
-                        chessboard,
-                        Vector2.Zero,
-                        null,
-                        Color.White,
-                        0.0f,
-                        Vector2.Zero,
-                        (float)graphics.GraphicsDevice.Viewport.Height /
-                        (float)chessboard.Height,
-                        SpriteEffects.None,
-                        0.0f);
-
-                    // Draw each piece.
-                    IBoardSpace p;
-                    int square = graphics.GraphicsDevice.Viewport.Height / 10;
-                    for (int row = 0; row < 10; row++)
-                    {
-                        for (int col = 0; col < 10; col++)
-                        {
-
-                            p = model[row, col];
-                            if (p != null)
-                            {
-                                p.ToString();
-                                spriteBatch.DrawString(
-                                    ChessFont, 
-                                    ((Piece)p).Symbol, 
-                                    new Vector2( row * square, col * square),
-                                    Color.White);
-                                // TODO: Determine color of piece
-                            }
-                        }
-                    }
-                    break;
-                case MenuState.Versus:
-                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    break;
-                case MenuState.PartyEditor:
-                    this.graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    break;
+                }
             }
             spriteBatch.End();
             base.Draw(gameTime);
