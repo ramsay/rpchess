@@ -160,7 +160,7 @@ namespace RPChess
         private TimeSpan lastTime;
 
         private GraphicsDeviceManager graphics;
-        private Model model;
+        private chesswar.Model model;
         private Log log;
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace RPChess
         /// </param>
         public View2D(
             ref GraphicsDeviceManager g,
-            ref Model m,
+            ref chesswar.Model m,
             ref Log l)
         {
             this.graphics = g;

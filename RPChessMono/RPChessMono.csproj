@@ -1,84 +1,70 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{06A74C41-B62E-4FBA-BB83-15F29210EC31}</ProjectGuid>
-    <RootNamespace>RPChess</RootNamespace>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E19C5621-ABD2-45BB-B82D-AF3BC603E764}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>RPChessMono</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputType>Exe</OutputType>
-    <AssemblyName>RPChessMono</AssemblyName>
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
-    <RootNamespace>RPChess</RootNamespace>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ApplicationIcon>.</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputType>Exe</OutputType>
-    <AssemblyName>RPChessMono</AssemblyName>
-    <OutputPath>bin\Release\</OutputPath>
-    <DebugSymbols>false</DebugSymbols>
-    <RootNamespace>RPChess</RootNamespace>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <Optimize>true</Optimize>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DefineConstants>
-    </DefineConstants>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ApplicationIcon>.</ApplicationIcon>
   </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Mono|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.desktop">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\chesswar\chesswar.csproj">
+      <Project>{DA533D69-77C0-41F3-8797-96BF31496036}</Project>
+      <Name>chesswar</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\RPChess\Army.cs">
-      <Link>Army.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Controller.cs">
-      <Link>Controller.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Dice.cs">
-      <Link>Dice.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Game1.cs">
-      <Link>Game1.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\IMove.cs">
-      <Link>IMove.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\IRPChessObject.cs">
-      <Link>IRPChessObject.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Log.cs">
-      <Link>Log.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Model.cs">
-      <Link>Model.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Piece.cs">
-      <Link>Piece.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Program.cs">
-      <Link>Program.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\Special.cs">
-      <Link>Special.cs</Link>
-    </Compile>
-    <Compile Include="..\RPChess\View.cs">
-      <Link>View.cs</Link>
-    </Compile>
-    <Compile Include="Game1.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef" />
+    <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e" />
     <Reference Include="System.Xml" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="System.Data" />
+    <Reference Include="mscorlib" />
+    <Reference Include="Microsoft.Xna.Framework, Version=0.1.0.18844, Culture=neutral, PublicKeyToken=1c633ed318da3899">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\monoxna-ro\bin\Debug\Microsoft.Xna.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=0.1.0.18845, Culture=neutral, PublicKeyToken=dc5864553cefd93f">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\monoxna-ro\bin\Debug\Microsoft.Xna.Framework.Game.dll</HintPath>
+    </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Game1.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\RPChess\Content\chessboard.png" />
+    <None Include="..\RPChess\Content\chessboard.svg" />
+    <None Include="..\RPChess\Content\ChessFont.spritefont" />
+    <None Include="..\RPChess\Content\Game.ico" />
+    <None Include="..\RPChess\Content\GameThumbnail.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

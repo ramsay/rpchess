@@ -12,11 +12,12 @@ namespace RPChess
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
-    using Microsoft.Xna.Framework.GamerServices;
+    using Microsoft.Xna.Framework.Design;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
-    using Microsoft.Xna.Framework.Net;
     using Microsoft.Xna.Framework.Storage;
+    //using Microsoft.Xna.Framework.GamerServices;
+    //using Microsoft.Xna.Framework.Net;
 
     /// <summary>
     /// This is the main type for your game
@@ -37,7 +38,7 @@ namespace RPChess
         /// <summary>
         /// The model of the game.
         /// </summary>
-        private Model model;
+        private chesswar.Model model;
 
         /// <summary>
         /// The controller of the game.
@@ -57,7 +58,7 @@ namespace RPChess
             Content.RootDirectory = "Content";
             this.moveLog = new Log();
 
-            this.model = new Model();
+            this.model = new chesswar.Model();
             this.view = new View2D(ref this.graphics, ref this.model, ref 
                 this.moveLog);
             this.controller = new TextController();
@@ -74,8 +75,8 @@ namespace RPChess
         {
             this.moveLog.Initialize();
             this.view.Initialize();
-            this.controller.Initialize();
-            this.model.Initialize();
+            //this.controller.Initialize();
+            //this.model.Initialize();
             base.Initialize();
         }
 
@@ -173,11 +174,12 @@ namespace RPChess
                 0.0f);
 
             // Draw each piece.
-            IBoardSpace p;
-            int square = graphics.GraphicsDevice.Viewport.Height / 10;
-            for (int row = 0; row < 10; row++)
+            chesswar.IBoardSpace p;
+            int square = graphics.GraphicsDevice.Viewport.Height / model.Ranks;
+            
+            for (int row = 0; row < model.Ranks; row++)
             {
-                for (int col = 0; col < 10; col++)
+                for (int col = 0; col < model.Files; col++)
                 {
 
                     p = model[row, col];
@@ -186,7 +188,7 @@ namespace RPChess
                         p.ToString();
                         spriteBatch.DrawString(
                             ChessFont, 
-                            ((Piece)p).Symbol, 
+                            ((chesswar.Piece)p).Symbol, 
                             new Vector2( row * square, col * square),
                             Color.White);
                         // TODO: Determine color of piece
