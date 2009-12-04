@@ -5,17 +5,21 @@
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
 
-namespace RPChess
+namespace chesswar
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
     using System.Xml;
+	using System.Xml.Schema;
+	using System.Xml.Serialization;
 
     public class Special
     {
     }
+
+    delegate bool? Move( chesswar.Piece caster, chesswar.Piece target, chesswar.Model board);
 
     /// <summary>
     /// A base class for attacks.
@@ -106,7 +110,7 @@ namespace RPChess
         {
             get
             {
-                return MoveType.Attack;
+                return MoveType.Melee;
             }
         }
 
@@ -160,33 +164,16 @@ namespace RPChess
             this.name = string.Empty;
             this.pointsMax = 0;
         }
-
-        /// <summary>
-        /// Formats member data into an XML document.
-        /// Required by all inheriting Classes. Allows for a simple
-        /// and loopable Constructor method.  Also eases loading/saving
-        /// from file.
-        /// </summary>
-        /// <returns>
-        /// An xml document containing all of the member data of an attack.
-        /// </returns>
-        public virtual XmlDocument ToXmlDocument()
-        {
-            XmlDocument xml = new XmlDocument();
-            return xml;
-        }
-
-        /// <summary>
-        /// Loads member data from an xml document.
-        /// Required by all inheriting Classes. Allows for a simple
-        /// and loopable Constructor method.  Also eases loading/saving
-        /// from file.
-        /// </summary>
-        /// <param name="xml">
-        /// An xml document containing all of the member data of an attack.
-        /// </param>
-        /// <returns>An Attack Type-Casted as an IRPChessObject.</returns>
-        public abstract IRPChessObject FromXmlDocument(XmlDocument xml);
+        		
+		// Xml Serialization Infrastructure
+		abstract public void WriteXml (XmlWriter writer);
+		
+		abstract public void ReadXml (XmlReader reader);
+		
+		public XmlSchema GetSchema()
+		{
+			return(null);
+		}
     }
 
     /// <summary>
@@ -226,41 +213,17 @@ namespace RPChess
         {
             Reset();
         }
-
-        /// <summary>
-        /// Useful for saving data to file.
-        /// </summary>
-        /// <returns>
-        /// An xml document containing AreaOfEffectAbility memeber data.
-        /// </returns>
-        public override XmlDocument ToXmlDocument()
-        {
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml(string.Empty); // TODO
-            return xml;
-        }
-
-        /// <summary>
-        /// Loads the AreaOfEffectAbility from an XML document
-        /// </summary>
-        /// <param name="xml">
-        /// An XML document containing AreaOfEffectAbility member data.
-        /// </param>
-        /// <returns>An AreaOfEffectAbility Type-Casted as an IRPChessObject</returns>
-        public override IRPChessObject FromXmlDocument(XmlDocument xml)
-        {
-            this.Initialize();
-            if (xml.FirstChild.Name == "AreaOfEffectAbility")
-            {
-                // TODO
-            }
-            else
-            {
-                Console.Error.WriteLine("xmlDocument is not an AreaOfEffectAbility");
-            }
-
-            return (IRPChessObject)new AreaOfEffectAbility(string.Empty,0,null);
-        }
+		
+		// Xml Serialization Infrastructure
+		public override void WriteXml (XmlWriter writer)
+		{
+			//TODO
+		}
+		
+		public override void ReadXml (XmlReader reader)
+		{
+			//TODO
+		}
     }
 
     /// <summary>
@@ -311,7 +274,7 @@ namespace RPChess
         /// </param>
         public DirectionalAbility(XmlDocument xml)
         {
-            this.FromXmlDocument(xml);
+            //TODO
         }
 
         /// <summary>
@@ -344,33 +307,18 @@ namespace RPChess
         {
             Reset();
         }
-
-        /// <summary>
-        /// Calls ToXMLstring() inorder to form a more perfect Union.
-        /// </summary>
-        /// <returns>
-        /// An XmlDocument containing DirectionAbility member data.
-        /// </returns>
-        public override XmlDocument ToXmlDocument()
-        {
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml(this.ToXMLstring());
-            return xml;
-        }
-
-        /// <summary>
-        /// Loads the member data from an xml document.
-        /// </summary>
-        /// <param name="xml">
-        /// Xml document containing correctly formatted Directional Ability
-        ///  member data.
-        /// </param>
-        /// <returns>A Directional Ability Type-Casted as an IRPChessObject</returns>
-        public override IRPChessObject FromXmlDocument(XmlDocument xml)
-        {
-            return (IRPChessObject)new DirectionalAbility(string.Empty,0,new BoardVector(),0);
-        }
-
+		
+		// Xml Serialization Infrastructure
+		public override void WriteXml (XmlWriter writer)
+		{
+			//TODO
+		}
+		
+		public override void ReadXml (XmlReader reader)
+		{
+			//TODO
+		}
+		
         /// <summary>
         /// Forms an Xml Snippet representing this attack.
         /// </summary>

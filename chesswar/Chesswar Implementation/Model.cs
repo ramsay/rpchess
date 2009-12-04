@@ -5,19 +5,21 @@
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
 
-namespace RPChess
+namespace chesswar
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
     using System.Xml;
+	using System.Xml.Schema;
+	using System.Xml.Serialization;
 
 
     /// <summary>
     /// An interface to hold empty board spaces and pieces.
     /// </summary>
-    public interface IBoardSpace : IRPChessObject
+    public interface IBoardSpace : IXmlSerializable
     {
         /// <summary>
         /// Gets a value indicating whether this IBoardSpace is empty.
@@ -26,13 +28,14 @@ namespace RPChess
         {
             get;
         }
+		
     }
 
     /// <summary>
     /// This is a struct that matches a distance and a direction
     /// for use on board topology.
     /// </summary>
-    public struct BoardVector : IRPChessObject
+    public struct BoardVector : IXmlSerializable
     {
         /// <summary>
         /// The direction of the vector, enum.
@@ -121,9 +124,9 @@ namespace RPChess
         /// An XmlDocument possibly containing a BoardVector.
         /// </param>
         /// <returns>An EmptySpace reference.</returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xml)
+        public void ReadXml(XmlReader xr)
         {
-            return (IRPChessObject)new BoardLocation();
+            //TODO
         }
 
         /// <summary>
@@ -133,17 +136,22 @@ namespace RPChess
         /// XmlDocument containing the serialized instance of this 
         /// BoardVector.
         /// </returns>
-        public XmlDocument ToXmlDocument()
+        public void WriteXml(XmlWriter xw)
         {
-            return new XmlDocument();
+            //TODO
         }
+		
+		public XmlSchema GetSchema()
+		{
+			return(null);
+		}
     }
 
     /// <summary>
     /// This is a simple X,Y pair that is used for storing locations and
     /// offsets.
     /// </summary>
-    public struct BoardLocation : IRPChessObject
+    public struct BoardLocation : IXmlSerializable
     {
         /// <summary>
         /// The maximum allowed distance across the board.
@@ -250,12 +258,12 @@ namespace RPChess
         }
 
         /// <summary>
-        /// IRPChessObject value equals override
+        /// IXmlSerializable value equals override
         /// </summary>
-        /// <param name="obj">Another IRPChessObject</param>
+        /// <param name="obj">Another IXmlSerializable</param>
         /// <returns>
         /// True if the X and Y values are the same.</returns>
-        public bool Equals(IRPChessObject obj)
+        public bool Equals(IXmlSerializable obj)
         {
             // the gimmes
             if (obj == null)
@@ -278,7 +286,7 @@ namespace RPChess
         /// <summary>
         /// hashcode override
         /// </summary>
-        /// <returns>The hashcode of this IRPChessObject.</returns>
+        /// <returns>The hashcode of this IXmlSerializable.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -311,9 +319,9 @@ namespace RPChess
         /// An XmlDocument possibly containing a BoardLocation.
         /// </param>
         /// <returns>An EmptySpace reference.</returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xml)
+        public void ReadXml(XmlReader xr)
         {
-            return (IRPChessObject)new BoardLocation();
+            //TODO
         }
 
         /// <summary>
@@ -323,21 +331,26 @@ namespace RPChess
         /// XmlDocument containing the serialized instance of this 
         /// BoardLocation.
         /// </returns>
-        public XmlDocument ToXmlDocument()
+        public void WriteXml(XmlWriter xw)
         {
-            return new XmlDocument();
+			//TODO
         }
+		
+		public XmlSchema GetSchema()
+		{
+			return(null);
+		}
     }
 
     /// <summary>
     /// I don't know anymore.
     /// Model-View-Controller design.
     /// </summary>
-    public class Model : IRPChessObject
+    public class Model : IXmlSerializable
     {
         struct pid
         {
-            public bool white;
+            public bool white; // int player;
             public int index;
 
             public pid(bool IsWhite, int Index)
@@ -357,6 +370,8 @@ namespace RPChess
         /// </summary>
         private List<Piece> blackRoster;
         public ReadOnlyCollection<Piece> BlackRoster;
+
+        private int players = 2;
 
         private pid[,] board;
         ////private Board board; // Superflous for now.
@@ -477,14 +492,22 @@ namespace RPChess
             }
         }
 
+        public int PlayerCount
+        {
+            get
+            {
+                return this.players;
+            }
+        }
+
         /// <summary>
         /// Put all the data stored in this class into an XmlDocument
         /// for human readable/editable file storage.
         /// </summary>
         /// <returns>The data in a well formatted XML document</returns>
-        public XmlDocument ToXmlDocument()
+        public void WriteXml(XmlWriter xw)
         {
-            return new XmlDocument();
+			//TODO
         }
 
         /// <summary>
@@ -494,19 +517,15 @@ namespace RPChess
         /// <param name="xml" type="XmlDocument">
         /// An XmlDocument that points to a xml document with the data in a
         /// specific format.</param>
-        /// <returns>A Model type-casted as an IRPChessObject.</returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xml)
+        /// <returns>A Model type-casted as an IXmlSerializable.</returns>
+        public void ReadXml(XmlReader xr)
         {
-            this.Initialize();
-            if (xml.FirstChild.Name == "Model")
-            {
-                return (IRPChessObject)new Model();
-            }
-            else
-            {
-                Console.Error.WriteLine("xmlDocument is not a RPChess.Model");
-                return (IRPChessObject)new Model();
-            }
+			//TODO
         }
+		
+		public XmlSchema GetSchema()
+		{
+			return(null);
+		}
     }
 }

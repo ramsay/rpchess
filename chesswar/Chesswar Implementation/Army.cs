@@ -5,18 +5,21 @@
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
 
-namespace RPChess
+namespace chesswar
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
     using System.Xml;
+	using System.Xml.Schema;
+	using System.Xml.Serialization;
+
 
     /// <summary>
     /// Holds the values of a unique Army race.
     /// </summary>
-    public class Army : IRPChessObject
+    public class Army : IXmlSerializable
     {
         private string name;
         private uint initiative;
@@ -35,7 +38,7 @@ namespace RPChess
             staff = null;
             this.wealth = 0;
             this.description = null;
-            this.Staff = new ReadOnlyCollection<Piece>(this.staff);
+            this.Staff = null; // new ReadOnlyCollection<Piece>(this.staff);
         }
 
         /// <summary>
@@ -184,37 +187,75 @@ namespace RPChess
             return meleesum;
         }
 
+		// Xml Serialization Infrastructure
+		
+		
         /// <summary>
         /// Implements the IRPChessObject serialization method.
         /// </summary>
         /// <returns>An XmlDocument describing this Army instance.</returns>
-        public XmlDocument ToXmlDocument()
-        {
-            XmlDocument xmldoc = new XmlDocument();
-            StringBuilder repr = new StringBuilder();
-            repr.AppendLine("<army name=\"" + name + "\">");
-            repr.AppendLine("\t<initiative>" + this.initiative + "<\\initiative>");
-            repr.AppendLine("\t<wealth>" + this.wealth + "<\\wealth>");
-            repr.AppendLine("\t<description>" + this.description + "<\\description>");
-            repr.AppendLine("\t<this.Staff>");
+		public void WriteXml (XmlWriter xw)
+		{
+            xw.WriteElementString("Name", name);
+            xw.WriteElementString("Initiative", this.initiative.ToString());
+            xw.WriteElementString("Wealth", this.wealth.ToString());
+            xw.WriteElementString("Description", this.description);
+            xw.WriteStartElement("Staff");
+			XmlSerializer pserializer = new XmlSerializer(typeof(Piece));
             foreach (Piece p in this.Staff)
             {
-                repr.AppendLine(p.ToXmlDocument().FirstChild.InnerXml);
+                pserializer.Serialize(xw, p);
             }
-            repr.AppendLine("\t<\\this.Staff>");
-            repr.Append("<\\army>");
-            xmldoc.InnerXml = repr.ToString();
-            return xmldoc;
-        }
-
+			//xw.WriteElementString("Author", author);
+			//xw.WriteElementString("email", email);
+			//xw.WriteElementString("License", license);
+            xw.WriteEndElement();
+		}
+		
         /// <summary>
         /// Implements the IRPChessObject de-serialization method.
         /// </summary>
         /// <param name="xmldoc">An XmlDocument specifing an Army.</param>
         /// <returns>An Army instance type-casted as an IRPChessObject.</returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xmldoc)
-        {
-            return (IRPChessObject)new Army();
-        }
+		public void ReadXml (XmlReader reader)
+		{
+            reader.Read();
+            List<Piece> plist = new List<Piece>();
+			if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Army")
+			{
+                reader.ReadToDescendant("Name");
+                this.name = reader.ReadElementContentAsString();
+                this.initiative = UInt32.Parse(reader.ReadElementString("Initiative"));
+                this.wealth = UInt32.Parse(reader.ReadElementString("Wealth"));
+                this.description = reader.ReadElementString("Description");
+                //this.author = reader.ReadElementString("Author");
+				//this.email = reader.ReadElementString("email");
+				//this.license = reader.ReadElementString("License");
+				
+				//_Enabled = Boolean.Parse(reader["Enabled"]);
+				//_Color = Color.FromArgb(Int32.Parse(reader["Color"]));
+				if (reader.ReadToDescendant("Piece"))
+				{
+                    Piece p;
+					while (reader.LocalName == "Piece")
+					{
+						p = new Piece();
+						p.ReadXml(reader);
+						plist.Add(p);
+                        reader.Read();
+					}
+				}
+				reader.Read();
+			}
+            this.staff = new Piece[plist.Count];
+            plist.CopyTo(this.staff);
+
+            this.Staff = new ReadOnlyCollection<Piece>(this.staff);
+		}
+
+		public XmlSchema GetSchema()
+		{
+			return(null);
+		}
     }
 }
