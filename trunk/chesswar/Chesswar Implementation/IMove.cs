@@ -5,11 +5,15 @@
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
 
-namespace RPChess
+namespace chesswar
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
+	using System.Xml;
+	using System.Xml.Schema;
+	using System.Xml.Serialization;
+
 
     /// <summary>
     /// This enum matches words to cardinal directions (Forward, ForwardRight, 
@@ -34,26 +38,28 @@ namespace RPChess
     public enum MoveType
     {
         /// <summary>
-        /// Capture is the standard chess move.
-        /// </summary>
-        Capture,
-
-        /// <summary>
         /// Movement handles a pieces movement across the board.
         /// </summary>
         Movement,
 
         /// <summary>
-        /// Attack has no movement only deals/heals damage to pieces.
+        /// Melee has no movement only deals/heals damage to pieces.
         /// </summary>
-        Attack
+        Melee,
+
+        /// <summary>
+        /// Shooting types are ranged attacks.
+        /// </summary>
+        Shooting
     }
     
     /// <summary>
     /// An interface for the different actions a Piece can do.
     /// </summary>
-    public interface IMove : IRPChessObject
-    {
+    public interface IMove : IXmlSerializable
+	{
+		void Initialize();
+		
         /// <summary>
         /// Gets the Type property of a Move
         /// </summary>

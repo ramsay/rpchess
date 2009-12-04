@@ -5,13 +5,15 @@
 // <author>Robert Ramsay</author>
 //-----------------------------------------------------------------------
 
-namespace RPChess
+namespace chesswar
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
     using System.Xml;
+	using System.Xml.Schema;
+	using System.Xml.Serialization;
 
     /// <summary>
     /// A class that holds the stats and other data for a
@@ -128,7 +130,8 @@ namespace RPChess
         /// <param name="xml">XmlDocument of piece data.</param>
         public Piece(XmlDocument xml)
         {
-            if (xml.FirstChild.Name == "Piece")
+			this.ReadXml(XmlReader.Create(xml.InnerXml));
+            /*if (xml.FirstChild.Name == "Piece")
             {
                 foreach (XmlNode kid in xml.FirstChild.ChildNodes)
                 {
@@ -172,7 +175,7 @@ namespace RPChess
             else
             {
                 Console.Error.WriteLine("xmlDocument is not a piece");
-            }
+            }*/
         }
 
         /// <summary>
@@ -285,6 +288,22 @@ namespace RPChess
             }
         }
 
+        public bool Brave
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public bool Scary
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// Initialize any values for the Piece.
         /// Resets the HitPoints to Maximum.
@@ -308,9 +327,44 @@ namespace RPChess
         /// <returns>
         /// An integer value that a target piece must defend.
         /// </returns>
-        public int Attack()
+        public void Attack(Piece defender)
         {
-            return this.melee + Dice.RollD6();
+            int roll = this.melee - defender.melee + Dice.RollD6();
+
+            if (roll > 5)
+            {
+                // Defender is destoryed.
+                //defender.Die()
+            }
+            else if (roll == 5)
+            {
+                if (!defender.MakeSave() || !defender.MakeSave())
+                {
+                    // Defender is destoryed.
+                    //defender.Die()
+                }
+            }
+            else if (roll == 4)
+            {
+                if (!defender.MakeSave())
+                {
+                    // Defender is destoryed.
+                    //defender.Die()
+                }
+            }
+            else if (roll < 2)
+            {
+                //Attacker destroyed unless save is made.
+                //Scary attacker must only save if the defender is brave
+                if (this.Scary && defender.Brave ||
+                    !this.Scary)
+                {
+                    if (!this.MakeSave())
+                    {
+                        //this.Die();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -320,9 +374,24 @@ namespace RPChess
         /// A value that must be beat inorder to survive, charge, etc.
         /// </param>
         /// <returns>True if this Piece has made it's saving throw.</returns>
-        public bool MakeSave(int value)
+        public bool MakeSave()
         {
-            return (this.save + Dice.RollD6()) > value;
+            int roll = Dice.RollD6();
+            if (roll == 1 || roll < this.save)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>Checks the stats </summary>
+        public bool Charge(Piece target)
+        {
+            if (!this.Brave && target.Scary)
+            {
+                return this.MakeSave();
+            }
+            return true;
         }
 
         /// <summary>
@@ -332,18 +401,9 @@ namespace RPChess
         /// </summary>
         /// <param name="xml">An xml node containing all the member data.</param>
         /// <returns>A Piece type-casted as an IRPChessObject.</returns>
-        public IRPChessObject FromXmlDocument(XmlDocument xml)
+        public void ReadXml(XmlReader xr)
         {
-            if (xml.FirstChild.Name == "Piece")
-            {
-                // TODO
-            }
-            else
-            {
-                Console.Error.WriteLine("xmlDocument is not a piece");
-            }
-
-            return (IRPChessObject)new Piece();
+			//TODO
         }
 
         /// <summary>
@@ -351,25 +411,29 @@ namespace RPChess
         /// XML document for human readable storage.
         /// </summary>
         /// <returns>An XmlDocument</returns>
-        public XmlDocument ToXmlDocument()
+        public void WriteXml(XmlWriter xw)
         {
-            StringBuilder repr = new StringBuilder();
-            repr.AppendLine("<piece type=\"" + this.id + "\">");
-            repr.AppendLine("<max>" + this.max + "</max>");
-            repr.AppendLine("<cost>" + this.cost + "</cost>");
-            repr.AppendLine("<move>" + this.move + "</move>");
-            repr.AppendLine("<save>" + this.save + "</save>");
-            repr.AppendLine("<melee>" + this.melee + "</melee>");
-            repr.AppendLine("<specials>");
-            foreach (IMove m in this.specials)
+            xw.WriteElementString("Name", this.name);
+            xw.WriteElementString("id", this.id.ToString());
+            xw.WriteElementString("Max", this.max.ToString());
+            xw.WriteElementString("Cost", this.cost.ToString());
+            xw.WriteElementString("Move", this.move.ToString());
+            xw.WriteElementString("Save", this.save.ToString());
+            xw.WriteElementString("Melee", this.melee.ToString());
+            xw.WriteStartElement("Specials");
+            if (this.specials != null)
             {
-                repr.Append(m.ToXmlDocument().InnerXml);
+                foreach (IMove m in this.specials)
+                {
+                    //TODO
+                }
             }
-            repr.AppendLine("</specials>");
-            repr.AppendLine("</Piece>");
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml(repr.ToString());
-            return xml;
+            xw.WriteEndElement();
         }
+		
+		public XmlSchema GetSchema()
+		{
+			return(null);
+		}
     }
 }
