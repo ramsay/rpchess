@@ -15,22 +15,6 @@ namespace chesswar
 	using System.Xml.Schema;
 	using System.Xml.Serialization;
 
-
-    /// <summary>
-    /// An interface to hold empty board spaces and pieces.
-    /// </summary>
-    public interface IBoardSpace : IXmlSerializable
-    {
-        /// <summary>
-        /// Gets a value indicating whether this IBoardSpace is empty.
-        /// </summary>
-        bool IsEmpty
-        {
-            get;
-        }
-		
-    }
-
     /// <summary>
     /// This is a struct that matches a distance and a direction
     /// for use on board topology.
