@@ -88,7 +88,6 @@
     <Compile Include="GameTest.cs" />
     <Compile Include="LogTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="chesswarTest.cs" />
     <Compile Include="ViewTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +116,7 @@
       <Name>RPChess</Name>
     </ProjectReference>
     <ProjectReference Include="..\chesswar\chesswar.csproj">
-      <Project>{DA533D69-77C0-41F3-8797-96BF31496036}</Project>
+      <Project>{3C48808F-6DD2-4462-9F55-611E61E05DF4}</Project>
       <Name>chesswar</Name>
     </ProjectReference>
   </ItemGroup>
