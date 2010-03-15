@@ -62,9 +62,18 @@ namespace RPChess
             this.view = new View2D(ref this.graphics, ref this.model, ref 
                 this.moveLog);
             this.controller = new TextController();
+            for (int x = 0; x < model.Files; x++)
+            {
+                for (int y = 0; y < model.Ranks; y++)
+                {
+                    if (!model[x, y].IsEmpty)
+                    {
+                        this.Components.Add(new RPPiece(this, x, y, (chesswar.Piece)model[x, y]));
+                    }
+                }
+            }
         }
 
-        List<string> menuList;
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -80,7 +89,6 @@ namespace RPChess
             base.Initialize();
         }
 
-        SpriteFont ChessFont;
         Texture2D chessboard;
         Matrix SpriteScale;
         /// <summary>
@@ -91,7 +99,6 @@ namespace RPChess
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
-            ChessFont = Content.Load<SpriteFont>("ChessFont");
             chessboard = Content.Load<Texture2D>("chessboard");
 
             // Default resolution is 800x600; scale sprites up or down based on
@@ -173,28 +180,7 @@ namespace RPChess
                 SpriteEffects.None,
                 0.0f);
 
-            // Draw each piece.
-            chesswar.IBoardSpace p;
-            int square = graphics.GraphicsDevice.Viewport.Height / model.Ranks;
-            
-            for (int row = 0; row < model.Ranks; row++)
-            {
-                for (int col = 0; col < model.Files; col++)
-                {
 
-                    p = model[row, col];
-                    if (p != null)
-                    {
-                        p.ToString();
-                        spriteBatch.DrawString(
-                            ChessFont, 
-                            ((chesswar.Piece)p).Symbol, 
-                            new Vector2( row * square, col * square),
-                            Color.White);
-                        // TODO: Determine color of piece
-                    }
-                }
-            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

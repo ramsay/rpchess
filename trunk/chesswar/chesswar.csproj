@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3C48808F-6DD2-4462-9F55-611E61E05DF4}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -30,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -37,16 +38,12 @@
     <Compile Include="Chesswar Implementation\Army.cs" />
     <Compile Include="Chesswar Implementation\Battle.cs" />
     <Compile Include="Chesswar Implementation\Dice.cs" />
+    <Compile Include="Chesswar Implementation\EmptySpace.cs" />
     <Compile Include="Chesswar Implementation\IBoardSpace.cs" />
     <Compile Include="Chesswar Implementation\IMove.cs" />
-    <Compile Include="Chesswar Implementation\IRPChessObject.cs" />
     <Compile Include="Chesswar Implementation\Model.cs" />
     <Compile Include="Chesswar Implementation\Piece.cs" />
     <Compile Include="Chesswar Implementation\Special.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Chesswar Implementation\" />
-    <Folder Include="Chesswar Specification\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Chesswar Specification\Armies.xml" />
