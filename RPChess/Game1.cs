@@ -62,13 +62,19 @@ namespace RPChess
             this.view = new View2D(ref this.graphics, ref this.model, ref 
                 this.moveLog);
             this.controller = new TextController();
+            Color c = Color.White;
             for (int x = 0; x < model.Files; x++)
             {
                 for (int y = 0; y < model.Ranks; y++)
                 {
                     if (!model[x, y].IsEmpty)
                     {
-                        this.Components.Add(new RPPiece(this, x, y, (chesswar.Piece)model[x, y]));
+                        if (model.WhiteRoster.Contains((chesswar.Piece)model[x, y]))
+                            c = Color.White;
+                        else if (model.BlackRoster.Contains((chesswar.Piece)model[x, y]))
+                            c = Color.DarkGray;
+
+                        this.Components.Add(new RPPiece(this, x, y, (chesswar.Piece)model[x, y], c));
                     }
                 }
             }
