@@ -357,7 +357,7 @@ namespace chesswar
 
         private int players = 2;
 
-        private pid[,] board;
+        private IBoardSpace[,] board;
         ////private Board board; // Superflous for now.
 
         /// <summary>
@@ -385,7 +385,12 @@ namespace chesswar
             this.WhiteRoster = new ReadOnlyCollection<Piece>(this.whiteRoster);
             this.blackRoster.Add(new Piece());
             this.BlackRoster = new ReadOnlyCollection<Piece>(this.blackRoster);
-            this.board = new pid[8,8];
+            this.board = new IBoardSpace[8, 8];
+            this.Initialize();
+            
+            this.board[3, 0] = this.blackRoster[0];
+
+            this.board[4, 7] = this.whiteRoster[0];
         }
 
         /// <summary>
@@ -410,7 +415,7 @@ namespace chesswar
         {
             this.whiteRoster = whiteRoster;
             this.blackRoster = blackRoster;
-            this.board = new pid[Ranks, Files];
+            this.board = new IBoardSpace[Ranks, Files];
         }
 
         /// <summary>
@@ -430,33 +435,19 @@ namespace chesswar
 
             for (int i = board.GetLowerBound(0); i <= board.GetUpperBound(0); i++)
             {
-                for (int j = board.GetLowerBound(1); j < board.GetUpperBound(1); j++)
+                for (int j = board.GetLowerBound(1); j <= board.GetUpperBound(1); j++)
                 {
-                    board[i, j].index = -1;
+                    board[i, j] = EmptySpace.Instance;
                 }
             }
+
         }
 
         public IBoardSpace this[int row, int col]
         {
             get
             {
-                try
-                {
-                    pid i = board[row, col];
-                    if (i.white)
-                    {
-                        return WhiteRoster[i.index];
-                    }
-                    else
-                    {
-                        return BlackRoster[i.index];
-                    }
-                }
-                catch
-                {
-                    return null;
-                }
+                return board[row, col];
             }
         }
 
@@ -464,7 +455,7 @@ namespace chesswar
         {
             get
             {
-                return board.GetUpperBound(1);
+                return board.GetUpperBound(1)+1;
             }
         }
 
@@ -472,7 +463,7 @@ namespace chesswar
         {
             get
             {
-                return board.GetUpperBound(0);
+                return board.GetUpperBound(0)+1;
             }
         }
 
