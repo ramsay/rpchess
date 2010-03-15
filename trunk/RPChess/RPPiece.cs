@@ -21,8 +21,9 @@ namespace RPChess
         private int _x;
         private int _y;
         private chesswar.Piece _piece;
+        private Color _color;
 
-        public RPPiece(Game game, int X, int Y, chesswar.Piece p)
+        public RPPiece(Game game, int X, int Y, chesswar.Piece p, Color c)
             : base(game)
         {
             // TODO: Construct any child components here
@@ -30,6 +31,7 @@ namespace RPChess
             _x = X;
             _y = Y;
             this._piece = p;
+            this._color = c;
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace RPChess
             spriteBatch.DrawString(ChessFont,
                     this._piece.Symbol,
                     new Vector2(_x * square, _y * square),
-                    Color.White);
+                    this._color);
             spriteBatch.End();
             base.Draw(gameTime);
         }
