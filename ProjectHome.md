@@ -1,0 +1,3 @@
+RPChess is a C# XNA game developed as an elementary yet highly-customizable strategic Role Playing platform. At it's root it is both a Chess engine and a Table Top Game simulator. Supporting open source licensing and free culture it separate the Game specification (Licensed through Creative Commons Attribution-Share Alike 3.0 Unported)and a GPL'd Game Engine.  It should be able to support regular Chess play as well as table-top gaming inspired Chess variants such as Chesswar ( http://rpr.kapsi.fi/games/misc/chesswar.html )
+
+The primary goal of the project is to design and build an Xbox Arcade title is created solely with Open Source and Creative Commons.  Following effort will be put into supporting all possible platforms mono or .Net based.
